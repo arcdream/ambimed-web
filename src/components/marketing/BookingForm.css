@@ -1,0 +1,106 @@
+.bk-form {
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.bk-form--dark {
+  background: var(--color-deep);
+  color: #fff;
+}
+
+.bk-form--light {
+  background: #fff;
+  color: var(--color-deep);
+  border: 1px solid rgba(29, 61, 114, 0.1);
+}
+
+.bk-form-title {
+  font-size: 1.2rem;
+  margin: 0 0 1.25rem;
+}
+
+.bk-form-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 500;
+  margin-bottom: 0.85rem;
+}
+
+.bk-form--dark .bk-form-label { opacity: 0.9; }
+.bk-form--light .bk-form-label { color: rgba(29, 61, 114, 0.75); }
+
+.bk-form-input {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.bk-form--dark .bk-form-input {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.bk-form--dark .bk-form-input::placeholder { color: rgba(255, 255, 255, 0.45); }
+
+.bk-form--light .bk-form-input {
+  border: 1px solid rgba(29, 61, 114, 0.15);
+  background: #fafbfc;
+  color: var(--color-deep);
+}
+
+.bk-form-input option {
+  color: var(--color-deep);
+  background: #fff;
+}
+
+.bk-form-submit {
+  width: 100%;
+  padding: 0.85rem;
+  margin-top: 0.25rem;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.bk-form--dark .bk-form-submit {
+  background: #fff;
+  color: var(--color-deep);
+}
+
+.bk-form--light .bk-form-submit {
+  background: var(--color-bright);
+  color: #fff;
+}
+
+.bk-form-submit:hover { opacity: 0.9; }
+
+.bk-form--success { text-align: center; }
+
+.bk-form-success-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+}
+
+.bk-form-call {
+  display: inline-block;
+  margin-top: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.bk-form--dark .bk-form-call { color: #fff; }
+.bk-form--light .bk-form-call { color: var(--color-bright); }
+
+.bk-form--compact { padding: 1.25rem; }
+.bk-form--compact .bk-form-title { font-size: 1.05rem; margin-bottom: 1rem; }

@@ -1,0 +1,80 @@
+.how-it-works { background: #fafbfc; }
+
+.how-steps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.how-step-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.how-step {
+  background: #fff;
+  border: 1px solid rgba(29, 61, 114, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  width: 100%;
+  box-shadow: 0 2px 12px rgba(29, 61, 114, 0.05);
+}
+
+.how-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--color-bright);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.how-step-title {
+  font-size: 1.15rem;
+  color: var(--color-deep);
+  margin: 0 0 0.35rem;
+}
+
+.how-step-desc {
+  font-size: 0.9rem;
+  color: rgba(29, 61, 114, 0.7);
+  margin: 0;
+  line-height: 1.55;
+}
+
+.how-step-arrow {
+  font-size: 1.5rem;
+  color: var(--color-bright);
+  padding: 0.35rem 0;
+}
+
+@media (min-width: 768px) {
+  .how-steps {
+    flex-direction: row;
+    max-width: none;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .how-step-wrap {
+    flex: 1;
+    max-width: 220px;
+  }
+
+  .how-step-arrow {
+    transform: rotate(-90deg);
+    padding: 2.5rem 0.5rem 0;
+  }
+}

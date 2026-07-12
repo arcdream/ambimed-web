@@ -1,0 +1,66 @@
+.svc-categories { background: #fafbfc; }
+
+.svc-categories-intro {
+  color: rgba(29, 61, 114, 0.75);
+  max-width: 36rem;
+  margin: -0.5rem 0 2rem;
+}
+
+.svc-categories-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.svc-category-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(29, 61, 114, 0.08);
+  box-shadow: 0 2px 16px rgba(29, 61, 114, 0.06);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.svc-category-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-3px);
+}
+
+.svc-category-image-wrap {
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: var(--color-deep-08);
+}
+
+.svc-category-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.svc-category-body { padding: 1.25rem 1.5rem 1.5rem; }
+
+.svc-category-title {
+  font-size: 1.1rem;
+  color: var(--color-deep);
+  margin: 0 0 0.5rem;
+}
+
+.svc-category-desc {
+  font-size: 0.9rem;
+  color: rgba(29, 61, 114, 0.75);
+  line-height: 1.55;
+  margin: 0 0 1rem;
+}
+
+.svc-category-cta {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.svc-category-cta:hover { text-decoration: underline; }
+
+@media (min-width: 900px) {
+  .svc-categories-grid { grid-template-columns: repeat(3, 1fr); }
+}

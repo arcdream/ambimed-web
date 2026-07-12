@@ -1,0 +1,116 @@
+.section-apps {
+  background: var(--color-white);
+}
+
+.section-subheading {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: var(--color-deep);
+  opacity: 0.85;
+}
+
+.apps-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+.app-card {
+  position: relative;
+  background: var(--color-deep-08);
+  border: 1px solid rgba(29, 61, 114, 0.12);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.app-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.app-card.featured {
+  border: 2px solid var(--color-bright);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 140, 255, 0.04),
+    rgba(255, 255, 255, 1)
+  );
+}
+
+.app-badge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: var(--color-bright);
+  color: white;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.app-card-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-deep);
+}
+
+.app-card-desc {
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  color: var(--color-deep);
+}
+
+.app-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+
+.app-features li {
+  margin-bottom: 0.75rem;
+  color: var(--color-deep);
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.app-features li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #22c55e;
+  font-weight: bold;
+}
+
+.play-badge-link {
+  display: inline-block;
+}
+
+.google-play-badge {
+  height: 72px;
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+.google-play-badge:hover {
+  transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+  .apps-grid {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .app-card {
+    padding: 1.5rem;
+  }
+
+  .google-play-badge {
+    height: 60px;
+  }
+}

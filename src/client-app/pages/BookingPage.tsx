@@ -1,0 +1,473 @@
+// @ts-nocheck
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import { useRouter, useParams } from 'next/navigation'
+import { useAuth } from '@/client-app/context/AuthContext'
+import { useMetadata } from '@/client-app/context/MetadataContext'
+import { addressService } from '@/client-app/services/addressService'
+import { fetchDefaultDiscount } from '@/client-app/services/discountService'
+import { discountedAmount, formatInr } from '@/client-app/lib/pricingDisplay'
+import { clearPendingBookingDraft, getPendingBookingDraft, savePendingBookingDraft } from '@/client-app/lib/pendingBooking'
+import { consumeResumeBookingFlag, setLoginRedirect } from '@/client-app/lib/navigationState'
+
+/** Local calendar date only — avoids UTC midnight bugs from parsing "YYYY-MM-DD" with Date/dayjs. */
+function formatYmdLocal(d) {
+  const yy = d.getFullYear()
+  const mm = String(d.getMonth() + 1).padStart(2, '0')
+  const dd = String(d.getDate()).padStart(2, '0')
+  return `${yy}-${mm}-${dd}`
+}
+
+function todayYmd() {
+  return formatYmdLocal(new Date())
+}
+
+/** Add days to a YYYY-MM-DD string using local calendar (inclusive min span uses minDays - 1). */
+function addCalendarDaysYmd(ymd, daysToAdd) {
+  const parts = String(ymd).split('-').map((n) => parseInt(n, 10))
+  if (parts.length !== 3 || parts.some((n) => Number.isNaN(n))) return ymd
+  const [y, m, d] = parts
+  const dt = new Date(y, m - 1, d)
+  dt.setDate(dt.getDate() + daysToAdd)
+  return formatYmdLocal(dt)
+}
+
+const TIME_SLOTS = [
+  '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
+  '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00',
+]
+
+function formatAddressLine(a) {
+  return [a.houseAddress, a.streetAddress, a.city, a.state, a.pincode, a.country].filter(Boolean).join(', ')
+}
+
+export function BookingPage({ serviceId: serviceIdProp }: { serviceId?: string }) {
+  const params = useParams()
+  const serviceId = serviceIdProp ?? (params.serviceId as string)
+  const router = useRouter()
+  const [resumeBooking] = useState(() => consumeResumeBookingFlag())
+  const { user, isLoading: authLoading } = useAuth()
+  const { services, loading: metaLoading } = useMetadata()
+
+  const service = services.find((s) => s.id === serviceId)
+  const subtypes = service?.subtypes ?? []
+  const [selectedSubtype, setSelectedSubtype] = useState(subtypes[0] ?? null)
+  const [genderPreference, setGenderPreference] = useState()
+  const [startDate, setStartDate] = useState(() => todayYmd())
+  const [endDate, setEndDate] = useState(() => todayYmd())
+  const [startTime, setStartTime] = useState('09:00')
+  const [notes, setNotes] = useState('')
+  const [addresses, setAddresses] = useState([])
+  const [addressesLoading, setAddressesLoading] = useState(true)
+  const [selectedAddress, setSelectedAddress] = useState(null)
+  const [showAddressForm, setShowAddressForm] = useState(false)
+  const [newAddr, setNewAddr] = useState({
+    houseAddress: '',
+    streetAddress: '',
+    city: '',
+    state: '',
+    pincode: '',
+  })
+  const [savingAddr, setSavingAddr] = useState(false)
+  const resumeHydratedRef = useRef(false)
+  const [error, setError] = useState('')
+  /** Same as marketing “Our Pricing”: default_discount.discount_pct */
+  const [defaultDiscountPct, setDefaultDiscountPct] = useState(0)
+
+  useEffect(() => {
+    resumeHydratedRef.current = false
+  }, [serviceId])
+
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      const d = await fetchDefaultDiscount()
+      if (cancelled) return
+      const pct = d?.discountPct ?? 0
+      setDefaultDiscountPct(Number.isFinite(pct) ? Math.min(100, Math.max(0, pct)) : 0)
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  /** When API omits this, default to 30 days (common business rule). Explicit 1+ from DB still wins. */
+  const minBookingDays = Math.max(
+    1,
+    service == null
+      ? 1
+      : service.minimumBookingDays != null && service.minimumBookingDays >= 1
+        ? service.minimumBookingDays
+        : 30,
+  )
+  const minimumEndDate = addCalendarDaysYmd(startDate, minBookingDays - 1)
+
+  useEffect(() => {
+    setSelectedSubtype(subtypes[0] ?? null)
+  }, [serviceId, subtypes.length])
+
+  /**
+   * When minimum booking length loads/changes from metadata, set end = start + (minDays - 1).
+   * (Do not depend on `startDate` here — that would overwrite draft end on resume-from-login.)
+   */
+  useEffect(() => {
+    setEndDate(addCalendarDaysYmd(startDate, minBookingDays - 1))
+  }, [minBookingDays])
+
+  /** User changed start date: always move end to the minimum allowed end (inclusive span). */
+  const onStartDateChange = (next) => {
+    if (!next) return
+    setStartDate(next)
+    setEndDate(addCalendarDaysYmd(next, minBookingDays - 1))
+  }
+
+  /** Block typing / paste; changes still come from the calendar UI (onChange). */
+  const blockEndDateKeyboardInput = (e) => {
+    if (e.key === 'Tab' || e.key === 'Escape') return
+    if (e.ctrlKey || e.metaKey || e.altKey) return
+    if (e.key.length === 1) e.preventDefault()
+  }
+
+  /** After sign-in, restore guest’s choices from sessionStorage (visit address is added below). */
+  useEffect(() => {
+    if (!user?.id || !service || subtypes.length === 0 || resumeHydratedRef.current) return
+    if (!resumeBooking) return
+    const draft = getPendingBookingDraft()
+    if (!draft || String(draft.serviceTypeId) !== String(service.id)) return
+    if (draft.addressId || (draft.addressDisplay && draft.addressDisplay.trim())) return
+
+    const sub = subtypes.find((s) => String(s.id) === String(draft.serviceId))
+    if (sub) setSelectedSubtype(sub)
+    if (draft.genderPreference === 'male' || draft.genderPreference === 'female') {
+      setGenderPreference(draft.genderPreference)
+    }
+    if (draft.startDate) setStartDate(draft.startDate)
+    if (draft.endDate) setEndDate(draft.endDate)
+    if (draft.startTime) setStartTime(draft.startTime)
+    if (draft.notes != null) setNotes(draft.notes)
+
+    resumeHydratedRef.current = true
+  }, [user?.id, service?.id, subtypes.length, resumeBooking])
+
+  useEffect(() => {
+    if (!user?.id) {
+      setAddresses([])
+      setSelectedAddress(null)
+      setAddressesLoading(false)
+      return
+    }
+    let c = false
+    ;(async () => {
+      setAddressesLoading(true)
+      const list = await addressService.fetchAddresses(user.id)
+      if (!c) {
+        setAddresses(list)
+        if (list.length === 1) setSelectedAddress(list[0])
+        setAddressesLoading(false)
+      }
+    })()
+    return () => {
+      c = true
+    }
+  }, [user?.id])
+
+  const refreshAddresses = async () => {
+    if (!user?.id) return
+    const list = await addressService.fetchAddresses(user.id)
+    setAddresses(list)
+    if (list.length === 1) setSelectedAddress(list[0])
+  }
+
+  const saveNewAddress = async (e) => {
+    e.preventDefault()
+    if (!user?.id) return
+    const { houseAddress, city, state, pincode } = newAddr
+    if (!houseAddress?.trim() || !city?.trim() || !state?.trim() || !pincode?.trim()) {
+      setError('Fill house, city, state, and pincode.')
+      return
+    }
+    setSavingAddr(true)
+    setError('')
+    try {
+      const result = await addressService.createAddress(user.id, {
+        houseAddress: houseAddress.trim(),
+        streetAddress: newAddr.streetAddress?.trim() || '',
+        city: city.trim(),
+        state: state.trim(),
+        country: 'India',
+        pincode: pincode.trim(),
+        isPrimary: addresses.length === 0,
+      })
+      if (result.success && result.address) {
+        setShowAddressForm(false)
+        setNewAddr({ houseAddress: '', streetAddress: '', city: '', state: '', pincode: '' })
+        await refreshAddresses()
+        setSelectedAddress(result.address)
+      } else {
+        setError(result.message || 'Failed to add address')
+      }
+    } finally {
+      setSavingAddr(false)
+    }
+  }
+
+  const buildReviewPayload = () => ({
+    serviceId: selectedSubtype.id,
+    serviceTypeId: service.id,
+    serviceName: selectedSubtype.userFriendlyName,
+    servicesOffered: selectedSubtype.servicesOffered || [],
+    genderPreference: genderPreference || '',
+    startDate,
+    endDate,
+    startTime,
+    endTime: startTime,
+    notes,
+  })
+
+  const goReview = () => {
+    setError('')
+    if (!selectedSubtype) {
+      setError('Select a shift option.')
+      return
+    }
+    if (service?.hasGenderPreference) {
+      if (genderPreference !== 'male' && genderPreference !== 'female') {
+        setError('Select caregiver gender preference — Male or Female is required.')
+        return
+      }
+    }
+
+    const base = buildReviewPayload()
+
+    if (user?.id) {
+      if (addressesLoading) {
+        setError('Loading addresses… please wait a moment.')
+        return
+      }
+      if (!selectedAddress) {
+        setError('Select an address for the visit.')
+        return
+      }
+      clearPendingBookingDraft()
+      savePendingBookingDraft({
+        ...base,
+        addressId: selectedAddress.id,
+        addressDisplay: formatAddressLine(selectedAddress),
+      })
+      router.push('/app/book/review')
+      return
+    }
+
+    savePendingBookingDraft({
+      ...base,
+    })
+    setLoginRedirect(`/app/book/${service.id}`, 'booking')
+    router.push('/app/login?reason=booking')
+  }
+
+  if (metaLoading || authLoading) {
+    return (
+      <div className="client-app-card">
+        <p className="muted">Loading…</p>
+      </div>
+    )
+  }
+
+  if (!service) {
+    return (
+      <div className="client-app-card">
+        <p>Service not found.</p>
+        <Link href="/app/booking">← Back</Link>
+      </div>
+    )
+  }
+
+  if (subtypes.length === 0) {
+    return (
+      <div className="client-app-card">
+        <p>No booking options for this service.</p>
+        <Link href="/app/booking">← Back</Link>
+      </div>
+    )
+  }
+
+  const reviewCtaLabel = user?.id ? 'Review booking' : 'Continue to sign in'
+  const showDefaultDiscount = defaultDiscountPct > 0
+
+  return (
+    <div>
+      <div className="client-app-card">
+        <Link href="/app/booking" className="muted">
+          ← Back
+        </Link>
+        <h1 style={{ marginTop: '0.5rem' }}>{service.name}</h1>
+        <p className="muted">{service.description}</p>
+        {!user?.id && (
+          <p className="muted" style={{ marginTop: '0.75rem' }}>
+            Choose your options, then sign in. You’ll add your visit address on the next step before review.
+          </p>
+        )}
+      </div>
+
+      <div className="client-app-card">
+        <h2>Shift option</h2>
+        {subtypes.map((sub) => {
+          const listPrice = sub.price
+          const dealPrice = discountedAmount(listPrice, defaultDiscountPct)
+          return (
+            <button
+              key={sub.id}
+              type="button"
+              className={`shift-option ${selectedSubtype?.id === sub.id ? 'selected' : ''}`}
+              onClick={() => setSelectedSubtype(sub)}
+            >
+              <div>
+                <div>{sub.userFriendlyName}</div>
+                <div className="muted" style={{ fontSize: '0.85rem' }}>
+                  {sub.shiftTypeName} • {sub.shiftDurationHours}h •{' '}
+                  {showDefaultDiscount ? (
+                    <>
+                      <span style={{ textDecoration: 'line-through', opacity: 0.65 }}>{formatInr(listPrice)}</span>{' '}
+                      <span style={{ color: 'var(--color-bright, #0078d4)', fontWeight: 600 }}>{formatInr(dealPrice)}</span>
+                      <span style={{ fontSize: '0.78rem', marginLeft: '0.35rem' }}>({defaultDiscountPct}% off)</span>
+                    </>
+                  ) : (
+                    <span>{formatInr(listPrice)}</span>
+                  )}{' '}
+                  / day
+                </div>
+              </div>
+              <span>{selectedSubtype?.id === sub.id ? '●' : '○'}</span>
+            </button>
+          )
+        })}
+      </div>
+
+      {service.hasGenderPreference && (
+        <div className="client-app-card">
+          <h2>Caregiver preference</h2>
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
+            {['male', 'female'].map((g) => (
+              <button
+                key={g}
+                type="button"
+                className={`btn ${genderPreference === g ? 'btn-primary' : 'btn-outline'}`}
+                style={{ flex: 1 }}
+                onClick={() => setGenderPreference(g)}
+              >
+                {g === 'male' ? 'Male' : 'Female'}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="client-app-card">
+        <h2>Start date & time</h2>
+        <label htmlFor="sd">Start date</label>
+        <input
+          id="sd"
+          type="date"
+          value={startDate}
+          min={todayYmd()}
+          onChange={(e) => onStartDateChange(e.target.value)}
+        />
+
+        <div className="time-slots">
+          {TIME_SLOTS.map((t) => (
+            <button key={t} type="button" className={`time-slot ${startTime === t ? 'active' : ''}`} onClick={() => setStartTime(t)}>
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="client-app-card">
+        <h2>End date</h2>
+        {minBookingDays > 1 && (
+          <p className="muted">Minimum booking: {minBookingDays} days. For custom needs call{' '}
+            <a href="tel:+918726568502">+91 9205868247</a>.
+          </p>
+        )}
+        <label htmlFor="ed">End date</label>
+        <input
+          id="ed"
+          type="date"
+          value={endDate}
+          min={minimumEndDate}
+          title="Use the calendar control to choose the end date"
+          aria-label="End date"
+          onChange={(e) => setEndDate(e.target.value)}
+          onKeyDown={blockEndDateKeyboardInput}
+          onPaste={(e) => e.preventDefault()}
+        />
+      </div>
+
+      <div className="client-app-card">
+        <h2>Notes (optional)</h2>
+        <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Requirements for the visit…" />
+      </div>
+
+      {user?.id && (
+        <div className="client-app-card">
+          <h2>Visit address</h2>
+          {addressesLoading ? (
+            <p className="muted">Loading addresses…</p>
+          ) : addresses.length === 0 && !showAddressForm ? (
+            <>
+              <p className="muted">No address saved. Add one to continue.</p>
+              <button type="button" className="btn btn-primary" onClick={() => setShowAddressForm(true)}>
+                Add address
+              </button>
+            </>
+          ) : (
+            <>
+              {addresses.map((addr) => (
+                <button
+                  key={addr.id}
+                  type="button"
+                  className={`addr-option ${selectedAddress?.id === addr.id ? 'selected' : ''}`}
+                  onClick={() => setSelectedAddress(addr)}
+                >
+                  <span>{selectedAddress?.id === addr.id ? '●' : '○'}</span>
+                  <span>{formatAddressLine(addr)}</span>
+                </button>
+              ))}
+              <button type="button" className="btn btn-outline" style={{ marginTop: '0.5rem' }} onClick={() => setShowAddressForm(true)}>
+                + Add another address
+              </button>
+            </>
+          )}
+
+          {showAddressForm && (
+            <form onSubmit={saveNewAddress} style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #eee' }}>
+              <label>House / flat</label>
+              <input value={newAddr.houseAddress} onChange={(e) => setNewAddr((p) => ({ ...p, houseAddress: e.target.value }))} required />
+              <label>Street</label>
+              <input value={newAddr.streetAddress} onChange={(e) => setNewAddr((p) => ({ ...p, streetAddress: e.target.value }))} />
+              <label>City</label>
+              <input value={newAddr.city} onChange={(e) => setNewAddr((p) => ({ ...p, city: e.target.value }))} required />
+              <label>State</label>
+              <input value={newAddr.state} onChange={(e) => setNewAddr((p) => ({ ...p, state: e.target.value }))} required />
+              <label>Pincode</label>
+              <input value={newAddr.pincode} onChange={(e) => setNewAddr((p) => ({ ...p, pincode: e.target.value }))} required />
+              <button type="submit" className="btn btn-primary" disabled={savingAddr}>
+                {savingAddr ? 'Saving…' : 'Save address'}
+              </button>
+              <button type="button" className="btn btn-outline" style={{ marginLeft: '0.5rem' }} onClick={() => setShowAddressForm(false)}>
+                Cancel
+              </button>
+            </form>
+          )}
+        </div>
+      )}
+
+      {error && <div className="error">{error}</div>}
+      <button type="button" className="btn btn-primary" style={{ width: '100%' }} onClick={goReview}>
+        {reviewCtaLabel}
+      </button>
+    </div>
+  )
+}

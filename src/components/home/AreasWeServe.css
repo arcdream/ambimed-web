@@ -1,0 +1,27 @@
+.areas-serve { background: #fafbfc; }
+
+.areas-serve-intro {
+  color: rgba(29, 61, 114, 0.75);
+  max-width: 40rem;
+  margin: -0.5rem 0 1.5rem;
+  line-height: 1.6;
+}
+
+.areas-serve-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.areas-serve-item {
+  padding: 0.45rem 1rem;
+  background: #fff;
+  border: 1px solid rgba(0, 120, 212, 0.2);
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--color-deep);
+}

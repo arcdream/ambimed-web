@@ -1,0 +1,36 @@
+.why-choose-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.why-choose-card {
+  background: #fafbfc;
+  border: 1px solid rgba(29, 61, 114, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.why-choose-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.why-choose-title {
+  font-size: 1rem;
+  color: var(--color-deep);
+  margin: 0 0 0.4rem;
+}
+
+.why-choose-desc {
+  font-size: 0.85rem;
+  color: rgba(29, 61, 114, 0.7);
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .why-choose-grid { grid-template-columns: repeat(3, 1fr); }
+}
