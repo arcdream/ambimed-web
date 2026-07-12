@@ -55,7 +55,8 @@ export function Hero() {
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      <div className="container hero-banner-frame">
+      <div className="container">
+        <div className="hero-banner-frame">
         <div className="hero-banner-track" aria-hidden>
           <AnimatePresence mode="sync">
             <motion.div
@@ -172,6 +173,7 @@ export function Hero() {
             animate={{ scaleX: paused ? undefined : 1 }}
             transition={{ duration: SLIDE_INTERVAL_MS / 1000, ease: 'linear' }}
           />
+        </div>
         </div>
       </div>
     </section>

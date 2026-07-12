@@ -51,9 +51,9 @@ html {
     font-size: 1.05rem;
   }
 
-  .hero {
-    padding-left: max(0px, env(safe-area-inset-left, 0px));
-    padding-right: max(0px, env(safe-area-inset-right, 0px));
+  .hero--banner {
+    padding-left: max(1.25rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1.25rem, env(safe-area-inset-right, 0px));
     padding-bottom: 0.25rem;
   }
 
