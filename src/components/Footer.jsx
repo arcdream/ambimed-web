@@ -1,7 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { config } from '../data/config'
+import { services } from '../data/services'
 
 const quickLinksBase = [
   { id: 'services', label: 'Services' },
@@ -41,6 +43,20 @@ export function Footer() {
                 <button type="button" className="footer-link" onClick={() => scrollTo(link.id)}>
                   {link.label}
                 </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="footer-links">
+          <p className="footer-section-heading" id="footer-services-heading">
+            Our services
+          </p>
+          <ul aria-labelledby="footer-services-heading">
+            {services.map((svc) => (
+              <li key={svc.id}>
+                <Link href={`/services/${svc.id}`} className="footer-link footer-link--anchor">
+                  {svc.title}
+                </Link>
               </li>
             ))}
           </ul>

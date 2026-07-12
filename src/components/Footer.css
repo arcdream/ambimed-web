@@ -49,6 +49,12 @@
   text-decoration: none;
 }
 
+.footer-link--anchor {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
 .footer-contact p {
   margin: 0;
   font-size: 0.9rem;
@@ -69,5 +75,5 @@
 }
 
 @media (min-width: 640px) {
-  .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
 }
