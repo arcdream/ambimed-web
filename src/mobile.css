@@ -52,9 +52,13 @@ html {
   }
 
   .hero {
-    padding-left: max(1rem, env(safe-area-inset-left, 0px));
-    padding-right: max(1rem, env(safe-area-inset-right, 0px));
-    padding-bottom: max(3rem, env(safe-area-inset-bottom, 0px) + 2rem);
+    padding-left: max(0px, env(safe-area-inset-left, 0px));
+    padding-right: max(0px, env(safe-area-inset-right, 0px));
+    padding-bottom: 0.25rem;
+  }
+
+  .hero-banner-app-download {
+    min-height: var(--tap-target-min);
   }
 
   .hero-desc {
