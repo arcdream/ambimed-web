@@ -35,6 +35,8 @@ const appNavLinks = [
 export function Header() {
   const pathname = usePathname()
   const isApp = pathname.startsWith('/app')
+  const isHomePage = pathname === '/'
+  const useMarketingHashLinks = !isApp && !isHomePage
   const { user, isAuthenticated, referralHubAccess, isLoading, logout } = useAuth()
   const [open, setOpen] = useState(false)
   const [logoError, setLogoError] = useState(false)
@@ -70,6 +72,36 @@ export function Header() {
       }, 50)
     }, 280)
   }, [])
+
+  /** After navigating to /#section from another page, scroll to the target section */
+  useEffect(() => {
+    if (pathname !== '/') return
+    const hash = window.location.hash.replace(/^#/, '')
+    if (!hash) return
+    scrollTo(hash)
+  }, [pathname, scrollTo])
+
+  const marketingNavHref = (id: string) => (id === 'hero' ? '/' : `/#${id}`)
+
+  const renderMarketingNavLink = (link: (typeof marketingNavBase)[number], onNavigate?: () => void) => {
+    if (useMarketingHashLinks) {
+      return (
+        <Link
+          key={link.id}
+          href={marketingNavHref(link.id)}
+          className="nav-link"
+          onClick={onNavigate}
+        >
+          {link.label}
+        </Link>
+      )
+    }
+    return (
+      <button key={link.id} type="button" className="nav-link" onClick={() => scrollTo(link.id)}>
+        {link.label}
+      </button>
+    )
+  }
 
   const appNavLinksResolved = useMemo(() => {
     const links = [...appNavLinks]
@@ -173,11 +205,7 @@ export function Header() {
                   {item.label}
                 </Link>
               ))
-            : marketingNav.map((link) => (
-                <button key={link.id} type="button" className="nav-link" onClick={() => scrollTo(link.id)}>
-                  {link.label}
-                </button>
-              ))}
+            : marketingNav.map((link) => renderMarketingNavLink(link))}
           {!isApp && (
             <Link href="/app/booking" className="nav-link nav-link--cta">
               Book care
@@ -221,11 +249,7 @@ export function Header() {
                     {item.label}
                   </Link>
                 ))
-              : marketingNav.map((link) => (
-                  <button key={link.id} type="button" className="nav-link" onClick={() => scrollTo(link.id)}>
-                    {link.label}
-                  </button>
-                ))}
+              : marketingNav.map((link) => renderMarketingNavLink(link, () => setOpen(false)))}
             {!isApp && (
               <Link href="/app/booking" className="nav-link nav-link--cta" onClick={() => setOpen(false)}>
                 Book care

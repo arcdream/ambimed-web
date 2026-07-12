@@ -42,6 +42,21 @@
   display: block;
 }
 
+/* Caregiver photo — subjects on the right; keep faces visible */
+.hero-banner-image--caregiver {
+  object-position: 72% center;
+}
+
+/* Pricing artwork — subjects and phone on the right */
+.hero-banner-image--pricing {
+  object-position: 58% center;
+}
+
+/* Booking photo — subject and phone on the right; copy space on the left */
+.hero-banner-image--booking {
+  object-position: 68% center;
+}
+
 .hero-banner-overlay {
   position: absolute;
   inset: 0;
@@ -62,6 +77,27 @@
     rgba(0, 80, 150, 0.85) 0%,
     rgba(29, 61, 114, 0.65) 45%,
     rgba(29, 61, 114, 0.2) 100%
+  );
+}
+
+/* Stronger left gradient so white text reads over bright photo */
+.hero-banner-overlay--photo-left {
+  background: linear-gradient(
+    105deg,
+    rgba(29, 61, 114, 0.92) 0%,
+    rgba(29, 61, 114, 0.78) 42%,
+    rgba(29, 61, 114, 0.25) 58%,
+    transparent 72%
+  );
+}
+
+/* Designed artwork with built-in white left panel */
+.hero-banner-overlay--light-left {
+  background: linear-gradient(
+    105deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.2) 38%,
+    transparent 58%
   );
 }
 
@@ -135,6 +171,117 @@
   max-width: 540px;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.2);
   margin-bottom: 1rem;
+}
+
+.hero-banner-highlights {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  max-width: 420px;
+}
+
+.hero-banner-highlights li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  font-weight: 600;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.18);
+}
+
+.hero-banner-highlights li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: var(--color-bright) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3.5 8.5 6.5 11.5 12.5 4.5' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 0.75rem no-repeat;
+  box-shadow: 0 4px 12px rgba(0, 120, 212, 0.35);
+}
+
+/* Light-theme slide (pricing artwork) */
+.hero-banner-content--light .hero-badge--on-banner {
+  background: rgba(29, 61, 114, 0.08);
+  color: var(--color-deep);
+  border-color: rgba(29, 61, 114, 0.15);
+}
+
+.hero-banner-content--light .hero-title--banner {
+  color: var(--color-deep);
+  text-shadow: none;
+}
+
+.hero-banner-content--light .hero-title--banner .hero-highlight {
+  color: var(--color-bright);
+}
+
+.hero-banner-content--light .hero-desc--banner {
+  color: rgba(29, 61, 114, 0.88);
+  text-shadow: none;
+}
+
+.hero-banner-content--light .hero-banner-highlights li {
+  color: var(--color-deep);
+  text-shadow: none;
+}
+
+.hero-banner-frame--light .btn--banner.btn-secondary {
+  color: var(--color-deep);
+  border-color: var(--color-deep);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: none;
+}
+
+.hero-banner-frame--light .btn--banner.btn-secondary:hover {
+  background: rgba(29, 61, 114, 0.08);
+  color: var(--color-deep);
+}
+
+.hero-banner-frame--light .hero-banner-app-download {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(29, 61, 114, 0.12);
+  color: var(--color-deep);
+  box-shadow: 0 8px 24px rgba(29, 61, 114, 0.08);
+}
+
+.hero-banner-frame--light .hero-banner-app-download:hover {
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(29, 61, 114, 0.12);
+}
+
+.hero-banner-frame--light .hero-banner-app-download-sub {
+  color: rgba(29, 61, 114, 0.72);
+}
+
+.hero-banner-frame--light .hero-banner-arrow {
+  border-color: rgba(29, 61, 114, 0.25);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--color-deep);
+}
+
+.hero-banner-frame--light .hero-banner-arrow:hover {
+  background: #fff;
+}
+
+.hero-banner-frame--light .hero-banner-dot {
+  background: rgba(29, 61, 114, 0.25);
+}
+
+.hero-banner-frame--light .hero-banner-dot.active {
+  background: var(--color-deep);
+}
+
+.hero-banner-frame--light .hero-banner-dot:hover:not(.active) {
+  background: rgba(29, 61, 114, 0.45);
+}
+
+.hero-banner-frame--light .hero-banner-progress {
+  background: rgba(29, 61, 114, 0.12);
 }
 
 .hero-banner-actions {
@@ -363,6 +510,18 @@
 
   .hero-banner-app-badge {
     margin-left: auto;
+  }
+
+  .hero-banner-image--caregiver {
+    object-position: 68% 35%;
+  }
+
+  .hero-banner-image--pricing {
+    object-position: 55% 40%;
+  }
+
+  .hero-banner-image--booking {
+    object-position: 65% 38%;
   }
 
   .hero-banner-arrow {

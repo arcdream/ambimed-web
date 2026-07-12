@@ -32,6 +32,9 @@ export function Hero() {
   const first = user?.firstName?.trim()
   const personalized = isAuthenticated && !isLoading && !!user
   const slide = heroBannerSlides[activeIndex]
+  const isDesigned = slide.variant === 'designed'
+  const isLightTheme = slide.theme === 'light'
+  const imageClass = slide.imageFocus ? ` hero-banner-image--${slide.imageFocus}` : ''
 
   const goTo = useCallback((index) => {
     setActiveIndex((index + heroBannerSlides.length) % heroBannerSlides.length)
@@ -56,25 +59,34 @@ export function Hero() {
       onBlur={() => setPaused(false)}
     >
       <div className="container">
-        <div className="hero-banner-frame">
+        <div className={`hero-banner-frame${isLightTheme ? ' hero-banner-frame--light' : ''}`}>
         <div className="hero-banner-track" aria-hidden>
           <AnimatePresence mode="sync">
             <motion.div
               key={slide.id}
               className="hero-banner-slide"
-              initial={{ opacity: 0, scale: 1.04 }}
+              initial={{ opacity: 0, scale: 1.02 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.85, ease: 'easeInOut' }}
             >
-              <img src={slide.image} alt="" className="hero-banner-image" />
+              <img
+                src={slide.image}
+                alt={slide.alt || ''}
+                className={`hero-banner-image${imageClass}`}
+              />
             </motion.div>
           </AnimatePresence>
         </div>
 
-        <div className="hero-banner-overlay" aria-hidden />
+        <div
+          className={`hero-banner-overlay${
+            isDesigned && !isLightTheme ? ' hero-banner-overlay--photo-left' : ''
+          }${isLightTheme ? ' hero-banner-overlay--light-left' : ''}`}
+          aria-hidden
+        />
 
-        <div className="hero-banner-content">
+        <div className={`hero-banner-content${isLightTheme ? ' hero-banner-content--light' : ''}`}>
         <AnimatePresence mode="wait">
           <motion.div
             key={slide.id}
@@ -102,11 +114,20 @@ export function Hero() {
                 </>
               )}
             </h1>
-            <p className="hero-desc hero-desc--banner">
-              {personalized
-                ? 'Book visits, track caregivers, and manage home care — on web or the Ambimed app.'
-                : slide.description}
-            </p>
+            {(personalized || slide.description) && (
+              <p className="hero-desc hero-desc--banner">
+                {personalized
+                  ? 'Book visits, track caregivers, and manage home care — on web or the Ambimed app.'
+                  : slide.description}
+              </p>
+            )}
+            {!personalized && slide.highlights?.length > 0 && (
+              <ul className="hero-banner-highlights">
+                {slide.highlights.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            )}
           </motion.div>
         </AnimatePresence>
 

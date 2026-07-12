@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { config } from '../data/config'
 import { services } from '../data/services'
 
@@ -13,11 +14,11 @@ const quickLinksBase = [
 ]
 
 export function Footer() {
+  const pathname = usePathname()
+  const isHomePage = pathname === '/'
   const quickLinks = config.showAboutSection ? quickLinksBase : quickLinksBase.filter((l) => l.id !== 'about')
-  const scrollTo = (id) => {
-    const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }
+
+  const quickLinkHref = (id) => `/#${id}`
 
   return (
     <motion.footer
@@ -40,9 +41,19 @@ export function Footer() {
           <ul aria-labelledby="footer-quick-links-heading">
             {quickLinks.map((link) => (
               <li key={link.id}>
-                <button type="button" className="footer-link" onClick={() => scrollTo(link.id)}>
-                  {link.label}
-                </button>
+                {isHomePage ? (
+                  <button
+                    type="button"
+                    className="footer-link"
+                    onClick={() => document.getElementById(link.id)?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    {link.label}
+                  </button>
+                ) : (
+                  <Link href={quickLinkHref(link.id)} className="footer-link footer-link--anchor">
+                    {link.label}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
