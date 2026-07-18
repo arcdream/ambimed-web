@@ -7,11 +7,11 @@ const ICONS = {
   baby: Baby,
 }
 
-export function ServiceIcon({ name, className = '' }) {
+export function ServiceIcon({ name, className = '', svgClassName = '' }) {
   const Icon = ICONS[name] ?? HeartHandshake
   return (
     <span className={`service-icon-wrap ${className}`.trim()} aria-hidden>
-      <Icon className="service-icon-svg" strokeWidth={1.75} />
+      <Icon className={`service-icon-svg ${svgClassName}`.trim()} strokeWidth={1.75} />
     </span>
   )
 }
