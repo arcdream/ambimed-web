@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { Reveal } from '@/components/motion/Reveal'
 import { testimonials } from '../data/testimonials'
 import './Testimonials.css'
 
@@ -18,31 +18,20 @@ export function Testimonials() {
   return (
     <section id="testimonials" className="section section-testimonials">
       <div className="container">
-        <motion.p
-          className="section-subtitle"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <Reveal as="p" className="section-subtitle">
           What families say
-        </motion.p>
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        </Reveal>
+        <Reveal as="h2" className="section-title">
           Customer feedback
-        </motion.h2>
+        </Reveal>
         <div className="testimonials-grid">
           {testimonials.map((item, i) => (
-            <motion.article
+            <Reveal
               key={item.id}
+              as="article"
               className="testimonial-card"
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
+              delay={i * 0.08}
+              y={25}
               whileHover={{ y: -4 }}
             >
               <StarRating rating={item.rating} />
@@ -51,7 +40,7 @@ export function Testimonials() {
                 <h3 className="testimonial-name">{item.name}</h3>
                 <p className="testimonial-role">{item.role}</p>
               </footer>
-            </motion.article>
+            </Reveal>
           ))}
         </div>
       </div>

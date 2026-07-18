@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { Reveal } from '@/components/motion/Reveal'
 import Link from 'next/link'
 import { config } from '../data/config'
 import { TERMS_PDF_URL } from '../data/legal'
@@ -19,29 +19,14 @@ export function Contact() {
   return (
     <section id="contact" className="section section-contact">
       <div className="container">
-        <motion.p
-          className="section-subtitle"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <Reveal as="p" className="section-subtitle">
           Get in touch
-        </motion.p>
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        </Reveal>
+        <Reveal as="h2" className="section-title">
           Contact us
-        </motion.h2>
+        </Reveal>
 
-        <motion.div
-          className="contact-ref"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <Reveal className="contact-ref" y={20}>
           <div className="contact-ref-grid">
             <div className="contact-ref-col contact-ref-col-brand">
               <Link href="/" className="contact-ref-logo-wrap">
@@ -140,7 +125,7 @@ export function Contact() {
               </ul>
             </div>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

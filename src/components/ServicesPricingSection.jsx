@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { Reveal } from '@/components/motion/Reveal'
 import { metadataService } from '@/client-app/services/metadataService'
 import { fetchDefaultDiscount } from '@/client-app/services/discountService'
 import { supabaseConfigured } from '@/client-app/lib/supabase'
@@ -67,57 +67,38 @@ export function ServicesPricingSection() {
       <div className="container services-pricing-inner">
         <div className="services-pricing-header">
           {showDiscount && (
-            <motion.div
-              className="services-pricing-promo-pill"
-              initial={{ opacity: 0, scale: 0.92 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-            >
+            <Reveal className="services-pricing-promo-pill" y={0}>
               <span className="services-pricing-promo-pill__spark" aria-hidden>
                 ✦
               </span>
               <span>
                 Up to <strong>{discountPct}% off</strong> on eligible bookings
               </span>
-            </motion.div>
+            </Reveal>
           )}
-          <motion.div
+          <Reveal
             className="services-pricing-min-booking-banner"
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: showDiscount ? 0.06 : 0 }}
+            delay={showDiscount ? 0.06 : 0}
+            y={8}
           >
             Minimum Booking 1 Month
-          </motion.div>
-          <motion.p
-            className="section-subtitle services-pricing-subtitle"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+          </Reveal>
+          <Reveal as="p" className="section-subtitle services-pricing-subtitle" y={12}>
             Plans &amp; savings
-          </motion.p>
-          <motion.h2
+          </Reveal>
+          <Reveal
+            as="h2"
             id="services-pricing-heading"
             className="section-title services-pricing-title"
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.04 }}
+            delay={0.04}
+            y={14}
           >
             Services, prices &amp; discounts
-          </motion.h2>
-          <motion.p
-            className="services-pricing-lead"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.08 }}
-          >
+          </Reveal>
+          <Reveal as="p" className="services-pricing-lead" delay={0.08} y={12}>
             Real numbers from our catalogue—no hidden fees. Save more when you book with our current
             offers.
-          </motion.p>
+          </Reveal>
         </div>
 
         {loading && (
@@ -147,13 +128,12 @@ export function ServicesPricingSection() {
             {services.map((svc, si) => {
               const subtypes = svc.subtypes ?? []
               return (
-                <motion.article
+                <Reveal
                   key={svc.id}
+                  as="article"
                   className="services-pricing-card"
-                  initial={{ opacity: 0, y: 28 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-40px' }}
-                  transition={{ delay: si * 0.06 }}
+                  delay={si * 0.06}
+                  y={28}
                 >
                   <div className="services-pricing-card__top">
                     <h3 className="services-pricing-card__title">{svc.name}</h3>
@@ -210,7 +190,7 @@ export function ServicesPricingSection() {
                       </Link>
                     </div>
                   )}
-                </motion.article>
+                </Reveal>
               )
             })}
           </div>
@@ -218,23 +198,13 @@ export function ServicesPricingSection() {
 
         {!loading && !error && services.length > 0 && (
           <>
-            <motion.p
-              className="services-pricing-footnote"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
+            <Reveal as="p" className="services-pricing-footnote" y={0}>
               Prices reflect our catalogue; final totals may vary by dates and add-ons. Discount applies
               where eligible per our terms.
-            </motion.p>
-            <motion.p
-              className="services-pricing-caregiver-note"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
+            </Reveal>
+            <Reveal as="p" className="services-pricing-caregiver-note" y={0}>
               Prices may vary slightly based on the experience and qualifications of the caregiver.
-            </motion.p>
+            </Reveal>
           </>
         )}
       </div>

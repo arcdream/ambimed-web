@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { Reveal } from '@/components/motion/Reveal'
 import { homeSeoArticle } from '../data/homePageSeoCopy'
 import './SeoContentSection.css'
 
@@ -15,31 +15,13 @@ export function SeoContentSection() {
       aria-labelledby="seo-article-heading"
     >
       <div className="container">
-        <motion.p
-          className="section-subtitle"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <Reveal as="p" className="section-subtitle">
           {eyebrow}
-        </motion.p>
-        <motion.h2
-          id="seo-article-heading"
-          className="section-title"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.05 }}
-        >
+        </Reveal>
+        <Reveal as="h2" id="seo-article-heading" className="section-title" delay={0.05}>
           {title}
-        </motion.h2>
-        <motion.article
-          className="seo-article-body"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-        >
+        </Reveal>
+        <Reveal as="article" className="seo-article-body" delay={0.1} y={20}>
           <p className="seo-article-lead">{lead}</p>
           {sections.map((block) => (
             <div key={block.id} className="seo-article-block">
@@ -60,7 +42,7 @@ export function SeoContentSection() {
             or scroll to{' '}
             <a href="#contact">contact us</a> for a tailored quote.
           </p>
-        </motion.article>
+        </Reveal>
       </div>
     </section>
   )

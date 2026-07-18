@@ -1,18 +1,13 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { Reveal } from '@/components/motion/Reveal'
 import './About.css'
 
 export function About() {
   return (
     <section id="about" className="section section-about">
       <div className="container about-inner">
-        <motion.div
-          className="about-content"
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-        >
+        <Reveal className="about-content" y={0} x={-20}>
           <p className="section-subtitle">Who we are</p>
           <h2 className="section-title">About Ambimed Healthcare</h2>
           <h3 className="section-subheading">Trusted care at your doorstep</h3>
@@ -30,13 +25,8 @@ export function About() {
             <li>Reasonable prices</li>
             <li>Committed to serving society</li>
           </ul>
-        </motion.div>
-        <motion.div
-          className="about-visual"
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-        >
+        </Reveal>
+        <Reveal className="about-visual" y={0} x={20}>
           <div className="about-image-wrap">
             <img
               src="/assets/about-care-at-home.png"
@@ -47,7 +37,7 @@ export function About() {
               <span className="about-placeholder-text">Care at home</span>
             </div>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )
