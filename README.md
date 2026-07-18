@@ -17,6 +17,17 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
+### Deploying on Vercel
+
+1. In **Vercel → Project → Settings → Environment Variables**, add:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`  
+   (You can also use `SUPABASE_URL` and `SUPABASE_ANON_KEY` — both are supported.)
+2. Enable them for **Production** (and Preview if you use preview deploys).
+3. **Redeploy** after adding or changing variables (Deployments → … → Redeploy).
+
+Local `.env` files are not uploaded to Vercel; variables must be set in the Vercel dashboard.
+
 3. Copy static assets from the original site into `public/assets/` (logo, hero images, service cards, certificates, etc.). The repo references paths like `/assets/ambimed-logo.png` — these are not committed in the Vite repo either.
 
 4. Run the dev server:

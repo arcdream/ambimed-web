@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { authService } from '@/client-app/services/authService'
 import { useAuth } from '@/client-app/context/AuthContext'
-import { supabaseConfigured } from '@/client-app/lib/supabase'
+import { isSupabaseConfigured } from '@/client-app/lib/supabase'
 import { TERMS_PDF_URL } from '@/data/legal'
 import { clearPendingBookingDraft, getPendingBookingDraft } from '@/client-app/lib/pendingBooking'
 import {
@@ -28,7 +28,7 @@ function LoginPageInner() {
   const loginReason = searchParams.get('reason') ?? getLoginRedirect().reason
   const isBookingReason = loginReason === 'booking'
 
-  if (!supabaseConfigured) {
+  if (!isSupabaseConfigured()) {
     return (
       <div className="login-page">
         <div className="login-hero">
@@ -40,8 +40,10 @@ function LoginPageInner() {
         </div>
         <div className="login-card">
           <p className="muted" style={{ margin: 0 }}>
-            Add <code>NEXT_PUBLIC_SUPABASE_URL</code> and <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code> to your{' '}
-            <code>.env.local</code> file (same as the Ambimed mobile app). Then restart the dev server.
+            Add <code>NEXT_PUBLIC_SUPABASE_URL</code> and <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>{' '}
+            (or <code>SUPABASE_URL</code> / <code>SUPABASE_ANON_KEY</code>) to your{' '}
+            <code>.env.local</code> file locally, or to your Vercel project Environment Variables, then
+            redeploy.
           </p>
         </div>
         <p className="login-back">

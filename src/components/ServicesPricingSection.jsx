@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Reveal } from '@/components/motion/Reveal'
 import { metadataService } from '@/client-app/services/metadataService'
 import { fetchDefaultDiscount } from '@/client-app/services/discountService'
-import { supabaseConfigured } from '@/client-app/lib/supabase'
+import { isSupabaseConfigured } from '@/client-app/lib/supabase'
 import './ServicesPricingSection.css'
 
 function formatInr(n) {
@@ -31,7 +31,7 @@ export function ServicesPricingSection() {
   useEffect(() => {
     let cancelled = false
     async function load() {
-      if (!supabaseConfigured) {
+      if (!isSupabaseConfigured()) {
         setLoading(false)
         setError(true)
         return
