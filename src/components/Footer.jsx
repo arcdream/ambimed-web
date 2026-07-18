@@ -80,8 +80,16 @@ export function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <div className="container">
+        <div className="container footer-bottom-inner">
           <p>© {new Date().getFullYear()} Ambimed Healthcare. Motivated by serving society.</p>
+          <nav className="footer-legal" aria-label="Legal">
+            <Link href={config.privacyPolicyUrl} className="footer-legal-link">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="footer-legal-link">
+              Terms &amp; Conditions
+            </Link>
+          </nav>
         </div>
       </div>
     </Reveal>

@@ -24,8 +24,8 @@ html {
   }
 
   .section {
-    padding-top: 2.75rem;
-    padding-bottom: 2.75rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
     padding-left: max(1rem, env(safe-area-inset-left, 0px));
     padding-right: max(1rem, env(safe-area-inset-right, 0px));
   }

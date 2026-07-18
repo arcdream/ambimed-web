@@ -28,7 +28,9 @@ export function TermsPage() {
           <a href={TERMS_PDF_URL}>{TERMS_PDF_URL}</a>
         </p>
         <p className="terms-back">
-          <Link href="/">← Website home</Link>
+          <Link href="/privacy-policy">Privacy policy</Link>
+          {' · '}
+          <Link href="/">Website home</Link>
         </p>
       </article>
       <Footer />

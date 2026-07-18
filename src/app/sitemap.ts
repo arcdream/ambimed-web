@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/blog`, changeFrequency: 'weekly', priority: 0.85 },
     { url: `${base}/app/booking`, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${base}/terms`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${base}/privacy-policy`, changeFrequency: 'monthly', priority: 0.6 },
   ]
 
   const serviceRoutes: MetadataRoute.Sitemap = serviceSlugs.map((slug) => ({
