@@ -1,13 +1,17 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useAuth } from '@/client-app/context/AuthContext'
 import { config } from '@/data/config'
+import { heroBannerSlides } from '@/data/heroBanner'
+
+const SLIDE_INTERVAL_MS = 6000
 
 function GooglePlayIcon() {
   return (
-    <svg className="hero-app-promo-play-icon" viewBox="0 0 24 24" aria-hidden>
+    <svg className="hero-banner-app-icon" viewBox="0 0 24 24" aria-hidden>
       <path
         fill="currentColor"
         d="M3.6 2.4A1.2 1.2 0 0 0 2.4 3.6v16.8a1.2 1.2 0 0 0 1.8 1.05l12.6-7.2a1.2 1.2 0 0 0 0-2.1L3.6 2.4Z"
@@ -16,163 +20,182 @@ function GooglePlayIcon() {
   )
 }
 
-function HeroAppPromo({ personalized }) {
-  return (
-    <motion.div
-      className="hero-app-promo"
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: personalized ? 0.52 : 0.58, duration: 0.5 }}
-    >
-      <div className="hero-app-promo-shine" aria-hidden />
-      <div className="hero-app-promo-inner">
-        <div className="hero-app-promo-copy">
-          <span className="hero-app-promo-ribbon">
-            <GooglePlayIcon />
-            Now on Google Play
-          </span>
-          <p className="hero-app-promo-title">
-            {personalized ? 'Get the full experience on mobile' : 'Download the app for the best experience'}
-          </p>
-          <p className="hero-app-promo-desc">
-            {personalized
-              ? 'Live caregiver tracking, instant reminders, and faster rebooking — right in your pocket.'
-              : 'OTP login, live tracking, booking history, and timely care updates — faster than the web.'}
-          </p>
-          <ul className="hero-app-promo-perks" aria-label="App benefits">
-            <li>Book in seconds</li>
-            <li>Track your caregiver</li>
-            <li>Manage appointments</li>
-          </ul>
-        </div>
-        <a
-          href={config.clientAppUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hero-app-promo-cta"
-          aria-label="Get Ambimed Healthcare on Google Play"
-        >
-          <img
-            src="/assets/google-play-badge.svg"
-            alt="Get it on Google Play"
-            className="hero-app-promo-badge"
-            width={200}
-            height={60}
-          />
-        </a>
-      </div>
-    </motion.div>
-  )
+function scrollToServices() {
+  document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })
 }
 
 export function Hero() {
   const { user, isAuthenticated, isLoading } = useAuth()
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [paused, setPaused] = useState(false)
+
   const first = user?.firstName?.trim()
   const personalized = isAuthenticated && !isLoading && !!user
+  const slide = heroBannerSlides[activeIndex]
+  const isDesigned = slide.variant === 'designed'
+  const isLightTheme = slide.theme === 'light'
+  const imageClass = slide.imageFocus ? ` hero-banner-image--${slide.imageFocus}` : ''
+
+  const goTo = useCallback((index) => {
+    setActiveIndex((index + heroBannerSlides.length) % heroBannerSlides.length)
+  }, [])
+
+  const next = useCallback(() => goTo(activeIndex + 1), [activeIndex, goTo])
+  const prev = useCallback(() => goTo(activeIndex - 1), [activeIndex, goTo])
+
+  useEffect(() => {
+    if (paused) return
+    const timer = window.setInterval(next, SLIDE_INTERVAL_MS)
+    return () => window.clearInterval(timer)
+  }, [next, paused])
 
   return (
-    <section id="hero" className={`hero${personalized ? ' hero--personalized' : ''}`}>
-      <div className="hero-bg" aria-hidden />
-      <div className="container hero-inner">
-        <motion.div
-          className="hero-content"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          {personalized ? (
-            <>
-              <p className="hero-badge hero-badge--welcome">Welcome back{first ? `, ${first}` : ''}</p>
-              <h1 className="hero-title">
-                Your care hub is <span className="hero-highlight">ready</span>
-              </h1>
-              <p className="hero-desc">
-                Book visits, review upcoming appointments, and manage home care in one place — same trusted Ambimed
-                experience online.
+    <section
+      id="hero"
+      className={`hero hero--banner${personalized ? ' hero--personalized' : ''}`}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
+      <div className="container">
+        <div className={`hero-banner-frame${isLightTheme ? ' hero-banner-frame--light' : ''}`}>
+        <div className="hero-banner-track" aria-hidden>
+          <AnimatePresence mode="sync">
+            <motion.div
+              key={slide.id}
+              className="hero-banner-slide"
+              initial={{ opacity: 0, scale: 1.02 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.85, ease: 'easeInOut' }}
+            >
+              <img
+                src={slide.image}
+                alt={slide.alt || ''}
+                className={`hero-banner-image${imageClass}`}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        <div
+          className={`hero-banner-overlay${
+            isDesigned && !isLightTheme ? ' hero-banner-overlay--photo-left' : ''
+          }${isLightTheme ? ' hero-banner-overlay--light-left' : ''}`}
+          aria-hidden
+        />
+
+        <div className={`hero-banner-content${isLightTheme ? ' hero-banner-content--light' : ''}`}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={slide.id}
+            className="hero-banner-copy"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.45 }}
+          >
+            {personalized ? (
+              <p className="hero-badge hero-badge--welcome hero-badge--on-banner">
+                Welcome back{first ? `, ${first}` : ''}
               </p>
-              <motion.div
-                className="hero-actions"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.45 }}
-              >
-                <Link href="/app/booking" className="btn btn-primary">
-                  Open dashboard
-                </Link>
-                <Link href="/app/booking" className="btn btn-secondary">
-                  Book new care
-                </Link>
-              </motion.div>
-              <HeroAppPromo personalized />
-              <motion.div
-                className="hero-trust-box"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.58 }}
-                role="status"
-                aria-live="polite"
-              >
-                <span className="hero-trust-stat">{config.heroTrustStats.headline}</span>
-                <span className="hero-trust-label">{config.heroTrustStats.subline}</span>
-              </motion.div>
-            </>
-          ) : (
-            <>
-              <p className="hero-badge">Trusted Home Healthcare</p>
-              <h1 className="hero-title">
-                Care when you need it — <span className="hero-highlight">at home</span>
-              </h1>
-              <p className="hero-desc">
-                Elder care, physiotherapy, home nurses, and mother & baby care. Well-trained, well-groomed caregivers.
-                Easy booking, transparent billing.
+            ) : (
+              <p className="hero-badge hero-badge--on-banner">{slide.badge}</p>
+            )}
+            <h1 className="hero-title hero-title--banner">
+              {personalized ? (
+                <>
+                  Your care hub is <span className="hero-highlight">ready</span>
+                </>
+              ) : (
+                <>
+                  {slide.title} <span className="hero-highlight">{slide.highlight}</span>
+                </>
+              )}
+            </h1>
+            {(personalized || slide.description) && (
+              <p className="hero-desc hero-desc--banner">
+                {personalized
+                  ? 'Book visits, track caregivers, and manage home care — on web or the Ambimed app.'
+                  : slide.description}
               </p>
-              <motion.div
-                className="hero-actions"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                <Link href="/app/booking" className="btn btn-primary">
-                  Book care
-                </Link>
-                <a
-                  href="#services"
-                  className="btn btn-secondary"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })
-                  }}
-                >
-                  Our services
-                </a>
-              </motion.div>
-              <HeroAppPromo personalized={false} />
-            </>
-          )}
-        </motion.div>
-        <motion.div
-          className="hero-visual"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+            )}
+            {!personalized && slide.highlights?.length > 0 && (
+              <ul className="hero-banner-highlights">
+                {slide.highlights.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            )}
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="hero-banner-actions">
+          <Link href="/app/booking" className="btn btn-primary btn--banner">
+            Book care
+          </Link>
+          <button type="button" className="btn btn-secondary btn--banner" onClick={scrollToServices}>
+            Our services
+          </button>
+        </div>
+
+        <a
+          href={config.clientAppUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hero-banner-app-download"
+          aria-label="Download Ambimed Healthcare on Google Play"
         >
-          <div className="hero-image-wrap">
-            <img src="/assets/hero-caregiver-home.png" alt="Caregiver welcomed at home by family" />
+          <span className="hero-banner-app-download-icon-wrap" aria-hidden>
+            <GooglePlayIcon />
+          </span>
+          <span className="hero-banner-app-download-text">
+            <span className="hero-banner-app-download-label">Get the Android app</span>
+            <span className="hero-banner-app-download-sub">Track caregivers · Book faster · OTP login</span>
+          </span>
+          <img
+            src="/assets/google-play-badge.svg"
+            alt=""
+            className="hero-banner-app-badge"
+            width={140}
+            height={42}
+          />
+        </a>
+        </div>
+
+        <div className="hero-banner-controls">
+          <button type="button" className="hero-banner-arrow hero-banner-arrow--prev" onClick={prev} aria-label="Previous slide">
+            ‹
+          </button>
+          <div className="hero-banner-dots" role="tablist" aria-label="Hero banner slides">
+            {heroBannerSlides.map((s, i) => (
+              <button
+                key={s.id}
+                type="button"
+                role="tab"
+                aria-selected={i === activeIndex}
+                aria-label={s.title.replace(/\s+/g, ' ')}
+                className={`hero-banner-dot${i === activeIndex ? ' active' : ''}`}
+                onClick={() => goTo(i)}
+              />
+            ))}
           </div>
-          <div className="hero-card">
-            <p className="hero-card-title">{personalized ? 'Signed in · Ambimed' : 'Now on Google Play'}</p>
-            <p className="hero-card-sub">
-              {personalized ? 'Pick up where you left off on web or app.' : 'Book care faster on the Ambimed app'}
-            </p>
-            <div className="hero-card-steps">
-              <span>Tap</span>
-              <span className="arrow">→</span>
-              <span>Confirm</span>
-              <span className="arrow">→</span>
-              <span>Caregiver arrives</span>
-            </div>
-          </div>
-        </motion.div>
+          <button type="button" className="hero-banner-arrow hero-banner-arrow--next" onClick={next} aria-label="Next slide">
+            ›
+          </button>
+        </div>
+
+        <div className="hero-banner-progress" aria-hidden>
+          <motion.div
+            key={`${slide.id}-${paused}`}
+            className="hero-banner-progress-bar"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: paused ? undefined : 1 }}
+            transition={{ duration: SLIDE_INTERVAL_MS / 1000, ease: 'linear' }}
+          />
+        </div>
+        </div>
       </div>
     </section>
   )
