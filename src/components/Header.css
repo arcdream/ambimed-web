@@ -322,23 +322,30 @@
   .nav.desktop {
     display: none !important;
   }
+
   .header-mobile-actions {
     display: flex;
+    gap: 0.35rem;
   }
 
   .header-inner {
     flex-wrap: nowrap;
     align-items: center;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
   }
 
   .logo {
     min-width: 0;
     flex: 1 1 auto;
-    max-width: min(100%, calc(100vw - 7.5rem));
+    max-width: min(100%, calc(100vw - 6.5rem));
+    font-size: 1.15rem;
+    gap: 0.4rem;
   }
 
   .logo-img {
     flex-shrink: 0;
+    height: 34px;
   }
 
   .logo-text {
@@ -346,5 +353,13 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 100%;
+  }
+
+  .header-btn-login--compact {
+    min-height: 36px;
+    height: 36px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8125rem;
+    white-space: nowrap;
   }
 }

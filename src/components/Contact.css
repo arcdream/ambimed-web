@@ -138,7 +138,17 @@
 }
 
 .contact-ref-list--cities li {
-  white-space: nowrap;
+  white-space: normal;
+}
+
+@media (max-width: 899px) {
+  .contact-ref-grid {
+    gap: 2rem;
+  }
+
+  .contact-ref-email {
+    word-break: break-word;
+  }
 }
 
 .contact-ref-list-links li {

@@ -74,6 +74,18 @@
   opacity: 0.85;
 }
 
+@media (max-width: 899px) {
+  .footer-grid {
+    gap: 1.75rem;
+  }
+
+  .footer-bottom {
+    margin-top: 1.5rem;
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+}
+
 @media (min-width: 640px) {
   .footer-grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
 }

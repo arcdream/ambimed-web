@@ -61,6 +61,12 @@
   opacity: 0.8;
 }
 
+@media (max-width: 899px) {
+  .about-inner {
+    gap: 1.5rem;
+  }
+}
+
 @media (min-width: 900px) {
   .about-inner { grid-template-columns: 1fr 1fr; }
 }
