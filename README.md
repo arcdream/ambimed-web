@@ -50,7 +50,22 @@ Open [http://localhost:3000](http://localhost:3000).
 | `/app/history` | Booking history (auth required) |
 | `/app/doctor` | Referral hub (doctor/corporate) |
 | `/terms` | Terms & conditions |
+| `/blog` | Blog index (all articles) |
+| `/blog/[slug]` | Individual blog posts (Markdown, SSG) |
 | `/caregiverapp` | Caregiver app landing |
+
+## Blog (Markdown)
+
+Posts live in `content/blog/*.md` with YAML frontmatter. The site uses **Next.js App Router + gray-matter + remark** to statically generate pages at build time.
+
+**Frontmatter fields:** `title`, `slug`, `date`, `description` (≤160 chars), `tags`, `author`, `coverImage`, `coverImageAlt`
+
+```bash
+# After adding or editing a post, rebuild to publish:
+npm run build
+```
+
+Sitemap is auto-generated at `/sitemap.xml` via `src/app/sitemap.ts` (includes all blog URLs).
 
 ## Stack
 

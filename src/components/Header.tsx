@@ -9,7 +9,7 @@ import { useAuth } from '@/client-app/context/AuthContext'
 
 const LOGO_IMG = '/assets/ambimed-logo.png'
 
-const marketingNavBase = [
+const marketingNavBase: { id: string; label: string; href?: string }[] = [
   { id: 'hero', label: 'Home' },
   { id: 'services', label: 'Services' },
   { id: 'services-pricing', label: 'Our Pricing' },
@@ -19,6 +19,7 @@ const marketingNavBase = [
   { id: 'apps', label: 'Our Apps' },
   { id: 'team', label: 'Team' },
   { id: 'achievements', label: 'Recognition' },
+  { id: 'blog', label: 'Blog', href: '/blog' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -84,6 +85,13 @@ export function Header() {
   const marketingNavHref = (id: string) => (id === 'hero' ? '/' : `/#${id}`)
 
   const renderMarketingNavLink = (link: (typeof marketingNavBase)[number], onNavigate?: () => void) => {
+    if (link.href) {
+      return (
+        <Link key={link.id} href={link.href} className="nav-link" onClick={onNavigate}>
+          {link.label}
+        </Link>
+      )
+    }
     if (useMarketingHashLinks) {
       return (
         <Link
