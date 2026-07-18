@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { Reveal } from '@/components/motion/Reveal'
 import { team } from '../data/team'
 import './Team.css'
 
@@ -8,31 +8,20 @@ export function Team() {
   return (
     <section id="team" className="section section-team">
       <div className="container">
-        <motion.p
-          className="section-subtitle"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <Reveal as="p" className="section-subtitle">
           Who we are
-        </motion.p>
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        </Reveal>
+        <Reveal as="h2" className="section-title">
           Our team
-        </motion.h2>
+        </Reveal>
         <div className="team-grid">
           {team.map((member, i) => (
-            <motion.article
+            <Reveal
               key={member.id}
+              as="article"
               className="team-card"
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
+              delay={i * 0.08}
+              y={25}
               whileHover={{ y: -4 }}
             >
               <div className="team-photo-wrap">
@@ -49,7 +38,7 @@ export function Team() {
               <h3 className="team-name">{member.name}</h3>
               <p className="team-role">{member.role}</p>
               <p className="team-bio">{member.bio}</p>
-            </motion.article>
+            </Reveal>
           ))}
         </div>
       </div>

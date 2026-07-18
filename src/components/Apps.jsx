@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { Reveal } from '@/components/motion/Reveal'
 import { config } from '../data/config'
 import './Apps.css'
 
@@ -8,40 +8,19 @@ export function Apps() {
   return (
     <section id="apps" className="section section-apps">
       <div className="container">
-        <motion.p
-          className="section-subtitle"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <Reveal as="p" className="section-subtitle">
           Mobile Apps
-        </motion.p>
+        </Reveal>
 
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <Reveal as="h2" className="section-title">
           Our Apps
-        </motion.h2>
+        </Reveal>
 
-        <motion.h3
-          className="section-subheading"
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <Reveal as="h3" className="section-subheading" delay={0.05} y={12}>
           Book healthcare services from your phone
-        </motion.h3>
+        </Reveal>
 
-        <motion.div
-          className="apps-grid"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          {/* Featured Client App */}
+        <Reveal className="apps-grid" y={20}>
           <div className="app-card featured">
             <span className="app-badge">TO BOOK SERVICES</span>
 
@@ -74,7 +53,7 @@ export function Apps() {
               />
             </a>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

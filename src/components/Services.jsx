@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { Reveal } from '@/components/motion/Reveal'
 import { services } from '../data/services'
 import './Services.css'
 
@@ -16,23 +16,12 @@ export function Services() {
   return (
     <section id="services" className="section section-services">
       <div className="container">
-        <motion.p
-          className="section-subtitle"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <Reveal as="p" className="section-subtitle">
           What we offer
-        </motion.p>
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.05 }}
-        >
+        </Reveal>
+        <Reveal as="h2" className="section-title" delay={0.05}>
           Our services
-        </motion.h2>
+        </Reveal>
         <div className="services-grid">
           {services.map((item, i) => (
             <Link
@@ -41,12 +30,11 @@ export function Services() {
               className="service-card-link"
               aria-label={`Learn about ${item.title}`}
             >
-              <motion.article
+              <Reveal
+                as="article"
                 className="service-card"
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
+                delay={i * 0.08}
+                y={25}
                 whileHover={{ y: -4 }}
               >
                 {item.image && (
@@ -58,7 +46,7 @@ export function Services() {
                 <h3 className="service-title">{item.title}</h3>
                 <p className="service-desc">{item.description}</p>
                 <span className="service-card-cta">Learn more →</span>
-              </motion.article>
+              </Reveal>
             </Link>
           ))}
         </div>

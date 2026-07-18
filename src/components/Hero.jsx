@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useAuth } from '@/client-app/context/AuthContext'
 import { config } from '@/data/config'
 import { heroBannerSlides } from '@/data/heroBanner'
@@ -61,22 +61,12 @@ export function Hero() {
       <div className="container">
         <div className={`hero-banner-frame${isLightTheme ? ' hero-banner-frame--light' : ''}`}>
         <div className="hero-banner-track" aria-hidden>
-          <AnimatePresence mode="sync">
-            <motion.div
-              key={slide.id}
-              className="hero-banner-slide"
-              initial={{ opacity: 0, scale: 1.02 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.85, ease: 'easeInOut' }}
-            >
-              <img
-                src={slide.image}
-                alt={slide.alt || ''}
-                className={`hero-banner-image${imageClass}`}
-              />
-            </motion.div>
-          </AnimatePresence>
+          <img
+            key={slide.id}
+            src={slide.image}
+            alt={slide.alt || ''}
+            className={`hero-banner-image${imageClass}`}
+          />
         </div>
 
         <div
@@ -87,15 +77,7 @@ export function Hero() {
         />
 
         <div className={`hero-banner-content${isLightTheme ? ' hero-banner-content--light' : ''}`}>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={slide.id}
-            className="hero-banner-copy"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.45 }}
-          >
+        <div key={slide.id} className="hero-banner-copy">
             {personalized ? (
               <p className="hero-badge hero-badge--welcome hero-badge--on-banner">
                 Welcome back{first ? `, ${first}` : ''}
@@ -128,8 +110,7 @@ export function Hero() {
                 ))}
               </ul>
             )}
-          </motion.div>
-        </AnimatePresence>
+        </div>
 
         <div className="hero-banner-actions">
           <Link href="/app/booking" className="btn btn-primary btn--banner">

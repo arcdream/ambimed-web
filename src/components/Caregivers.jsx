@@ -1,43 +1,22 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { Reveal } from '@/components/motion/Reveal'
 import './Caregivers.css'
 
 export function Caregivers() {
   return (
     <section id="caregivers" className="section section-caregivers">
       <div className="container">
-        <motion.p
-          className="section-subtitle"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <Reveal as="p" className="section-subtitle">
           Our people
-        </motion.p>
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        </Reveal>
+        <Reveal as="h2" className="section-title">
           Well-trained, well-groomed caregivers
-        </motion.h2>
-        <motion.h3
-          className="section-subheading"
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.05 }}
-        >
+        </Reveal>
+        <Reveal as="h3" className="section-subheading" delay={0.05} y={12}>
           What we look for in every caregiver
-        </motion.h3>
-        <motion.div
-          className="caregivers-content"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        </Reveal>
+        <Reveal className="caregivers-content" y={20}>
           <div className="caregivers-image-wrap">
             <img src="/assets/elder-care-home.png" alt="Caregiver assisting elderly client at home" />
           </div>
@@ -52,7 +31,7 @@ export function Caregivers() {
             <li>Compassionate and respectful</li>
             <li>Skilled in elder care, nursing, physio, and mother & baby care</li>
           </ul>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

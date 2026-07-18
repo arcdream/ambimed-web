@@ -1,8 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Reveal } from '@/components/motion/Reveal'
 import { config } from '../data/config'
 import { services } from '../data/services'
 
@@ -21,12 +21,7 @@ export function Footer() {
   const quickLinkHref = (id) => `/#${id}`
 
   return (
-    <motion.footer
-      className="footer"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-    >
+    <Reveal as="footer" className="footer" y={0}>
       <div className="container footer-grid">
         <div className="footer-brand">
           <span className="logo-text">
@@ -84,6 +79,6 @@ export function Footer() {
           <p>© {new Date().getFullYear()} Ambimed Healthcare. Motivated by serving society.</p>
         </div>
       </div>
-    </motion.footer>
+    </Reveal>
   )
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Reveal } from '@/components/motion/Reveal'
 import './AchievementsSection.css'
 
 const CERT_DPIIT = '/assets/certificates/dpiit-startup-india.png'
@@ -52,44 +53,25 @@ export function AchievementsSection() {
   return (
     <section id="achievements" className="section section-achievements" aria-labelledby="achievements-heading">
       <div className="container">
-        <motion.p
-          className="section-subtitle"
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <Reveal as="p" className="section-subtitle" y={12}>
           Trust & credibility
-        </motion.p>
-        <motion.h2
-          id="achievements-heading"
-          className="section-title"
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.04 }}
-        >
+        </Reveal>
+        <Reveal as="h2" id="achievements-heading" className="section-title" delay={0.04} y={12}>
           Achievements &amp; recognition
-        </motion.h2>
-        <motion.p
-          className="achievements-lead"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.08 }}
-        >
+        </Reveal>
+        <Reveal as="p" className="achievements-lead" delay={0.08} y={10}>
           We are proud to carry official startup recognition at the national and state level—reflecting our
           commitment to compliant, technology-enabled home healthcare.
-        </motion.p>
+        </Reveal>
 
         <div className="achievements-grid">
           {items.map((item, i) => (
-            <motion.article
+            <Reveal
               key={item.id}
+              as="article"
               className="achievements-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-32px' }}
-              transition={{ delay: i * 0.08 }}
+              delay={i * 0.08}
+              y={20}
             >
               <button
                 type="button"
@@ -104,7 +86,7 @@ export function AchievementsSection() {
               <p className="achievements-card__subtitle">{item.subtitle}</p>
               <p className="achievements-card__body">{item.body}</p>
               <p className="achievements-card__meta">{item.meta}</p>
-            </motion.article>
+            </Reveal>
           ))}
         </div>
       </div>
