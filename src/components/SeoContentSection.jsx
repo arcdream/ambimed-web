@@ -1,12 +1,29 @@
 'use client'
 
 import Link from 'next/link'
+import { MapPin, Receipt, ShieldCheck } from 'lucide-react'
 import { Reveal } from '@/components/motion/Reveal'
 import { homeSeoArticle } from '../data/homePageSeoCopy'
 import './SeoContentSection.css'
 
+const STAT_ICONS = {
+  map: MapPin,
+  shield: ShieldCheck,
+  receipt: Receipt,
+}
+
+function renderParagraph(text) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g)
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>
+    }
+    return part
+  })
+}
+
 export function SeoContentSection() {
-  const { eyebrow, title, lead, sections } = homeSeoArticle
+  const { eyebrow, title, lead, stats, sections } = homeSeoArticle
 
   return (
     <section
@@ -21,27 +38,57 @@ export function SeoContentSection() {
         <Reveal as="h2" id="seo-article-heading" className="section-title" delay={0.05}>
           {title}
         </Reveal>
-        <Reveal as="article" className="seo-article-body" delay={0.1} y={20}>
-          <p className="seo-article-lead">{lead}</p>
-          {sections.map((block) => (
-            <div key={block.id} className="seo-article-block">
-              <h3 id={`seo-h3-${block.id}`} className="seo-article-h3">
-                {block.heading}
-              </h3>
-              {block.paragraphs.map((p, i) => (
-                <p key={i} className="seo-article-p">
-                  {p}
-                </p>
-              ))}
-            </div>
+        <Reveal as="p" className="seo-article-lead" delay={0.08}>
+          {renderParagraph(lead)}
+        </Reveal>
+
+        <Reveal className="seo-stats-strip" delay={0.1} y={16}>
+          {stats.map((stat) => {
+            const Icon = STAT_ICONS[stat.icon] ?? ShieldCheck
+            return (
+              <div key={stat.label} className="seo-stat-card">
+                <span className="seo-stat-card__icon-wrap" aria-hidden>
+                  <Icon className="seo-stat-card__icon" strokeWidth={1.75} />
+                </span>
+                <p className="seo-stat-card__value">{stat.value}</p>
+                <p className="seo-stat-card__label">{stat.label}</p>
+              </div>
+            )
+          })}
+        </Reveal>
+
+        <div className="seo-article-sections">
+          {sections.map((block, i) => (
+            <Reveal
+              key={block.id}
+              className={`seo-article-row seo-article-row--${block.layout}`}
+              delay={i * 0.05}
+              y={24}
+            >
+              <div className="seo-article-row__copy">
+                <h3 id={`seo-h3-${block.id}`} className="seo-article-h3">
+                  {block.heading}
+                </h3>
+                {block.paragraphs.map((p, j) => (
+                  <p key={j} className="seo-article-p">
+                    {renderParagraph(p)}
+                  </p>
+                ))}
+              </div>
+              <div className="seo-article-row__visual">
+                <div className="seo-article-image-wrap">
+                  <img src={block.image} alt={block.imageAlt} loading="lazy" />
+                </div>
+              </div>
+            </Reveal>
           ))}
-          <p className="seo-article-cta">
-            <Link href="/app/booking" className="seo-article-book-link">
-              Book home care online
-            </Link>{' '}
-            or scroll to{' '}
-            <a href="#contact">contact us</a> for a tailored quote.
-          </p>
+        </div>
+
+        <Reveal as="p" className="seo-article-cta" delay={0.05} y={12}>
+          <Link href="/app/booking" className="seo-article-book-link">
+            Book home care online
+          </Link>{' '}
+          or scroll to <a href="#contact">contact us</a> for a tailored quote.
         </Reveal>
       </div>
     </section>

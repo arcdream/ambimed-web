@@ -9,6 +9,7 @@ import { services } from '../data/services'
 const quickLinksBase = [
   { id: 'services', label: 'Services' },
   { id: 'about', label: 'About' },
+  { href: '/blog', label: 'Blog' },
   { id: 'contact', label: 'Contact' },
   { id: 'apps', label: 'Our Apps' },
 ]
@@ -35,8 +36,12 @@ export function Footer() {
           </p>
           <ul aria-labelledby="footer-quick-links-heading">
             {quickLinks.map((link) => (
-              <li key={link.id}>
-                {isHomePage ? (
+              <li key={link.href ?? link.id}>
+                {link.href ? (
+                  <Link href={link.href} className="footer-link footer-link--anchor">
+                    {link.label}
+                  </Link>
+                ) : isHomePage ? (
                   <button
                     type="button"
                     className="footer-link"
@@ -75,8 +80,16 @@ export function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <div className="container">
+        <div className="container footer-bottom-inner">
           <p>© {new Date().getFullYear()} Ambimed Healthcare. Motivated by serving society.</p>
+          <nav className="footer-legal" aria-label="Legal">
+            <Link href={config.privacyPolicyUrl} className="footer-legal-link">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="footer-legal-link">
+              Terms &amp; Conditions
+            </Link>
+          </nav>
         </div>
       </div>
     </Reveal>

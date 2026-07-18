@@ -1,8 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { Check } from 'lucide-react'
 import { Reveal } from '@/components/motion/Reveal'
+import { config } from '@/data/config'
+import { homePricingPlans, PRICING_FOOTNOTE } from '@/data/homePricing'
 import { metadataService } from '@/client-app/services/metadataService'
 import { fetchDefaultDiscount } from '@/client-app/services/discountService'
 import { isSupabaseConfigured } from '@/client-app/lib/supabase'
@@ -17,41 +20,35 @@ function formatInr(n) {
   }).format(n)
 }
 
-function discountedAmount(price, discountPct) {
-  if (!discountPct || discountPct <= 0) return price
-  return Math.round((price * (100 - discountPct)) / 100)
+function monthlyFromDaily(daily) {
+  return Math.round(daily * 30)
 }
 
 export function ServicesPricingSection() {
-  const [services, setServices] = useState([])
-  const [discountPct, setDiscountPct] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [liveServices, setLiveServices] = useState([])
+  const [discountPct, setDiscountPct] = useState(0)
+  const [liveLoaded, setLiveLoaded] = useState(false)
 
   useEffect(() => {
     let cancelled = false
     async function load() {
       if (!isSupabaseConfigured()) {
-        setLoading(false)
-        setError(true)
+        setLiveLoaded(true)
         return
       }
-      setLoading(true)
-      setError(false)
       try {
         const [svc, disc] = await Promise.all([
           metadataService.fetchServicesMetadata(),
           fetchDefaultDiscount(),
         ])
         if (cancelled) return
-        setServices(svc ?? [])
+        setLiveServices(svc ?? [])
         const pct = disc?.discountPct ?? 0
         setDiscountPct(Number.isFinite(pct) ? pct : 0)
       } catch (e) {
         console.error(e)
-        if (!cancelled) setError(true)
       } finally {
-        if (!cancelled) setLoading(false)
+        if (!cancelled) setLiveLoaded(true)
       }
     }
     load()
@@ -60,7 +57,35 @@ export function ServicesPricingSection() {
     }
   }, [])
 
-  const showDiscount = discountPct != null && discountPct > 0
+  const plans = useMemo(() => {
+    return homePricingPlans.map((plan) => {
+      const live = liveServices.find(
+        (s) => String(s.id) === plan.bookingServiceTypeId || s.slug === plan.id,
+      )
+      let daily = plan.startingDailyInr
+      if (live?.subtypes?.length) {
+        const prices = live.subtypes.map((sub) => sub.price).filter((p) => p > 0)
+        if (prices.length) daily = Math.min(...prices)
+      }
+      const discountedDaily =
+        discountPct > 0 ? Math.round((daily * (100 - discountPct)) / 100) : daily
+
+      return {
+        ...plan,
+        daily,
+        discountedDaily,
+        monthly: monthlyFromDaily(daily),
+        discountedMonthly: monthlyFromDaily(discountedDaily),
+        hasLivePrice: Boolean(live?.subtypes?.length),
+        bookHref: `/app/book/${plan.bookingServiceTypeId}`,
+      }
+    })
+  }, [liveServices, discountPct])
+
+  const showDiscount = discountPct > 0
+  const waHref = config.contact.whatsapp
+    ? `https://wa.me/${String(config.contact.whatsapp).replace(/\D/g, '')}?text=${encodeURIComponent('Hi Ambimed, I need a custom home healthcare quote.')}`
+    : '#contact'
 
   return (
     <section id="services-pricing" className="section section-services-pricing" aria-labelledby="services-pricing-heading">
@@ -76,137 +101,97 @@ export function ServicesPricingSection() {
               </span>
             </Reveal>
           )}
-          <Reveal
-            className="services-pricing-min-booking-banner"
-            delay={showDiscount ? 0.06 : 0}
-            y={8}
-          >
-            Minimum Booking 1 Month
+          <Reveal className="services-pricing-min-booking-banner" y={8}>
+            Minimum booking 1 month · Transparent daily rates
           </Reveal>
           <Reveal as="p" className="section-subtitle services-pricing-subtitle" y={12}>
             Plans &amp; savings
           </Reveal>
-          <Reveal
-            as="h2"
-            id="services-pricing-heading"
-            className="section-title services-pricing-title"
-            delay={0.04}
-            y={14}
-          >
+          <Reveal as="h2" id="services-pricing-heading" className="section-title services-pricing-title" y={14}>
             Services, prices &amp; discounts
           </Reveal>
-          <Reveal as="p" className="services-pricing-lead" delay={0.08} y={12}>
-            Real numbers from our catalogue—no hidden fees. Save more when you book with our current
-            offers.
+          <Reveal as="p" className="services-pricing-lead" y={12}>
+            Starting rates for each service line — published upfront, no hidden fees. Live catalogue prices shown when
+            available.
           </Reveal>
         </div>
 
-        {loading && (
-          <div className="services-pricing-skeleton" aria-busy="true" aria-label="Loading prices">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="services-pricing-skeleton-card" />
-            ))}
-          </div>
-        )}
+        <div className="home-pricing-grid">
+          {plans.map((plan, i) => (
+            <Reveal key={plan.id} as="article" className="home-pricing-card" delay={i * 0.06} y={24}>
+              <header className="home-pricing-card__head">
+                <h3 className="home-pricing-card__title">{plan.title}</h3>
+                {plan.hasLivePrice && liveLoaded ? (
+                  <span className="home-pricing-card__live-badge">Live rate</span>
+                ) : null}
+              </header>
 
-        {!loading && error && (
-          <p className="services-pricing-fallback">
-            Pricing is loading from our system. For the latest rates and offers,{' '}
-            <a href="#contact">contact us</a> or open booking to see live plans.
-          </p>
-        )}
-
-        {!loading && !error && services.length === 0 && (
-          <p className="services-pricing-fallback">
-            Service plans will appear here once configured. <a href="#contact">Get in touch</a> for a
-            quote.
-          </p>
-        )}
-
-        {!loading && !error && services.length > 0 && (
-          <div className="services-pricing-grid">
-            {services.map((svc, si) => {
-              const subtypes = svc.subtypes ?? []
-              return (
-                <Reveal
-                  key={svc.id}
-                  as="article"
-                  className="services-pricing-card"
-                  delay={si * 0.06}
-                  y={28}
-                >
-                  <div className="services-pricing-card__top">
-                    <h3 className="services-pricing-card__title">{svc.name}</h3>
-                    {svc.description ? (
-                      <p className="services-pricing-card__desc">{svc.description}</p>
-                    ) : null}
-                  </div>
-                  {subtypes.length === 0 ? (
-                    <div className="services-pricing-card__empty">
-                      <span>Flexible plans — pick duration when you book.</span>
-                      <Link className="services-pricing-book" href={`/app/book/${svc.id}`}>
-                        View plans &amp; book
-                      </Link>
-                    </div>
+              <div className="home-pricing-card__price-block">
+                <p className="home-pricing-card__label">Starting from</p>
+                <p className="home-pricing-card__price">
+                  {showDiscount && plan.discountedMonthly < plan.monthly ? (
+                    <>
+                      <span className="home-pricing-card__strike">{formatInr(plan.monthly)}</span>
+                      <span className="home-pricing-card__amount">{formatInr(plan.discountedMonthly)}</span>
+                    </>
                   ) : (
-                    <ul className="services-pricing-lines">
-                      {subtypes.map((sub) => {
-                        const orig = sub.price
-                        const deal = discountedAmount(orig, discountPct ?? 0)
-                        return (
-                          <li key={sub.id} className="services-pricing-line">
-                            <div className="services-pricing-line__meta">
-                              <span className="services-pricing-line__name">{sub.userFriendlyName}</span>
-                              <span className="services-pricing-line__detail">
-                                {sub.shiftTypeName}
-                                {sub.shiftDurationHours ? ` · ${sub.shiftDurationHours}h` : ''}
-                              </span>
-                            </div>
-                            <div className="services-pricing-line__price">
-                              {showDiscount && deal < orig ? (
-                                <>
-                                  <span className="services-pricing-line__strike">
-                                    {formatInr(orig)}
-                                  </span>
-                                  <span className="services-pricing-line__deal">
-                                    {formatInr(deal)}
-                                  </span>
-                                  <span className="services-pricing-line__badge">{discountPct}% off</span>
-                                </>
-                              ) : (
-                                <span className="services-pricing-line__deal">{formatInr(orig)}</span>
-                              )}
-                              <span className="services-pricing-line__unit">/ day</span>
-                            </div>
-                          </li>
-                        )
-                      })}
-                    </ul>
+                    <span className="home-pricing-card__amount">{formatInr(plan.monthly)}</span>
                   )}
-                  {subtypes.length > 0 && (
-                    <div className="services-pricing-card__foot">
-                      <Link className="services-pricing-book" href={`/app/book/${svc.id}`}>
-                        Book {svc.name}
-                      </Link>
-                    </div>
-                  )}
-                </Reveal>
-              )
-            })}
-          </div>
-        )}
+                  <span className="home-pricing-card__period">/month*</span>
+                </p>
+                <p className="home-pricing-card__daily">
+                  {formatInr(showDiscount && plan.discountedDaily < plan.daily ? plan.discountedDaily : plan.daily)}
+                  /day equivalent
+                </p>
+              </div>
 
-        {!loading && !error && services.length > 0 && (
-          <>
-            <Reveal as="p" className="services-pricing-footnote" y={0}>
-              Prices reflect our catalogue; final totals may vary by dates and add-ons. Discount applies
-              where eligible per our terms.
+              <ul className="home-pricing-card__includes">
+                {plan.includes.map((item) => (
+                  <li key={item}>
+                    <Check className="home-pricing-card__check" strokeWidth={2.5} aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="home-pricing-card__actions">
+                <Link href={plan.bookHref} className="btn btn-primary home-pricing-card__btn">
+                  Book online
+                </Link>
+                <Link href={`/services/${plan.id}`} className="home-pricing-card__link">
+                  Service details →
+                </Link>
+              </div>
             </Reveal>
-            <Reveal as="p" className="services-pricing-caregiver-note" y={0}>
-              Prices may vary slightly based on the experience and qualifications of the caregiver.
-            </Reveal>
-          </>
-        )}
+          ))}
+        </div>
+
+        <Reveal className="home-pricing-custom-quote" y={16}>
+          <div className="home-pricing-custom-quote__inner">
+            <div>
+              <h3 className="home-pricing-custom-quote__title">Need a custom quote?</h3>
+              <p className="home-pricing-custom-quote__text">
+                Multi-service plans, 24-hour elder care, or specialised nursing — we&apos;ll confirm scope and pricing
+                before you commit.
+              </p>
+            </div>
+            <div className="home-pricing-custom-quote__ctas">
+              <a href={waHref} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                Get quote on WhatsApp
+              </a>
+              <a href="#contact" className="btn btn-secondary">
+                Contact us
+              </a>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal as="p" className="services-pricing-footnote" y={0}>
+          {PRICING_FOOTNOTE}
+        </Reveal>
+        <Reveal as="p" className="services-pricing-caregiver-note" y={0}>
+          Prices may vary based on caregiver experience, qualifications, and city.
+        </Reveal>
       </div>
     </section>
   )

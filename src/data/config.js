@@ -56,5 +56,5 @@ export const config = {
     linkedin: 'https://www.linkedin.com/company/ambimed-healthcare/',
   },
   /** Privacy — replace with your live policy page when ready */
-  privacyPolicyUrl: 'mailto:info@ambimed.in?subject=Privacy%20Policy',
+  privacyPolicyUrl: '/privacy-policy',
 }

@@ -3,7 +3,6 @@
 import { Reveal } from '@/components/motion/Reveal'
 import Link from 'next/link'
 import { config } from '../data/config'
-import { TERMS_PDF_URL } from '../data/legal'
 import './Contact.css'
 
 const LOGO_IMG = '/assets/ambimed-logo.png'
@@ -108,14 +107,14 @@ export function Contact() {
               <h3 className="contact-ref-heading">Company</h3>
               <ul className="contact-ref-list contact-ref-list-links">
                 <li>
-                  <a href={config.privacyPolicyUrl} className="contact-ref-company-link">
+                  <Link href={config.privacyPolicyUrl} className="contact-ref-company-link">
                     Privacy Policy
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href={TERMS_PDF_URL} className="contact-ref-company-link" target="_blank" rel="noopener noreferrer">
+                  <Link href="/terms" className="contact-ref-company-link">
                     Terms &amp; Conditions
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <Link href="/app/booking" className="contact-ref-company-link">

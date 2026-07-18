@@ -2,15 +2,9 @@
 
 import Link from 'next/link'
 import { Reveal } from '@/components/motion/Reveal'
+import { ServiceIcon } from '@/components/ServiceIcon'
 import { services } from '../data/services'
 import './Services.css'
-
-const icons = {
-  elder: '👴',
-  physio: '🏥',
-  nurse: '🩺',
-  baby: '👶',
-}
 
 export function Services() {
   return (
@@ -35,14 +29,14 @@ export function Services() {
                 className="service-card"
                 delay={i * 0.08}
                 y={25}
-                whileHover={{ y: -4 }}
+                whileHover={{ y: -6 }}
               >
                 {item.image && (
                   <div className="service-card-image-wrap">
                     <img src={item.image} alt="" />
                   </div>
                 )}
-                <span className="service-icon" aria-hidden>{icons[item.icon] || '•'}</span>
+                <ServiceIcon name={item.icon} />
                 <h3 className="service-title">{item.title}</h3>
                 <p className="service-desc">{item.description}</p>
                 <span className="service-card-cta">Learn more →</span>
