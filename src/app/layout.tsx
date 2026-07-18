@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { DM_Sans, Source_Serif_4 } from 'next/font/google'
 import '@/index.css'
 import '@/mobile.css'
+import { getSupabaseEnv } from '@/lib/supabase-env'
 import { Providers } from '@/providers/Providers'
 
 const dmSans = DM_Sans({
@@ -31,10 +32,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const supabaseConfig = getSupabaseEnv()
+
   return (
     <html lang="en">
       <body className={`${dmSans.variable} ${sourceSerif.variable}`}>
-        <Providers>{children}</Providers>
+        <Providers supabaseConfig={supabaseConfig}>{children}</Providers>
       </body>
     </html>
   )
