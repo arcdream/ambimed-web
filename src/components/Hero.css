@@ -309,8 +309,8 @@
     padding-top: calc(4.75rem + env(safe-area-inset-top, 0px));
     padding-left: max(1.125rem, env(safe-area-inset-left, 0px));
     padding-right: max(1.125rem, env(safe-area-inset-right, 0px));
-    padding-bottom: 0.5rem;
-    background: linear-gradient(180deg, #fff 0%, #fafcff 55%, #fff 100%);
+    padding-bottom: 0.75rem;
+    background: linear-gradient(180deg, #fff 0%, #fafcff 100%);
   }
 
   .hero-simple__grid {
