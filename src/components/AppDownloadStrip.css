@@ -1,0 +1,155 @@
+/* App download strip — below hero, aligned with hero-simple theme */
+.app-strip {
+  --app-strip-primary: #1565d8;
+  --app-strip-secondary: #0b3b8c;
+  --app-strip-accent: #eef6ff;
+  --app-strip-muted: #475569;
+
+  padding: 0 1rem 1.5rem;
+  background: linear-gradient(180deg, #fafcff 0%, #ffffff 100%);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+.app-strip__container {
+  max-width: 1200px;
+}
+
+.app-strip__card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgba(21, 101, 216, 0.1);
+  border-left: 3px solid var(--app-strip-primary);
+  box-shadow:
+    0 4px 24px rgba(15, 23, 42, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+}
+
+.app-strip__copy {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.app-strip__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.app-strip__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 10px;
+  color: var(--app-strip-primary);
+  background: var(--app-strip-accent);
+  border: 1px solid rgba(21, 101, 216, 0.1);
+}
+
+.app-strip__icon-wrap svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.app-strip__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--app-strip-secondary);
+}
+
+.app-strip__sub {
+  display: none;
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--app-strip-muted);
+}
+
+.app-strip__actions {
+  display: flex;
+  flex-shrink: 0;
+  padding-top: 0.15rem;
+  border-top: 1px solid rgba(21, 101, 216, 0.08);
+}
+
+.app-strip__badge-link {
+  display: inline-flex;
+  line-height: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.app-strip__badge-link:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+.app-strip__badge {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
+@media (min-width: 480px) {
+  .app-strip__sub {
+    display: block;
+  }
+
+  .app-strip__actions {
+    padding-top: 0;
+    border-top: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .app-strip {
+    padding-bottom: 1.75rem;
+  }
+
+  .app-strip__card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 0.9rem 1.25rem;
+  }
+
+  .app-strip__title {
+    font-size: 0.9875rem;
+  }
+
+  .app-strip__sub {
+    font-size: 0.8125rem;
+  }
+
+  .app-strip__actions {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .app-strip__badge {
+    height: 38px;
+  }
+}
+
+@media (max-width: 767px) {
+  .app-strip {
+    padding-left: max(1.125rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1.125rem, env(safe-area-inset-right, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-strip__badge-link:hover {
+    transform: none;
+  }
+}

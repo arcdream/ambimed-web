@@ -2,10 +2,12 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Calendar, Heart, Tag } from 'lucide-react'
+import { ArrowRight, Heart, ShieldCheck, Tag } from 'lucide-react'
 import { Reveal } from '@/components/motion/Reveal'
+import { CallCareButton } from '@/components/CallCareButton'
 import { ServiceIcon } from '@/components/ServiceIcon'
 import { config } from '@/data/config'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import {
   homePricingPlans,
   PRICING_CAREGIVER_NOTE,
@@ -16,6 +18,7 @@ import { metadataService } from '@/client-app/services/metadataService'
 import { fetchDefaultDiscount } from '@/client-app/services/discountService'
 import { isSupabaseConfigured } from '@/client-app/lib/supabase'
 import './ServicesPricingSection.css'
+import '@/components/CallCareButton.css'
 
 function formatInr(n) {
   return new Intl.NumberFormat('en-IN', {
@@ -74,7 +77,8 @@ function buildTiersFromFallback(fallbackTiers, discountPct) {
   })
 }
 
-export function ServicesPricingSection() {
+export function ServicesPricingSection({ embedded = false }) {
+  const loginBookingDisabled = isLoginAndBookingDisabled()
   const [liveServices, setLiveServices] = useState([])
   const [discountPct, setDiscountPct] = useState(DEFAULT_DISCOUNT_PCT)
   const [liveLoaded, setLiveLoaded] = useState(false)
@@ -152,24 +156,31 @@ export function ServicesPricingSection() {
     : '#contact'
 
   return (
-    <section id="services-pricing" className="section section-services-pricing" aria-labelledby="services-pricing-heading">
+    <section
+      id={embedded ? undefined : 'services-pricing'}
+      className={`section section-services-pricing${embedded ? ' section-services-pricing--embedded' : ''}`}
+      aria-labelledby={embedded ? undefined : 'services-pricing-heading'}
+    >
       <div className="container services-pricing-inner">
-        <header className="services-pricing-header">
-          <Reveal className="services-pricing-eyebrow-pill" y={0}>
-            Plans &amp; savings
-          </Reveal>
-          <Reveal as="h2" id="services-pricing-heading" className="services-pricing-title" y={10}>
-            Services and Tariffs
-          </Reveal>
-          <Reveal as="p" className="services-pricing-lead" y={12}>
-            Transparent pricing. Trusted care. Save more with our exclusive offers.
-          </Reveal>
-          <Reveal className="services-pricing-divider" y={8} aria-hidden>
-            <span className="services-pricing-divider__line" />
-            <Heart className="services-pricing-divider__heart" strokeWidth={1.75} />
-            <span className="services-pricing-divider__line" />
-          </Reveal>
-        </header>
+        {!embedded ? (
+          <header className="services-pricing-header">
+            <Reveal className="services-pricing-eyebrow-pill" y={0}>
+              <Tag className="services-pricing-eyebrow-pill__icon" strokeWidth={2} aria-hidden />
+              Plans &amp; savings
+            </Reveal>
+            <Reveal as="h2" id="services-pricing-heading" className="services-pricing-title" y={10}>
+              Services and Tariffs
+            </Reveal>
+            <Reveal as="p" className="services-pricing-lead" y={12}>
+              Transparent pricing. Trusted care. Save more with our exclusive offers.
+            </Reveal>
+            <Reveal className="services-pricing-divider" y={8} aria-hidden>
+              <span className="services-pricing-divider__line" />
+              <Heart className="services-pricing-divider__heart" strokeWidth={1.75} />
+              <span className="services-pricing-divider__line" />
+            </Reveal>
+          </header>
+        ) : null}
 
         <div className="services-pricing-grid">
           {plans.map((plan, i) => (
@@ -238,43 +249,24 @@ export function ServicesPricingSection() {
               ) : null}
 
               <div className="services-pricing-card__foot">
-                <Link href={plan.bookHref} className="services-pricing-book">
-                  Book {plan.shortTitle}
-                  <ArrowRight className="services-pricing-book__arrow" strokeWidth={2.5} aria-hidden />
-                </Link>
+                {!loginBookingDisabled && (
+                  <Link href={plan.bookHref} className="services-pricing-book">
+                    Book {plan.shortTitle}
+                    <ArrowRight className="services-pricing-book__arrow" strokeWidth={2.5} aria-hidden />
+                  </Link>
+                )}
                 <Link href={plan.serviceHref} className="services-pricing-details-link">
                   View service details
+                  <ArrowRight className="services-pricing-details-link__arrow" strokeWidth={2.25} aria-hidden />
                 </Link>
               </div>
             </Reveal>
           ))}
         </div>
 
-        <Reveal className="services-pricing-info-strip" y={16}>
-          <div className="services-pricing-info-card services-pricing-info-card--offer">
-            <span className="services-pricing-info-card__icon-wrap" aria-hidden>
-              <Tag strokeWidth={2} />
-            </span>
-            <div>
-              <p className="services-pricing-info-card__title">
-                {showDiscount ? `Up to ${displayDiscount}% OFF on eligible bookings` : 'Exclusive offers on eligible bookings'}
-              </p>
-              <p className="services-pricing-info-card__text">
-                Save more when you book with our current offers.
-              </p>
-            </div>
-          </div>
-          <div className="services-pricing-info-card services-pricing-info-card--booking">
-            <span className="services-pricing-info-card__icon-wrap" aria-hidden>
-              <Calendar strokeWidth={2} />
-            </span>
-            <div>
-              <p className="services-pricing-info-card__title">Minimum booking: 1 month</p>
-              <p className="services-pricing-info-card__text">
-                All services require a minimum booking of 1 month.
-              </p>
-            </div>
-          </div>
+        <Reveal className="services-pricing-trust" y={16}>
+          <ShieldCheck className="services-pricing-trust__icon" strokeWidth={2} aria-hidden />
+          <span>Trusted care. Verified professionals. No hidden charges.</span>
         </Reveal>
 
         <Reveal className="services-pricing-custom-quote" y={12}>
@@ -287,12 +279,10 @@ export function ServicesPricingSection() {
               </p>
             </div>
             <div className="services-pricing-custom-quote__ctas">
-              <a href={waHref} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              <CallCareButton variant="primary" showPhone label="Call customer care" />
+              <a href={waHref} className="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                 Get quote on WhatsApp
               </a>
-              <Link href="/app/booking" className="btn btn-secondary">
-                Book online
-              </Link>
             </div>
           </div>
         </Reveal>

@@ -1,0 +1,168 @@
+.contact-float {
+  position: fixed;
+  right: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  z-index: 1200;
+}
+
+/* Desktop — stacked pills */
+.contact-float__desktop {
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.65rem;
+}
+
+.contact-float__pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  height: 52px;
+  padding: 0 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(21, 101, 216, 0.1);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-float__pill-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
+}
+
+.contact-float__pill--call {
+  color: #1565d8;
+}
+
+.contact-float__pill--call .contact-float__pill-icon {
+  color: #1565d8;
+}
+
+.contact-float__pill--wa {
+  color: #15803d;
+  border-color: rgba(37, 211, 102, 0.2);
+}
+
+.contact-float__pill--wa .contact-float__pill-icon {
+  color: #25d366;
+}
+
+.contact-float__pill:hover {
+  transform: translateY(-2px);
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(21, 101, 216, 0.18);
+}
+
+.contact-float__pill--wa:hover {
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.22);
+}
+
+.contact-float__pill:focus-visible {
+  outline: 3px solid rgba(21, 101, 216, 0.45);
+  outline-offset: 3px;
+}
+
+.contact-float__pill:active {
+  transform: scale(0.98);
+}
+
+/* Mobile FABs */
+.contact-float__mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.contact-float__fab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.14);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-float__fab:hover {
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.contact-float__fab:focus-visible {
+  outline: 3px solid rgba(21, 101, 216, 0.45);
+  outline-offset: 3px;
+}
+
+.contact-float__fab:active {
+  transform: scale(0.98);
+}
+
+.contact-float__fab--wa {
+  background: #25d366;
+  color: #fff;
+}
+
+.contact-float__fab--wa:hover {
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.4);
+  color: #fff;
+}
+
+.contact-float__fab--call {
+  background: #1565d8;
+  color: #fff;
+}
+
+.contact-float__fab--call:hover {
+  box-shadow: 0 10px 28px rgba(21, 101, 216, 0.35);
+  color: #fff;
+}
+
+.contact-float__fab--call svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.contact-float__wa-svg {
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+@media (min-width: 768px) {
+  .contact-float {
+    right: 1.5rem;
+    bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  .contact-float__desktop {
+    display: flex;
+  }
+
+  .contact-float__mobile {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-float__pill:hover,
+  .contact-float__fab:hover {
+    transform: none;
+  }
+
+  .contact-float__pill:active,
+  .contact-float__fab:active {
+    transform: none;
+  }
+}

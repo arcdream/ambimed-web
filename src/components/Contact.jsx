@@ -3,6 +3,7 @@
 import { Reveal } from '@/components/motion/Reveal'
 import Link from 'next/link'
 import { config } from '../data/config'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import './Contact.css'
 
 const LOGO_IMG = '/assets/ambimed-logo.png'
@@ -11,19 +12,24 @@ const CONTACT = config.contact
 const SOCIAL = config.social
 const CITIES = config.citiesOperating ?? []
 
-export function Contact() {
+export function Contact({ embedded = false }) {
+  const loginBookingDisabled = isLoginAndBookingDisabled()
   const telHref = `tel:${CONTACT.phone.replace(/\s/g, '')}`
   const waHref = CONTACT.whatsapp ? `https://wa.me/${String(CONTACT.whatsapp).replace(/\D/g, '')}` : null
 
   return (
-    <section id="contact" className="section section-contact">
+    <section id={embedded ? undefined : 'contact'} className={`section section-contact${embedded ? ' section-contact--embedded' : ''}`}>
       <div className="container">
-        <Reveal as="p" className="section-subtitle">
-          Get in touch
-        </Reveal>
-        <Reveal as="h2" className="section-title">
-          Contact us
-        </Reveal>
+        {!embedded ? (
+          <>
+            <Reveal as="p" className="section-subtitle">
+              Get in touch
+            </Reveal>
+            <Reveal as="h2" className="section-title">
+              Contact us
+            </Reveal>
+          </>
+        ) : null}
 
         <Reveal className="contact-ref" y={20}>
           <div className="contact-ref-grid">
@@ -116,11 +122,19 @@ export function Contact() {
                     Terms &amp; Conditions
                   </Link>
                 </li>
-                <li>
-                  <Link href="/app/booking" className="contact-ref-company-link">
-                    Book care
-                  </Link>
-                </li>
+                {!loginBookingDisabled ? (
+                  <li>
+                    <Link href="/app/booking" className="contact-ref-company-link">
+                      Book care
+                    </Link>
+                  </li>
+                ) : (
+                  <li>
+                    <a href={telHref} className="contact-ref-company-link">
+                      Call customer care
+                    </a>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

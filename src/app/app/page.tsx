@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 
 export default function AppIndexPage() {
-  redirect('/app/booking')
+  redirect(isLoginAndBookingDisabled() ? '/' : '/app/booking')
 }

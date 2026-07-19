@@ -11,6 +11,16 @@
 }
 
 .footer-brand .logo-text { font-size: 1.5rem; font-weight: 700; }
+
+.footer-brand-link {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.footer-brand-link:hover {
+  text-decoration: none;
+  opacity: 0.92;
+}
 .footer-brand .logo-ambi { color: var(--color-white); }
 .footer-brand .logo-med { color: var(--color-bright); }
 

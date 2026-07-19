@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation'
 import { BlogShell } from '@/components/blog/BlogShell'
 import { RelatedPosts } from '@/components/blog/RelatedPosts'
 import { config } from '@/data/config'
+import { CallCareButton } from '@/components/CallCareButton'
+import '@/components/CallCareButton.css'
 import {
   formatBlogDate,
   getAllPostSlugs,
@@ -141,10 +143,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           />
 
           <div className="blog-article-cta">
-            <p>Ready to book trusted home care?</p>
-            <Link href="/app/booking" className="btn btn-primary">
-              Book care online
-            </Link>
+            <p>Ready to talk about home care?</p>
+            <CallCareButton variant="primary" showPhone label="Call customer care" />
           </div>
 
           <RelatedPosts posts={related} />

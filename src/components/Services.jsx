@@ -16,6 +16,9 @@ export function Services() {
         <Reveal as="h2" className="section-title" delay={0.05}>
           Our services
         </Reveal>
+        <Reveal as="p" className="services-intro" delay={0.08}>
+          Professional, verified home care — explore each service to learn more and view pricing.
+        </Reveal>
         <div className="services-grid">
           {services.map((item, i) => (
             <Link

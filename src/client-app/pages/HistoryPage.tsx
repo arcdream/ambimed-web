@@ -5,10 +5,12 @@ import Link from 'next/link'
 import dayjs from 'dayjs'
 import { useAuth } from '@/client-app/context/AuthContext'
 import { bookingService } from '@/client-app/services/bookingService'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import type { Booking } from '@/client-app/types/models'
 
 export function HistoryPage() {
   const { user } = useAuth()
+  const loginBookingDisabled = isLoginAndBookingDisabled()
   const [bookings, setBookings] = useState<Booking[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -40,8 +42,8 @@ export function HistoryPage() {
   return (
     <div>
       <div className="client-app-card">
-        <Link href="/app/booking" className="muted">
-          ← Home
+        <Link href={loginBookingDisabled ? '/' : '/app/booking'} className="muted">
+          ← {loginBookingDisabled ? 'Website home' : 'Home'}
         </Link>
         <h1 style={{ marginTop: '0.5rem' }}>My bookings</h1>
       </div>
@@ -49,7 +51,7 @@ export function HistoryPage() {
       {bookings.length === 0 ? (
         <div className="client-app-card">
           <p className="muted">No bookings yet.</p>
-          <Link href="/app/booking">Book a service</Link>
+          {!loginBookingDisabled && <Link href="/app/booking">Book a service</Link>}
         </div>
       ) : (
         bookings.map((b) => (

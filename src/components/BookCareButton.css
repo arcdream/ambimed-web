@@ -1,0 +1,102 @@
+/* Book Care — primary conversion CTA */
+.book-care-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 1.5rem;
+  border-radius: 999px;
+  border: none;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  color: #fff;
+  background: #1565d8;
+  box-shadow: 0 4px 16px rgba(21, 101, 216, 0.22);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+  cursor: pointer;
+}
+
+.book-care-btn:hover {
+  text-decoration: none;
+  color: #fff;
+  background: #1256c0;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(21, 101, 216, 0.18);
+}
+
+.book-care-btn:active {
+  transform: scale(0.98);
+}
+
+.book-care-btn:focus-visible {
+  outline: 3px solid rgba(21, 101, 216, 0.45);
+  outline-offset: 3px;
+}
+
+.book-care-btn__icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+}
+
+.book-care-btn__arrow {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
+}
+
+/* Hero — largest primary */
+.book-care-btn--primary {
+  min-height: 54px;
+  padding: 0 1.65rem;
+  font-size: 1rem;
+  box-shadow: 0 8px 24px rgba(21, 101, 216, 0.28);
+}
+
+/* Header nav pill */
+.book-care-btn--nav {
+  min-height: 44px;
+  padding: 0 1.5rem;
+  font-size: 0.875rem;
+}
+
+/* Mobile header compact */
+.book-care-btn--compact {
+  min-height: 44px;
+  padding: 0 1rem;
+  font-size: 0.8125rem;
+}
+
+.book-care-btn--compact .book-care-btn__icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.book-care-btn--compact .book-care-btn__label {
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 899px) {
+  .book-care-btn--primary {
+    width: 100%;
+    min-height: 50px;
+    font-size: 0.9375rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-care-btn:hover {
+    transform: none;
+  }
+
+  .book-care-btn:active {
+    transform: none;
+  }
+}

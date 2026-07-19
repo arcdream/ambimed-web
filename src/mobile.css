@@ -61,25 +61,6 @@ html {
     font-size: 0.875rem;
   }
 
-  .hero--banner {
-    padding-left: max(1rem, env(safe-area-inset-left, 0px));
-    padding-right: max(1rem, env(safe-area-inset-right, 0px));
-    padding-bottom: 0.25rem;
-  }
-
-  .hero-desc {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-
-  .hero-badge {
-    font-size: 0.8125rem;
-  }
-
-  .hero-badge--welcome {
-    font-size: 0.875rem;
-  }
-
   .header-inner {
     padding-left: max(1rem, env(safe-area-inset-left, 0px));
     padding-right: max(1rem, env(safe-area-inset-right, 0px));

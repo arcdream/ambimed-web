@@ -2,17 +2,22 @@ import Link from 'next/link'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { TERMS_PDF_URL } from '../data/legal'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import './Header.css'
 import './Footer.css'
 import './TermsPage.css'
 
 export function TermsPage() {
+  const loginBookingDisabled = isLoginAndBookingDisabled()
+
   return (
     <>
       <Header />
       <article className="terms-page container">
         <p className="terms-back">
-          <Link href="/app/login">← Back to sign in</Link>
+          <Link href={loginBookingDisabled ? '/' : '/app/login'}>
+            {loginBookingDisabled ? '← Back to home' : '← Back to sign in'}
+          </Link>
         </p>
         <h1>Terms &amp; conditions</h1>
         <p className="terms-lead">

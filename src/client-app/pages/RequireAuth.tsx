@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/client-app/context/AuthContext'
 import { setLoginRedirect } from '@/client-app/lib/navigationState'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 
 export function RequireAuth({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth()
@@ -12,6 +13,10 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!isLoading && !user) {
+      if (isLoginAndBookingDisabled()) {
+        router.replace('/')
+        return
+      }
       setLoginRedirect(pathname)
       router.replace('/app/login')
     }

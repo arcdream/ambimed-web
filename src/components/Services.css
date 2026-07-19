@@ -3,7 +3,16 @@
 }
 
 .section-services .section-title {
-  margin-bottom: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.services-intro {
+  max-width: 36rem;
+  margin: 0 auto 2rem;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #64748b;
 }
 
 .services-grid {

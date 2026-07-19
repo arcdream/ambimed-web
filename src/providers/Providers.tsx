@@ -2,7 +2,7 @@
 
 import { AuthProvider } from '@/client-app/context/AuthContext'
 import { initSupabase, type SupabaseConfig } from '@/client-app/lib/supabase'
-import { WhatsAppFloat } from '@/components/WhatsAppFloat'
+import { ContactFloat } from '@/components/ContactFloat'
 
 type ProvidersProps = {
   children: React.ReactNode
@@ -15,7 +15,7 @@ export function Providers({ children, supabaseConfig }: ProvidersProps) {
   return (
     <AuthProvider>
       {children}
-      <WhatsAppFloat />
+      <ContactFloat />
     </AuthProvider>
   )
 }
