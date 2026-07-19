@@ -5,7 +5,6 @@ import { MapPin, Receipt, ShieldCheck } from 'lucide-react'
 import { Reveal } from '@/components/motion/Reveal'
 import { homeSeoArticle } from '../data/homePageSeoCopy'
 import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
-import { getBookCareHref } from '@/lib/ctaLinks'
 import { getTelHref } from '@/lib/contactLinks'
 import './SeoContentSection.css'
 
@@ -89,14 +88,19 @@ export function SeoContentSection() {
         </div>
 
         <Reveal as="p" className="seo-article-cta" delay={0.05} y={12}>
-          <Link href={getBookCareHref()} className="seo-article-book-link">
-            Book home care online
-          </Link>{' '}
-          or <Link href="/contact">contact us</Link> for a tailored quote.
-          {!loginBookingDisabled ? null : (
+          {loginBookingDisabled ? (
             <>
-              {' '}
-              You can also <a href={getTelHref()}>call our team</a>.
+              <a href={getTelHref()} className="seo-article-book-link">
+                Call customer care
+              </a>{' '}
+              or <Link href="/contact">contact us</Link> for a tailored quote.
+            </>
+          ) : (
+            <>
+              <Link href="/app/booking" className="seo-article-book-link">
+                Book home care online
+              </Link>{' '}
+              or <Link href="/contact">contact us</Link> for a tailored quote.
             </>
           )}
         </Reveal>

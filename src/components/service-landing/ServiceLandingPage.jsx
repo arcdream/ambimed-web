@@ -3,7 +3,7 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { ServiceFaqAccordion } from '@/components/service-landing/ServiceFaqAccordion'
 import { ServiceLeadForm } from '@/components/service-landing/ServiceLeadForm'
-import { BookCareButton } from '@/components/BookCareButton'
+import { CallCareButton } from '@/components/CallCareButton'
 import { PhoneTextLink } from '@/components/PhoneTextLink'
 import { config } from '@/data/config'
 import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
@@ -11,7 +11,7 @@ import { getTelHref } from '@/lib/contactLinks'
 
 import '@/components/Header.css'
 import '@/components/Footer.css'
-import '@/components/BookCareButton.css'
+import '@/components/CallCareButton.css'
 import '@/components/PhoneTextLink.css'
 import '@/components/service-landing/ServiceLandingPage.css'
 
@@ -26,8 +26,18 @@ function PhoneIcon() {
   )
 }
 
+function CalendarIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M7 2v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2h-2V2h-2v2H9V2H7zm12 8H5v10h14V10z"
+        fill="currentColor"
+      />
+    </svg>
+  )
+}
+
 export function ServiceLandingPage({ landing }) {
-  const phoneDigits = config.contact.phone.replace(/\D/g, '')
   const loginBookingDisabled = isLoginAndBookingDisabled()
   const bookUrl = `/app/book/${landing.bookingServiceTypeId}`
 
@@ -52,21 +62,18 @@ export function ServiceLandingPage({ landing }) {
                 <p className="svc-hero-subtitle">{landing.hero.subtitle}</p>
                 <p className="svc-hero-desc">{landing.hero.description}</p>
                 <div className="svc-hero-actions">
-                  <BookCareButton
-                    variant="primary"
-                    href={bookUrl}
-                    label={`Book ${landing.hero.eyebrow}`}
-                    showArrow
-                  />
-                  {!loginBookingDisabled ? (
-                    <p className="svc-hero-call-hint">
-                      <PhoneTextLink />
-                    </p>
+                  {loginBookingDisabled ? (
+                    <CallCareButton variant="primary" showPhone label="Call customer care" />
                   ) : (
-                    <a href={`tel:${phoneDigits}`} className="btn btn-secondary svc-btn">
-                      <PhoneIcon />
-                      Call Now
-                    </a>
+                    <>
+                      <Link href={bookUrl} className="btn btn-primary svc-btn">
+                        <CalendarIcon />
+                        Book {landing.hero.eyebrow}
+                      </Link>
+                      <p className="svc-hero-call-hint">
+                        <PhoneTextLink />
+                      </p>
+                    </>
                   )}
                 </div>
                 <ul className="svc-trust-row">
@@ -106,7 +113,13 @@ export function ServiceLandingPage({ landing }) {
               ))}
             </div>
             <div className="svc-section-cta">
-              <BookCareButton variant="primary" href={bookUrl} label={`Book ${landing.hero.eyebrow}`} />
+              {loginBookingDisabled ? (
+                <CallCareButton variant="primary" showPhone label="Call customer care" />
+              ) : (
+                <Link href={bookUrl} className="btn btn-primary">
+                  Book {landing.hero.eyebrow}
+                </Link>
+              )}
             </div>
           </div>
         </section>
@@ -190,13 +203,24 @@ export function ServiceLandingPage({ landing }) {
         {/* Sticky CTA bar */}
         <aside className="svc-sticky-cta" aria-label="Quick contact">
           <div className="container svc-sticky-cta-inner">
-            <p>Need immediate help? Book online or reach our care team by phone.</p>
+            <p>
+              {loginBookingDisabled
+                ? 'Need immediate help? Call our customer care team.'
+                : 'Need immediate help? Call us now or book a service in just a few clicks.'}
+            </p>
             <div className="svc-sticky-cta-actions">
-              <BookCareButton variant="primary" href={bookUrl} label={`Book ${landing.hero.eyebrow}`} />
-              <a href={getTelHref()} className="btn btn-secondary svc-sticky-call">
+              <a
+                href={getTelHref()}
+                className={`btn ${loginBookingDisabled ? 'btn-primary' : 'btn-secondary'} svc-sticky-call`}
+              >
                 <PhoneIcon />
-                {config.contact.phone}
+                {loginBookingDisabled ? 'Call customer care' : config.contact.phone}
               </a>
+              {!loginBookingDisabled ? (
+                <Link href={bookUrl} className="btn btn-primary">
+                  Book {landing.hero.eyebrow}
+                </Link>
+              ) : null}
             </div>
           </div>
         </aside>

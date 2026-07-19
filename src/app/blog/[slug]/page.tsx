@@ -4,12 +4,8 @@ import { notFound } from 'next/navigation'
 import { BlogShell } from '@/components/blog/BlogShell'
 import { RelatedPosts } from '@/components/blog/RelatedPosts'
 import { config } from '@/data/config'
-import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
-import { BookCareButton } from '@/components/BookCareButton'
-import { PhoneTextLink } from '@/components/PhoneTextLink'
-import { getBookCareHref } from '@/lib/ctaLinks'
-import '@/components/BookCareButton.css'
-import '@/components/PhoneTextLink.css'
+import { CallCareButton } from '@/components/CallCareButton'
+import '@/components/CallCareButton.css'
 import {
   formatBlogDate,
   getAllPostSlugs,
@@ -103,7 +99,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   const related = getRelatedPosts(slug, 3)
   const jsonLd = buildBlogPostingJsonLd(post)
-  const loginBookingDisabled = isLoginAndBookingDisabled()
 
   return (
     <BlogShell>
@@ -148,16 +143,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           />
 
           <div className="blog-article-cta">
-            <p>{loginBookingDisabled ? 'Ready to talk about home care?' : 'Ready to book trusted home care?'}</p>
-            <BookCareButton
-              variant="primary"
-              href={loginBookingDisabled ? '/contact' : getBookCareHref()}
-              label="Book Home Care"
-              showArrow
-            />
-            <p className="blog-article-call-hint">
-              <PhoneTextLink prefix="Questions? " />
-            </p>
+            <p>Ready to talk about home care?</p>
+            <CallCareButton variant="primary" showPhone label="Call customer care" />
           </div>
 
           <RelatedPosts posts={related} />

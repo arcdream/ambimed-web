@@ -4,13 +4,11 @@ import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { heroBannerSlides, heroWelcomeCopy } from '@/data/heroBanner'
-import { BookCareButton } from '@/components/BookCareButton'
-import { PhoneTextLink } from '@/components/PhoneTextLink'
-import { BOOK_HOME_CARE_LABEL, getServicesHref } from '@/lib/ctaLinks'
+import { CallCareButton } from '@/components/CallCareButton'
+import { getServicesHref } from '@/lib/ctaLinks'
 import { useAuth } from '@/client-app/context/AuthContext'
 import './Hero.css'
-import '@/components/BookCareButton.css'
-import '@/components/PhoneTextLink.css'
+import '@/components/CallCareButton.css'
 
 const SLIDE_INTERVAL_MS = 6000
 const SLIDE_COUNT = heroBannerSlides.length
@@ -67,14 +65,11 @@ export function Hero() {
 
             <div className="hero-simple__cta-group">
               <div className="hero-simple__cta-row">
-                <BookCareButton variant="primary" label={BOOK_HOME_CARE_LABEL} showArrow />
+                <CallCareButton variant="primary" showPhone label="Call customer care" />
                 <Link href={getServicesHref()} className="hero-simple__secondary-cta">
                   View Services
                 </Link>
               </div>
-              <p className="hero-simple__call-hint">
-                <PhoneTextLink />
-              </p>
             </div>
           </div>
 

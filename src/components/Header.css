@@ -436,12 +436,12 @@
     gap: 0.35rem;
   }
 
-  .nav-mobile-book {
+  .nav-mobile-call {
     padding: 0.65rem 0 0.85rem;
     border-bottom: 1px solid var(--color-deep-08);
   }
 
-  .nav-mobile-book .book-care-btn--primary {
+  .nav-mobile-call .call-care-btn--primary {
     width: 100%;
   }
 

@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import { useAuth } from '@/client-app/context/AuthContext'
-import { BookCareButton } from '@/components/BookCareButton'
-import '@/components/BookCareButton.css'
+import { CallCareButton } from '@/components/CallCareButton'
+import '@/components/CallCareButton.css'
 import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import { isNavDropdown, marketingNav, type NavDropdown, type NavItem } from '@/data/siteNav'
 
@@ -288,12 +288,12 @@ export function Header() {
                 </Link>
               ))
             : marketingNav.map((item) => renderDesktopNavItem(item, pathname))}
-          {!isApp ? <BookCareButton variant="nav" /> : null}
+          {!isApp ? <CallCareButton variant="nav" label="Call us" /> : null}
           {authDesktop}
         </nav>
 
         <div className="header-mobile-actions">
-          {!isApp ? <BookCareButton variant="compact" label="Book Care" /> : null}
+          {!isApp ? <CallCareButton variant="compact" label="Call" /> : null}
           {!isLoading && !isAuthenticated && !loginBookingDisabled ? (
             <Link href="/app/login" className="header-btn-login header-btn-login--compact">
               Log in
@@ -356,8 +356,8 @@ export function Header() {
                   ),
                 )}
             {!isApp ? (
-              <div className="nav-mobile-book">
-                <BookCareButton variant="primary" label="Book Home Care" showArrow />
+              <div className="nav-mobile-call">
+                <CallCareButton variant="primary" showPhone label="Call customer care" />
               </div>
             ) : null}
             {!isLoading && !isAuthenticated && !loginBookingDisabled ? (
