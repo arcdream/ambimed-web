@@ -3,11 +3,14 @@
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Calendar } from 'lucide-react'
+import { heroBannerSlides, heroWelcomeCopy } from '@/data/heroBanner'
+import { BookCareButton } from '@/components/BookCareButton'
+import { PhoneTextLink } from '@/components/PhoneTextLink'
+import { BOOK_HOME_CARE_LABEL, getServicesHref } from '@/lib/ctaLinks'
 import { useAuth } from '@/client-app/context/AuthContext'
-import { heroBannerSlides, heroCta, heroWelcomeCopy } from '@/data/heroBanner'
-import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import './Hero.css'
+import '@/components/BookCareButton.css'
+import '@/components/PhoneTextLink.css'
 
 const SLIDE_INTERVAL_MS = 6000
 const SLIDE_COUNT = heroBannerSlides.length
@@ -19,7 +22,6 @@ export function Hero() {
 
   const first = user?.firstName?.trim()
   const showWelcome = isAuthenticated && !isLoading && !!user
-  const loginBookingDisabled = isLoginAndBookingDisabled()
   const slide = heroBannerSlides[activeIndex]
 
   const headline = showWelcome ? heroWelcomeCopy.headline : slide.headline
@@ -63,12 +65,17 @@ export function Hero() {
               <p className="hero-simple__lead">{description}</p>
             </div>
 
-            {!loginBookingDisabled && (
-              <Link href={heroCta.href} className="hero-simple__cta">
-                <Calendar className="hero-simple__cta-icon" strokeWidth={2} aria-hidden />
-                {heroCta.label}
-              </Link>
-            )}
+            <div className="hero-simple__cta-group">
+              <div className="hero-simple__cta-row">
+                <BookCareButton variant="primary" label={BOOK_HOME_CARE_LABEL} showArrow />
+                <Link href={getServicesHref()} className="hero-simple__secondary-cta">
+                  View Services
+                </Link>
+              </div>
+              <p className="hero-simple__call-hint">
+                <PhoneTextLink />
+              </p>
+            </div>
           </div>
 
           <div

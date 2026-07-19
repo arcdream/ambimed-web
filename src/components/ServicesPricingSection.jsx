@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Heart, ShieldCheck, Tag } from 'lucide-react'
 import { Reveal } from '@/components/motion/Reveal'
+import { BookCareButton } from '@/components/BookCareButton'
 import { ServiceIcon } from '@/components/ServiceIcon'
 import { config } from '@/data/config'
 import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
@@ -17,6 +18,7 @@ import { metadataService } from '@/client-app/services/metadataService'
 import { fetchDefaultDiscount } from '@/client-app/services/discountService'
 import { isSupabaseConfigured } from '@/client-app/lib/supabase'
 import './ServicesPricingSection.css'
+import '@/components/BookCareButton.css'
 
 function formatInr(n) {
   return new Intl.NumberFormat('en-IN', {
@@ -277,14 +279,10 @@ export function ServicesPricingSection({ embedded = false }) {
               </p>
             </div>
             <div className="services-pricing-custom-quote__ctas">
-              <a href={waHref} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              <BookCareButton variant="primary" label="Book Home Care" />
+              <a href={waHref} className="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                 Get quote on WhatsApp
               </a>
-              {!loginBookingDisabled && (
-                <Link href="/app/booking" className="btn btn-secondary">
-                  Book online
-                </Link>
-              )}
             </div>
           </div>
         </Reveal>

@@ -12,9 +12,13 @@ import {
 import { Reveal } from '@/components/motion/Reveal'
 import { MarketingPageShell } from '@/components/layout/MarketingPageShell'
 import { PageHero } from '@/components/layout/PageHero'
+import { BookCareButton } from '@/components/BookCareButton'
+import { PhoneTextLink } from '@/components/PhoneTextLink'
 import { config } from '@/data/config'
 import './AboutPages.css'
 import './WhyAmbimedPage.css'
+import '@/components/BookCareButton.css'
+import '@/components/PhoneTextLink.css'
 
 const WHY_ITEMS = [
   {
@@ -81,12 +85,13 @@ export function WhyAmbimedPage() {
             })}
           </div>
           <Reveal className="why-ambimed-cta" y={12}>
-            <Link href="/pricing" className="btn btn-primary">
+            <BookCareButton variant="primary" label="Book Home Care" showArrow />
+            <Link href="/pricing" className="btn btn-secondary">
               View pricing
             </Link>
-            <Link href="/contact" className="btn btn-secondary">
-              Contact us
-            </Link>
+            <p className="why-ambimed-call-hint">
+              <PhoneTextLink prefix="Questions? " />
+            </p>
           </Reveal>
         </div>
       </section>

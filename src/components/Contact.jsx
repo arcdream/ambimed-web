@@ -122,11 +122,17 @@ export function Contact({ embedded = false }) {
                     Terms &amp; Conditions
                   </Link>
                 </li>
-                {!loginBookingDisabled && (
+                {!loginBookingDisabled ? (
                   <li>
                     <Link href="/app/booking" className="contact-ref-company-link">
                       Book care
                     </Link>
+                  </li>
+                ) : (
+                  <li>
+                    <a href={telHref} className="contact-ref-company-link">
+                      Call customer care
+                    </a>
                   </li>
                 )}
               </ul>
