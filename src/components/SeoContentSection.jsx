@@ -89,14 +89,14 @@ export function SeoContentSection() {
         <Reveal as="p" className="seo-article-cta" delay={0.05} y={12}>
           {loginBookingDisabled ? (
             <>
-              <a href="#contact">Contact us</a> for a tailored quote.
+              <Link href="/contact">Contact us</Link> for a tailored quote.
             </>
           ) : (
             <>
               <Link href="/app/booking" className="seo-article-book-link">
                 Book home care online
               </Link>{' '}
-              or scroll to <a href="#contact">contact us</a> for a tailored quote.
+              or <Link href="/contact">contact us</Link> for a tailored quote.
             </>
           )}
         </Reveal>

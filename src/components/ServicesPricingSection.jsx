@@ -75,7 +75,7 @@ function buildTiersFromFallback(fallbackTiers, discountPct) {
   })
 }
 
-export function ServicesPricingSection() {
+export function ServicesPricingSection({ embedded = false }) {
   const loginBookingDisabled = isLoginAndBookingDisabled()
   const [liveServices, setLiveServices] = useState([])
   const [discountPct, setDiscountPct] = useState(DEFAULT_DISCOUNT_PCT)
@@ -154,25 +154,31 @@ export function ServicesPricingSection() {
     : '#contact'
 
   return (
-    <section id="services-pricing" className="section section-services-pricing" aria-labelledby="services-pricing-heading">
+    <section
+      id={embedded ? undefined : 'services-pricing'}
+      className={`section section-services-pricing${embedded ? ' section-services-pricing--embedded' : ''}`}
+      aria-labelledby={embedded ? undefined : 'services-pricing-heading'}
+    >
       <div className="container services-pricing-inner">
-        <header className="services-pricing-header">
-          <Reveal className="services-pricing-eyebrow-pill" y={0}>
-            <Tag className="services-pricing-eyebrow-pill__icon" strokeWidth={2} aria-hidden />
-            Plans &amp; savings
-          </Reveal>
-          <Reveal as="h2" id="services-pricing-heading" className="services-pricing-title" y={10}>
-            Services and Tariffs
-          </Reveal>
-          <Reveal as="p" className="services-pricing-lead" y={12}>
-            Transparent pricing. Trusted care. Save more with our exclusive offers.
-          </Reveal>
-          <Reveal className="services-pricing-divider" y={8} aria-hidden>
-            <span className="services-pricing-divider__line" />
-            <Heart className="services-pricing-divider__heart" strokeWidth={1.75} />
-            <span className="services-pricing-divider__line" />
-          </Reveal>
-        </header>
+        {!embedded ? (
+          <header className="services-pricing-header">
+            <Reveal className="services-pricing-eyebrow-pill" y={0}>
+              <Tag className="services-pricing-eyebrow-pill__icon" strokeWidth={2} aria-hidden />
+              Plans &amp; savings
+            </Reveal>
+            <Reveal as="h2" id="services-pricing-heading" className="services-pricing-title" y={10}>
+              Services and Tariffs
+            </Reveal>
+            <Reveal as="p" className="services-pricing-lead" y={12}>
+              Transparent pricing. Trusted care. Save more with our exclusive offers.
+            </Reveal>
+            <Reveal className="services-pricing-divider" y={8} aria-hidden>
+              <span className="services-pricing-divider__line" />
+              <Heart className="services-pricing-divider__heart" strokeWidth={1.75} />
+              <span className="services-pricing-divider__line" />
+            </Reveal>
+          </header>
+        ) : null}
 
         <div className="services-pricing-grid">
           {plans.map((plan, i) => (

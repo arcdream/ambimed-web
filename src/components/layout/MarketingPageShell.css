@@ -1,0 +1,8 @@
+.marketing-page-main {
+  padding-top: calc(4.75rem + env(safe-area-inset-top, 0px));
+  min-height: calc(100vh - 4.75rem);
+}
+
+.marketing-page-main--flush {
+  padding-top: calc(4.75rem + env(safe-area-inset-top, 0px));
+}

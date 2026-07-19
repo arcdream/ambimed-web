@@ -1,54 +1,166 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { config } from '@/data/config'
+import { ChevronDown } from 'lucide-react'
 import { useAuth } from '@/client-app/context/AuthContext'
 import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
+import { isNavDropdown, marketingNav, type NavDropdown, type NavItem } from '@/data/siteNav'
 
 const LOGO_IMG = '/assets/ambimed-logo.png'
 
-const marketingNavBase: { id: string; label: string; href?: string }[] = [
-  { id: 'hero', label: 'Home' },
-  { id: 'services', label: 'Services' },
-  { id: 'services-pricing', label: 'Our Pricing' },
-  { id: 'about', label: 'About' },
-  { id: 'caregivers', label: 'Caregivers' },
-  { id: 'testimonials', label: 'Feedback' },
-  { id: 'apps', label: 'Our Apps' },
-  { id: 'team', label: 'Team' },
-  { id: 'achievements', label: 'Recognition' },
-  { id: 'blog', label: 'Blog', href: '/blog' },
-  { id: 'contact', label: 'Contact' },
-]
-
 const appNavLinks = [
   { href: '/', label: 'Website home' },
-  { href: '/#services', label: 'Services' },
-  { href: '/#services-pricing', label: 'Our Pricing' },
-  { href: '/#achievements', label: 'Recognition' },
-  { href: '/#contact', label: 'Contact' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/about/recognition', label: 'Recognition' },
+  { href: '/contact', label: 'Contact' },
   { href: '/app/booking', label: 'Book care' },
   { href: '/app/history', label: 'My bookings' },
 ]
 
+function isLinkActive(pathname: string, href: string) {
+  return pathname === href || (href !== '/' && pathname.startsWith(`${href}/`))
+}
+
+function isDropdownActive(pathname: string, item: NavDropdown) {
+  return item.children.some((child) => isLinkActive(pathname, child.href))
+}
+
+function DesktopNavDropdown({ item, pathname }: { item: NavDropdown; pathname: string }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const active = isDropdownActive(pathname, item)
+
+  useEffect(() => {
+    const close = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('click', close)
+    return () => document.removeEventListener('click', close)
+  }, [])
+
+  return (
+    <div
+      className="nav-dropdown"
+      ref={ref}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        className={`nav-link nav-dropdown__trigger${active ? ' is-active' : ''}`}
+        aria-expanded={open}
+        aria-haspopup="true"
+        onClick={() => setOpen((v) => !v)}
+      >
+        {item.label}
+        <ChevronDown className="nav-dropdown__chevron" strokeWidth={2.25} aria-hidden />
+      </button>
+      <AnimatePresence>
+        {open ? (
+          <motion.div
+            className="nav-dropdown__menu"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.15 }}
+            role="menu"
+          >
+            {item.children.map((child) => (
+              <Link
+                key={child.href}
+                href={child.href}
+                role="menuitem"
+                className={`nav-dropdown__item${isLinkActive(pathname, child.href) ? ' is-active' : ''}`}
+                onClick={() => setOpen(false)}
+              >
+                {child.label}
+              </Link>
+            ))}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+function renderDesktopNavItem(item: NavItem, pathname: string) {
+  if (isNavDropdown(item)) {
+    return <DesktopNavDropdown key={item.label} item={item} pathname={pathname} />
+  }
+  return (
+    <Link
+      key={item.href}
+      href={item.href}
+      className={`nav-link${isLinkActive(pathname, item.href) ? ' is-active' : ''}`}
+    >
+      {item.label}
+    </Link>
+  )
+}
+
+function MobileNavGroup({
+  item,
+  pathname,
+  expanded,
+  onToggle,
+  onNavigate,
+}: {
+  item: NavDropdown
+  pathname: string
+  expanded: boolean
+  onToggle: () => void
+  onNavigate: () => void
+}) {
+  return (
+    <div className="nav-mobile-group">
+      <button
+        type="button"
+        className={`nav-link nav-mobile-group__trigger${isDropdownActive(pathname, item) ? ' is-active' : ''}`}
+        aria-expanded={expanded}
+        onClick={onToggle}
+      >
+        <span>{item.label}</span>
+        <ChevronDown className={`nav-mobile-group__chevron${expanded ? ' is-open' : ''}`} strokeWidth={2.25} aria-hidden />
+      </button>
+      <AnimatePresence initial={false}>
+        {expanded ? (
+          <motion.div
+            className="nav-mobile-group__items"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {item.children.map((child) => (
+              <Link
+                key={child.href}
+                href={child.href}
+                className={`nav-mobile-group__link${isLinkActive(pathname, child.href) ? ' is-active' : ''}`}
+                onClick={onNavigate}
+              >
+                {child.label}
+              </Link>
+            ))}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  )
+}
+
 export function Header() {
   const pathname = usePathname()
   const isApp = pathname.startsWith('/app')
-  const isHomePage = pathname === '/'
-  const useMarketingHashLinks = !isApp && !isHomePage
   const { user, isAuthenticated, referralHubAccess, isLoading, logout } = useAuth()
   const loginBookingDisabled = isLoginAndBookingDisabled()
   const [open, setOpen] = useState(false)
   const [logoError, setLogoError] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null)
   const userMenuRef = useRef<HTMLDivElement>(null)
-
-  const marketingNav = marketingNavBase.filter(
-    (l) => (l.id === 'about' ? config.showAboutSection : l.id === 'team' ? config.showTeamSection : true),
-  )
 
   useEffect(() => {
     const close = (e: MouseEvent) => {
@@ -58,60 +170,10 @@ export function Header() {
     return () => document.removeEventListener('click', close)
   }, [])
 
-  const scrollTo = useCallback((id: string) => {
-    setOpen(false)
-    window.setTimeout(() => {
-      const tryScroll = () => {
-        const el = document.getElementById(id)
-        if (!el) return false
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        return true
-      }
-      if (tryScroll()) return
-      let n = 0
-      const t = window.setInterval(() => {
-        n += 1
-        if (tryScroll() || n >= 40) window.clearInterval(t)
-      }, 50)
-    }, 280)
-  }, [])
-
-  /** After navigating to /#section from another page, scroll to the target section */
   useEffect(() => {
-    if (pathname !== '/') return
-    const hash = window.location.hash.replace(/^#/, '')
-    if (!hash) return
-    scrollTo(hash)
-  }, [pathname, scrollTo])
-
-  const marketingNavHref = (id: string) => (id === 'hero' ? '/' : `/#${id}`)
-
-  const renderMarketingNavLink = (link: (typeof marketingNavBase)[number], onNavigate?: () => void) => {
-    if (link.href) {
-      return (
-        <Link key={link.id} href={link.href} className="nav-link" onClick={onNavigate}>
-          {link.label}
-        </Link>
-      )
-    }
-    if (useMarketingHashLinks) {
-      return (
-        <Link
-          key={link.id}
-          href={marketingNavHref(link.id)}
-          className="nav-link"
-          onClick={onNavigate}
-        >
-          {link.label}
-        </Link>
-      )
-    }
-    return (
-      <button key={link.id} type="button" className="nav-link" onClick={() => scrollTo(link.id)}>
-        {link.label}
-      </button>
-    )
-  }
+    setOpen(false)
+    setMobileExpanded(null)
+  }, [pathname])
 
   const appNavLinksResolved = useMemo(() => {
     let links = appNavLinks.filter((l) => !(loginBookingDisabled && l.href === '/app/booking'))
@@ -128,6 +190,8 @@ export function Header() {
     String(user?.mobileNumber || '').replace(/\D/g, '').slice(-1) ||
     'U'
   ).toUpperCase()
+
+  const closeMobile = () => setOpen(false)
 
   const authDesktop = (
     <div className="header-auth">
@@ -151,7 +215,7 @@ export function Header() {
             </span>
           </button>
           <AnimatePresence>
-            {userMenuOpen && (
+            {userMenuOpen ? (
               <motion.div
                 className="header-user-dropdown"
                 initial={{ opacity: 0, y: -6 }}
@@ -159,19 +223,19 @@ export function Header() {
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.15 }}
               >
-                {!loginBookingDisabled && (
+                {!loginBookingDisabled ? (
                   <Link href="/app/booking" onClick={() => setUserMenuOpen(false)}>
                     Book care
                   </Link>
-                )}
+                ) : null}
                 <Link href="/app/history" onClick={() => setUserMenuOpen(false)}>
                   My bookings
                 </Link>
-                {referralHubAccess && (
+                {referralHubAccess ? (
                   <Link href="/app/doctor" onClick={() => setUserMenuOpen(false)}>
                     Referral hub
                   </Link>
-                )}
+                ) : null}
                 <button
                   type="button"
                   className="header-user-signout"
@@ -183,7 +247,7 @@ export function Header() {
                   Sign out
                 </button>
               </motion.div>
-            )}
+            ) : null}
           </AnimatePresence>
         </div>
       ) : loginBookingDisabled ? null : (
@@ -202,36 +266,40 @@ export function Header() {
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       <div className="header-inner container">
-        <Link href="/" className="logo" onClick={() => setOpen(false)}>
-          {!logoError && <img src={LOGO_IMG} alt="" className="logo-img" onError={() => setLogoError(true)} />}
+        <Link href="/" className="logo" onClick={closeMobile}>
+          {!logoError ? <img src={LOGO_IMG} alt="" className="logo-img" onError={() => setLogoError(true)} /> : null}
           <span className="logo-text">
             <span className="logo-ambi">AMBI</span>
             <span className="logo-med">MED</span>
           </span>
         </Link>
 
-        <nav className="nav desktop">
+        <nav className="nav desktop" aria-label="Primary">
           {isApp
             ? appNavLinksResolved.map((item) => (
-                <Link key={item.href + item.label} href={item.href} className="nav-link">
+                <Link
+                  key={item.href + item.label}
+                  href={item.href}
+                  className={`nav-link${isLinkActive(pathname, item.href) ? ' is-active' : ''}`}
+                >
                   {item.label}
                 </Link>
               ))
-            : marketingNav.map((link) => renderMarketingNavLink(link))}
-          {!isApp && !loginBookingDisabled && (
+            : marketingNav.map((item) => renderDesktopNavItem(item, pathname))}
+          {!isApp && !loginBookingDisabled ? (
             <Link href="/app/booking" className="nav-link nav-link--cta">
               Book care
             </Link>
-          )}
+          ) : null}
           {authDesktop}
         </nav>
 
         <div className="header-mobile-actions">
-          {!isLoading && !isAuthenticated && !loginBookingDisabled && (
+          {!isLoading && !isAuthenticated && !loginBookingDisabled ? (
             <Link href="/app/login" className="header-btn-login header-btn-login--compact">
               Log in
             </Link>
-          )}
+          ) : null}
           <button
             type="button"
             className="menu-toggle"
@@ -247,9 +315,10 @@ export function Header() {
       </div>
 
       <AnimatePresence>
-        {open && (
+        {open ? (
           <motion.nav
             className="nav mobile"
+            aria-label="Primary mobile"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -257,50 +326,75 @@ export function Header() {
           >
             {isApp
               ? appNavLinksResolved.map((item) => (
-                  <Link key={item.href + item.label} href={item.href} className="nav-link" onClick={() => setOpen(false)}>
+                  <Link
+                    key={item.href + item.label}
+                    href={item.href}
+                    className={`nav-link${isLinkActive(pathname, item.href) ? ' is-active' : ''}`}
+                    onClick={closeMobile}
+                  >
                     {item.label}
                   </Link>
                 ))
-              : marketingNav.map((link) => renderMarketingNavLink(link, () => setOpen(false)))}
-            {!isApp && !loginBookingDisabled && (
-              <Link href="/app/booking" className="nav-link nav-link--cta" onClick={() => setOpen(false)}>
+              : marketingNav.map((item) =>
+                  isNavDropdown(item) ? (
+                    <MobileNavGroup
+                      key={item.label}
+                      item={item}
+                      pathname={pathname}
+                      expanded={mobileExpanded === item.label}
+                      onToggle={() => setMobileExpanded((v) => (v === item.label ? null : item.label))}
+                      onNavigate={closeMobile}
+                    />
+                  ) : (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`nav-link${isLinkActive(pathname, item.href) ? ' is-active' : ''}`}
+                      onClick={closeMobile}
+                    >
+                      {item.label}
+                    </Link>
+                  ),
+                )}
+            {!isApp && !loginBookingDisabled ? (
+              <Link href="/app/booking" className="nav-link nav-link--cta" onClick={closeMobile}>
                 Book care
               </Link>
-            )}
-            {!isLoading && !isAuthenticated && !loginBookingDisabled && (
-              <Link href="/app/login" className="nav-link nav-link--login-mobile" onClick={() => setOpen(false)}>
+            ) : null}
+            {!isLoading && !isAuthenticated && !loginBookingDisabled ? (
+              <Link href="/app/login" className="nav-link nav-link--login-mobile" onClick={closeMobile}>
                 Log in
               </Link>
-            )}
-            {!isLoading && isAuthenticated && (
+            ) : null}
+            {!isLoading && isAuthenticated ? (
               <>
-                {!loginBookingDisabled && (
-                  <Link href="/app/booking" className="nav-link" onClick={() => setOpen(false)}>
+                {!loginBookingDisabled ? (
+                  <Link href="/app/booking" className="nav-link" onClick={closeMobile}>
                     Book care (dashboard)
                   </Link>
-                )}
-                <Link href="/app/history" className="nav-link" onClick={() => setOpen(false)}>
+                ) : null}
+                <Link href="/app/history" className="nav-link" onClick={closeMobile}>
                   My bookings
                 </Link>
-                {referralHubAccess && (
-                  <Link href="/app/doctor" className="nav-link" onClick={() => setOpen(false)}>
+                {referralHubAccess ? (
+                  <Link href="/app/doctor" className="nav-link" onClick={closeMobile}>
                     Referral hub
                   </Link>
-                )}
+                ) : null}
                 <button
                   type="button"
                   className="nav-link nav-link--signout"
                   onClick={() => {
                     logout()
-                    setOpen(false)
+                    closeMobile()
                   }}
                 >
                   Sign out
                 </button>
               </>
-            )}
+            ) : null}
           </motion.nav>
-        )}
+        ) : null}
       </AnimatePresence>
     </motion.header>
   )

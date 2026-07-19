@@ -11,6 +11,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: base, changeFrequency: 'weekly', priority: 1 },
+    { url: `${base}/pricing`, changeFrequency: 'weekly', priority: 0.92 },
+    { url: `${base}/contact`, changeFrequency: 'monthly', priority: 0.88 },
+    { url: `${base}/about/our-story`, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/about/why-ambimed`, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/about/recognition`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/blog`, changeFrequency: 'weekly', priority: 0.85 },
     ...(isLoginAndBookingDisabled()
       ? []

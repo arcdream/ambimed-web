@@ -33,7 +33,7 @@ const items = [
   },
 ]
 
-export function AchievementsSection() {
+export function AchievementsSection({ embedded = false }) {
   const [lightbox, setLightbox] = useState(null)
 
   useEffect(() => {
@@ -51,18 +51,30 @@ export function AchievementsSection() {
   }, [lightbox])
 
   return (
-    <section id="achievements" className="section section-achievements" aria-labelledby="achievements-heading">
+    <section
+      id={embedded ? undefined : 'achievements'}
+      className={`section section-achievements${embedded ? ' section-achievements--embedded' : ''}`}
+      aria-labelledby={embedded ? undefined : 'achievements-heading'}
+    >
       <div className="container">
-        <Reveal as="p" className="section-subtitle" y={12}>
-          Trust & credibility
-        </Reveal>
-        <Reveal as="h2" id="achievements-heading" className="section-title" delay={0.04} y={12}>
-          Achievements &amp; recognition
-        </Reveal>
-        <Reveal as="p" className="achievements-lead" delay={0.08} y={10}>
-          We are proud to carry official startup recognition at the national and state level—reflecting our
-          commitment to compliant, technology-enabled home healthcare.
-        </Reveal>
+        {!embedded ? (
+          <>
+            <Reveal as="p" className="section-subtitle" y={12}>
+              Trust & credibility
+            </Reveal>
+            <Reveal as="h2" id="achievements-heading" className="section-title" delay={0.04} y={12}>
+              Achievements &amp; recognition
+            </Reveal>
+            <Reveal as="p" className="achievements-lead" delay={0.08} y={10}>
+              We are proud to carry official startup recognition at the national and state level—reflecting our
+              commitment to compliant, technology-enabled home healthcare.
+            </Reveal>
+          </>
+        ) : (
+          <Reveal as="p" className="achievements-lead achievements-lead--embedded" delay={0.04} y={8}>
+            Official certificates and government startup recognition for Ambimed Healthcare.
+          </Reveal>
+        )}
 
         <div className="achievements-grid">
           {items.map((item, i) => (

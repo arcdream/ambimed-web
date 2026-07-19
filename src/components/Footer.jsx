@@ -4,79 +4,102 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Reveal } from '@/components/motion/Reveal'
 import { config } from '../data/config'
+import { marketingNav, isNavDropdown } from '@/data/siteNav'
 import { services } from '../data/services'
 
-const quickLinksBase = [
-  { id: 'services', label: 'Services' },
-  { id: 'about', label: 'About' },
-  { href: '/blog', label: 'Blog' },
-  { id: 'contact', label: 'Contact' },
-  { id: 'apps', label: 'Our Apps' },
-]
+const SERVICE_LABELS = {
+  'home-nurse': 'Home Nursing',
+  'caregiver-assistant': 'Caregiver',
+  physiotherapy: 'Physiotherapy',
+  'mother-baby': 'Mother & Baby Care',
+}
 
 export function Footer() {
   const pathname = usePathname()
-  const isHomePage = pathname === '/'
-  const quickLinks = config.showAboutSection ? quickLinksBase : quickLinksBase.filter((l) => l.id !== 'about')
-
-  const quickLinkHref = (id) => `/#${id}`
+  const aboutLinks = marketingNav.find((item) => isNavDropdown(item) && item.label === 'About Us')
+  const serviceLinks = marketingNav.find((item) => isNavDropdown(item) && item.label === 'Services')
+  const topLinks = marketingNav.filter((item) => !isNavDropdown(item))
 
   return (
     <Reveal as="footer" className="footer" y={0}>
       <div className="container footer-grid">
         <div className="footer-brand">
-          <span className="logo-text">
-            <span className="logo-ambi">AMBI</span><span className="logo-med">MED</span>
-          </span>
-          <p className="footer-tagline">Trusted home healthcare. Easy booking. Transparent billing.</p>
+          <Link href="/" className="footer-brand-link">
+            <span className="logo-text">
+              <span className="logo-ambi">AMBI</span>
+              <span className="logo-med">MED</span>
+            </span>
+          </Link>
+          <p className="footer-tagline">Trusted home healthcare. Transparent pricing. Care at your doorstep.</p>
         </div>
-        <div className="footer-links">
-          <p className="footer-section-heading" id="footer-quick-links-heading">
-            Quick links
-          </p>
-          <ul aria-labelledby="footer-quick-links-heading">
-            {quickLinks.map((link) => (
-              <li key={link.href ?? link.id}>
-                {link.href ? (
+
+        {aboutLinks && isNavDropdown(aboutLinks) ? (
+          <div className="footer-links">
+            <p className="footer-section-heading" id="footer-about-heading">
+              About Us
+            </p>
+            <ul aria-labelledby="footer-about-heading">
+              {aboutLinks.children.map((link) => (
+                <li key={link.href}>
                   <Link href={link.href} className="footer-link footer-link--anchor">
                     {link.label}
                   </Link>
-                ) : isHomePage ? (
-                  <button
-                    type="button"
-                    className="footer-link"
-                    onClick={() => document.getElementById(link.id)?.scrollIntoView({ behavior: 'smooth' })}
-                  >
-                    {link.label}
-                  </button>
-                ) : (
-                  <Link href={quickLinkHref(link.id)} className="footer-link footer-link--anchor">
-                    {link.label}
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
         <div className="footer-links">
           <p className="footer-section-heading" id="footer-services-heading">
-            Our services
+            Services
           </p>
           <ul aria-labelledby="footer-services-heading">
-            {services.map((svc) => (
-              <li key={svc.id}>
-                <Link href={`/services/${svc.id}`} className="footer-link footer-link--anchor">
-                  {svc.title}
+            {(serviceLinks && isNavDropdown(serviceLinks) ? serviceLinks.children : services.map((s) => ({
+              href: `/services/${s.id}`,
+              label: SERVICE_LABELS[s.id] ?? s.title,
+            }))).map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="footer-link footer-link--anchor">
+                  {link.label}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
+
+        <div className="footer-links">
+          <p className="footer-section-heading" id="footer-quick-links-heading">
+            Explore
+          </p>
+          <ul aria-labelledby="footer-quick-links-heading">
+            {topLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={`footer-link footer-link--anchor${pathname === link.href ? ' is-active' : ''}`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <div className="footer-contact">
           <p className="footer-section-heading" id="footer-contact-heading">
             Contact
           </p>
-          <p>{config.contact.phone} · {config.contact.email}</p>
+          <p>
+            <a href={`tel:${config.contact.phone.replace(/\s/g, '')}`} className="footer-link footer-link--anchor">
+              {config.contact.phone}
+            </a>
+          </p>
+          <p>
+            <a href={`mailto:${config.contact.email}`} className="footer-link footer-link--anchor">
+              {config.contact.email}
+            </a>
+          </p>
         </div>
       </div>
       <div className="footer-bottom">

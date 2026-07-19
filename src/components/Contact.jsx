@@ -12,20 +12,24 @@ const CONTACT = config.contact
 const SOCIAL = config.social
 const CITIES = config.citiesOperating ?? []
 
-export function Contact() {
+export function Contact({ embedded = false }) {
   const loginBookingDisabled = isLoginAndBookingDisabled()
   const telHref = `tel:${CONTACT.phone.replace(/\s/g, '')}`
   const waHref = CONTACT.whatsapp ? `https://wa.me/${String(CONTACT.whatsapp).replace(/\D/g, '')}` : null
 
   return (
-    <section id="contact" className="section section-contact">
+    <section id={embedded ? undefined : 'contact'} className={`section section-contact${embedded ? ' section-contact--embedded' : ''}`}>
       <div className="container">
-        <Reveal as="p" className="section-subtitle">
-          Get in touch
-        </Reveal>
-        <Reveal as="h2" className="section-title">
-          Contact us
-        </Reveal>
+        {!embedded ? (
+          <>
+            <Reveal as="p" className="section-subtitle">
+              Get in touch
+            </Reveal>
+            <Reveal as="h2" className="section-title">
+              Contact us
+            </Reveal>
+          </>
+        ) : null}
 
         <Reveal className="contact-ref" y={20}>
           <div className="contact-ref-grid">

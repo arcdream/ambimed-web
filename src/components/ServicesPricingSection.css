@@ -1,3 +1,12 @@
+.section-services-pricing--embedded {
+  padding-top: 2rem;
+  border-top: none;
+}
+
+.section-services-pricing--embedded .services-pricing-grid {
+  margin-top: 0;
+}
+
 /* Services & tariffs — reference-style pricing cards */
 .section-services-pricing {
   position: relative;
