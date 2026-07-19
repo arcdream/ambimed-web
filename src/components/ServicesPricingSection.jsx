@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Calendar, Heart, Tag } from 'lucide-react'
+import { ArrowRight, Heart, ShieldCheck, Tag } from 'lucide-react'
 import { Reveal } from '@/components/motion/Reveal'
 import { ServiceIcon } from '@/components/ServiceIcon'
 import { config } from '@/data/config'
@@ -158,6 +158,7 @@ export function ServicesPricingSection() {
       <div className="container services-pricing-inner">
         <header className="services-pricing-header">
           <Reveal className="services-pricing-eyebrow-pill" y={0}>
+            <Tag className="services-pricing-eyebrow-pill__icon" strokeWidth={2} aria-hidden />
             Plans &amp; savings
           </Reveal>
           <Reveal as="h2" id="services-pricing-heading" className="services-pricing-title" y={10}>
@@ -248,37 +249,16 @@ export function ServicesPricingSection() {
                 )}
                 <Link href={plan.serviceHref} className="services-pricing-details-link">
                   View service details
+                  <ArrowRight className="services-pricing-details-link__arrow" strokeWidth={2.25} aria-hidden />
                 </Link>
               </div>
             </Reveal>
           ))}
         </div>
 
-        <Reveal className="services-pricing-info-strip" y={16}>
-          <div className="services-pricing-info-card services-pricing-info-card--offer">
-            <span className="services-pricing-info-card__icon-wrap" aria-hidden>
-              <Tag strokeWidth={2} />
-            </span>
-            <div>
-              <p className="services-pricing-info-card__title">
-                {showDiscount ? `Up to ${displayDiscount}% OFF on eligible bookings` : 'Exclusive offers on eligible bookings'}
-              </p>
-              <p className="services-pricing-info-card__text">
-                Save more when you book with our current offers.
-              </p>
-            </div>
-          </div>
-          <div className="services-pricing-info-card services-pricing-info-card--booking">
-            <span className="services-pricing-info-card__icon-wrap" aria-hidden>
-              <Calendar strokeWidth={2} />
-            </span>
-            <div>
-              <p className="services-pricing-info-card__title">Minimum booking: 1 month</p>
-              <p className="services-pricing-info-card__text">
-                All services require a minimum booking of 1 month.
-              </p>
-            </div>
-          </div>
+        <Reveal className="services-pricing-trust" y={16}>
+          <ShieldCheck className="services-pricing-trust__icon" strokeWidth={2} aria-hidden />
+          <span>Trusted care. Verified professionals. No hidden charges.</span>
         </Reveal>
 
         <Reveal className="services-pricing-custom-quote" y={12}>
