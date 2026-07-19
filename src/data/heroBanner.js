@@ -1,47 +1,69 @@
-/** Hero carousel slides — image paths under /public/assets/hero/ */
+/** Hero carousel — image + matching copy per slide */
 export const heroBannerSlides = [
   {
     id: 'verified-caregiver',
     image: '/assets/hero/banner-verified-caregiver.png',
-    alt: 'Trusted and verified Ambimed caregivers providing compassionate home care',
-    variant: 'designed',
+    alt: 'Trusted Ambimed caregivers providing compassionate home care',
     imageFocus: 'caregiver',
-    badge: 'Trusted Home Healthcare',
-    title: 'Trusted & verified',
-    highlight: 'caregivers',
-    highlights: ['Background Verified', 'Professionally Trained', 'Experienced Caregivers', 'Safe & Trusted'],
+    headline: {
+      line1: 'Trusted & verified',
+      line2: 'home',
+      accent: 'caregivers',
+    },
+    description:
+      'Background-checked professionals who bring compassionate, hospital-grade care to your doorstep.',
   },
   {
     id: 'transparent-pricing',
     image: '/assets/hero/banner-transparent-pricing.png',
-    alt: 'Caregiver and family reviewing a transparent Ambimed service estimate with clear daily rates',
-    variant: 'designed',
-    theme: 'light',
+    alt: 'Transparent Ambimed service pricing with clear daily rates',
     imageFocus: 'pricing',
-    badge: 'No hidden charges',
-    title: 'Best & transparent',
-    highlight: 'pricing',
-    highlights: ['Clear Daily Rate', 'Upfront Estimates', 'No Hidden Charges'],
+    headline: {
+      line1: 'Clear, honest',
+      line2: null,
+      accent: 'pricing',
+    },
+    description:
+      'Published daily rates and upfront estimates — know what you pay before care begins.',
   },
   {
     id: 'easy-booking',
     image: '/assets/hero/banner-easy-booking.png',
-    alt: 'Woman booking Ambimed home healthcare on the Android app with OTP sign-in',
-    variant: 'designed',
-    theme: 'light',
+    alt: 'Booking Ambimed home healthcare on mobile',
     imageFocus: 'booking',
-    badge: 'Book in minutes',
-    title: 'Easy booking on',
-    highlight: 'web & app',
-    highlights: ['Choose Service', 'Pick Date', 'Confirm Booking', 'Easy and Secure'],
+    headline: {
+      line1: 'Easy booking on',
+      line2: null,
+      accent: 'web & app',
+    },
+    description:
+      'Choose your service, pick a date, and confirm securely — in just a few taps.',
   },
   {
     id: 'caregiver-tracking',
     image: '/assets/hero/banner-caregiver-tracking.png',
-    alt: 'Tracking caregiver arrival and visit updates on the Ambimed mobile app',
-    badge: 'Live updates',
-    title: 'Track your caregiver',
-    highlight: 'in the app',
-    highlights: ['Assigned Caregiver', 'Caregiver Profile', 'Visit Updates', 'Manage Booking'],
+    alt: 'Tracking caregiver visits on the Ambimed app',
+    imageFocus: 'tracking',
+    headline: {
+      line1: 'Track your caregiver',
+      line2: 'in the',
+      accent: 'app',
+    },
+    description:
+      'See assigned professionals, visit updates, and manage bookings in one place.',
   },
 ]
+
+export const heroCta = {
+  label: 'Book Care',
+  href: '/app/booking',
+}
+
+export const heroWelcomeCopy = {
+  headline: {
+    line1: 'Your care hub is',
+    line2: null,
+    accent: 'ready',
+  },
+  description: 'Book visits, track caregivers, and manage home care from web or app.',
+}

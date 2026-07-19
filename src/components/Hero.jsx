@@ -2,27 +2,14 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import Image from 'next/image'
+import { Calendar } from 'lucide-react'
 import { useAuth } from '@/client-app/context/AuthContext'
-import { config } from '@/data/config'
-import { heroBannerSlides } from '@/data/heroBanner'
+import { heroBannerSlides, heroCta, heroWelcomeCopy } from '@/data/heroBanner'
+import './Hero.css'
 
 const SLIDE_INTERVAL_MS = 6000
-
-function GooglePlayIcon() {
-  return (
-    <svg className="hero-banner-app-icon" viewBox="0 0 24 24" aria-hidden>
-      <path
-        fill="currentColor"
-        d="M3.6 2.4A1.2 1.2 0 0 0 2.4 3.6v16.8a1.2 1.2 0 0 0 1.8 1.05l12.6-7.2a1.2 1.2 0 0 0 0-2.1L3.6 2.4Z"
-      />
-    </svg>
-  )
-}
-
-function scrollToServices() {
-  document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })
-}
+const SLIDE_COUNT = heroBannerSlides.length
 
 export function Hero() {
   const { user, isAuthenticated, isLoading } = useAuth()
@@ -30,18 +17,18 @@ export function Hero() {
   const [paused, setPaused] = useState(false)
 
   const first = user?.firstName?.trim()
-  const personalized = isAuthenticated && !isLoading && !!user
+  const showWelcome = isAuthenticated && !isLoading && !!user
   const slide = heroBannerSlides[activeIndex]
-  const isDesigned = slide.variant === 'designed'
-  const isLightTheme = slide.theme === 'light'
-  const imageClass = slide.imageFocus ? ` hero-banner-image--${slide.imageFocus}` : ''
+
+  const headline = showWelcome ? heroWelcomeCopy.headline : slide.headline
+  const description = showWelcome ? heroWelcomeCopy.description : slide.description
+  const copyKey = showWelcome ? 'welcome' : slide.id
 
   const goTo = useCallback((index) => {
-    setActiveIndex((index + heroBannerSlides.length) % heroBannerSlides.length)
+    setActiveIndex((index + SLIDE_COUNT) % SLIDE_COUNT)
   }, [])
 
   const next = useCallback(() => goTo(activeIndex + 1), [activeIndex, goTo])
-  const prev = useCallback(() => goTo(activeIndex - 1), [activeIndex, goTo])
 
   useEffect(() => {
     if (paused) return
@@ -50,132 +37,93 @@ export function Hero() {
   }, [next, paused])
 
   return (
-    <section
-      id="hero"
-      className={`hero hero--banner${personalized ? ' hero--personalized' : ''}`}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-    >
-      <div className="container">
-        <div className={`hero-banner-frame${isLightTheme ? ' hero-banner-frame--light' : ''}`}>
-        <div className="hero-banner-track" aria-hidden>
-          <img
-            key={slide.id}
-            src={slide.image}
-            alt={slide.alt || ''}
-            className={`hero-banner-image${imageClass}`}
-          />
-        </div>
-
-        <div
-          className={`hero-banner-overlay${
-            isDesigned && !isLightTheme ? ' hero-banner-overlay--photo-left' : ''
-          }${isLightTheme ? ' hero-banner-overlay--light-left' : ''}`}
-          aria-hidden
-        />
-
-        <div className={`hero-banner-content${isLightTheme ? ' hero-banner-content--light' : ''}`}>
-        <div key={slide.id} className="hero-banner-copy">
-            {personalized ? (
-              <p className="hero-badge hero-badge--welcome hero-badge--on-banner">
-                Welcome back{first ? `, ${first}` : ''}
-              </p>
-            ) : (
-              <p className="hero-badge hero-badge--on-banner">{slide.badge}</p>
+    <section id="hero" className="hero-simple" aria-labelledby="hero-heading">
+      <div className="container hero-simple__container">
+        <div className="hero-simple__grid">
+          <div className="hero-simple__copy">
+            {showWelcome && (
+              <p className="hero-simple__welcome">Welcome back{first ? `, ${first}` : ''}</p>
             )}
-            <h1 className="hero-title hero-title--banner">
-              {personalized ? (
-                <>
-                  Your care hub is <span className="hero-highlight">ready</span>
-                </>
-              ) : (
-                <>
-                  {slide.title} <span className="hero-highlight">{slide.highlight}</span>
-                </>
-              )}
-            </h1>
-            {(personalized || slide.description) && (
-              <p className="hero-desc hero-desc--banner">
-                {personalized
-                  ? 'Book visits, track caregivers, and manage home care — on web or the Ambimed app.'
-                  : slide.description}
-              </p>
-            )}
-            {!personalized && slide.highlights?.length > 0 && (
-              <ul className="hero-banner-highlights">
-                {slide.highlights.map((point) => (
-                  <li key={point}>{point}</li>
-                ))}
-              </ul>
-            )}
-        </div>
 
-        <div className="hero-banner-actions">
-          <Link href="/app/booking" className="btn btn-primary btn--banner">
-            Book care
-          </Link>
-          <button type="button" className="btn btn-secondary btn--banner" onClick={scrollToServices}>
-            Our services
-          </button>
-        </div>
+            <div key={copyKey} className="hero-simple__copy-panel">
+              <h1 id="hero-heading" className="hero-simple__headline">
+                <span className="hero-simple__headline-line">{headline.line1}</span>
+                {headline.line2 ? (
+                  <span className="hero-simple__headline-line">{headline.line2}</span>
+                ) : null}
+                <span className="hero-simple__headline-line">
+                  <span className="hero-simple__headline-accent">{headline.accent}</span>.
+                </span>
+              </h1>
 
-        <a
-          href={config.clientAppUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hero-banner-app-download"
-          aria-label="Download Ambimed Healthcare on Google Play"
-        >
-          <span className="hero-banner-app-download-icon-wrap" aria-hidden>
-            <GooglePlayIcon />
-          </span>
-          <span className="hero-banner-app-download-text">
-            <span className="hero-banner-app-download-label">Get the Android app</span>
-            <span className="hero-banner-app-download-sub">Track caregivers · Book faster · OTP login</span>
-          </span>
-          <img
-            src="/assets/google-play-badge.svg"
-            alt=""
-            className="hero-banner-app-badge"
-            width={140}
-            height={42}
-          />
-        </a>
-        </div>
+              <div className="hero-simple__rule" aria-hidden />
 
-        <div className="hero-banner-controls">
-          <button type="button" className="hero-banner-arrow hero-banner-arrow--prev" onClick={prev} aria-label="Previous slide">
-            ‹
-          </button>
-          <div className="hero-banner-dots" role="tablist" aria-label="Hero banner slides">
-            {heroBannerSlides.map((s, i) => (
-              <button
-                key={s.id}
-                type="button"
-                role="tab"
-                aria-selected={i === activeIndex}
-                aria-label={s.title.replace(/\s+/g, ' ')}
-                className={`hero-banner-dot${i === activeIndex ? ' active' : ''}`}
-                onClick={() => goTo(i)}
-              />
-            ))}
+              <p className="hero-simple__lead">{description}</p>
+            </div>
+
+            <Link href={heroCta.href} className="hero-simple__cta">
+              <Calendar className="hero-simple__cta-icon" strokeWidth={2} aria-hidden />
+              {heroCta.label}
+            </Link>
           </div>
-          <button type="button" className="hero-banner-arrow hero-banner-arrow--next" onClick={next} aria-label="Next slide">
-            ›
-          </button>
-        </div>
 
-        <div className="hero-banner-progress" aria-hidden>
-          <motion.div
-            key={`${slide.id}-${paused}`}
-            className="hero-banner-progress-bar"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: paused ? undefined : 1 }}
-            transition={{ duration: SLIDE_INTERVAL_MS / 1000, ease: 'linear' }}
-          />
-        </div>
+          <div
+            className="hero-simple__visual"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            onFocus={() => setPaused(true)}
+            onBlur={() => setPaused(false)}
+          >
+            <div className="hero-simple__frame">
+              {heroBannerSlides.map((s, i) => (
+                <Image
+                  key={s.id}
+                  src={s.image}
+                  alt={i === activeIndex ? s.alt : ''}
+                  aria-hidden={i !== activeIndex}
+                  fill
+                  priority={i === 0}
+                  sizes="(max-width: 899px) 100vw, 46vw"
+                  className={`hero-simple__slide${
+                    s.imageFocus ? ` hero-simple__slide--${s.imageFocus}` : ''
+                  }${i === activeIndex ? ' is-active' : ''}`}
+                />
+              ))}
+
+              <svg
+                className="hero-simple__wave"
+                viewBox="0 0 1440 80"
+                preserveAspectRatio="none"
+                aria-hidden
+              >
+                <path
+                  d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,45 L1440,80 L0,80 Z"
+                  fill="#ffffff"
+                />
+              </svg>
+
+              <div className="hero-simple__dots" role="tablist" aria-label="Hero slides">
+                {heroBannerSlides.map((s, i) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === activeIndex}
+                    aria-label={s.headline.line1}
+                    className={`hero-simple__dot${i === activeIndex ? ' is-active' : ''}`}
+                    onClick={() => goTo(i)}
+                  />
+                ))}
+              </div>
+
+              <div className="hero-simple__progress" aria-hidden>
+                <span
+                  key={`${activeIndex}-${paused}`}
+                  className={`hero-simple__progress-bar${paused ? ' is-paused' : ''}`}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
