@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { config } from '@/data/config'
 import { useAuth } from '@/client-app/context/AuthContext'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 
 const LOGO_IMG = '/assets/ambimed-logo.png'
 
@@ -39,6 +40,7 @@ export function Header() {
   const isHomePage = pathname === '/'
   const useMarketingHashLinks = !isApp && !isHomePage
   const { user, isAuthenticated, referralHubAccess, isLoading, logout } = useAuth()
+  const loginBookingDisabled = isLoginAndBookingDisabled()
   const [open, setOpen] = useState(false)
   const [logoError, setLogoError] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
@@ -112,13 +114,13 @@ export function Header() {
   }
 
   const appNavLinksResolved = useMemo(() => {
-    const links = [...appNavLinks]
+    let links = appNavLinks.filter((l) => !(loginBookingDisabled && l.href === '/app/booking'))
     if (referralHubAccess) {
       const idx = links.findIndex((l) => l.href === '/app/history')
       if (idx >= 0) links.splice(idx + 1, 0, { href: '/app/doctor', label: 'Referral hub' })
     }
     return links
-  }, [referralHubAccess])
+  }, [referralHubAccess, loginBookingDisabled])
 
   const displayName = user?.firstName?.trim() || (user?.mobileNumber ? `…${String(user.mobileNumber).slice(-4)}` : 'there')
   const avatarLetter = (
@@ -157,9 +159,11 @@ export function Header() {
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.15 }}
               >
-                <Link href="/app/booking" onClick={() => setUserMenuOpen(false)}>
-                  Book care
-                </Link>
+                {!loginBookingDisabled && (
+                  <Link href="/app/booking" onClick={() => setUserMenuOpen(false)}>
+                    Book care
+                  </Link>
+                )}
                 <Link href="/app/history" onClick={() => setUserMenuOpen(false)}>
                   My bookings
                 </Link>
@@ -182,7 +186,7 @@ export function Header() {
             )}
           </AnimatePresence>
         </div>
-      ) : (
+      ) : loginBookingDisabled ? null : (
         <Link href="/app/login" className="header-btn-login">
           Log in
         </Link>
@@ -214,7 +218,7 @@ export function Header() {
                 </Link>
               ))
             : marketingNav.map((link) => renderMarketingNavLink(link))}
-          {!isApp && (
+          {!isApp && !loginBookingDisabled && (
             <Link href="/app/booking" className="nav-link nav-link--cta">
               Book care
             </Link>
@@ -223,7 +227,7 @@ export function Header() {
         </nav>
 
         <div className="header-mobile-actions">
-          {!isLoading && !isAuthenticated && (
+          {!isLoading && !isAuthenticated && !loginBookingDisabled && (
             <Link href="/app/login" className="header-btn-login header-btn-login--compact">
               Log in
             </Link>
@@ -258,21 +262,23 @@ export function Header() {
                   </Link>
                 ))
               : marketingNav.map((link) => renderMarketingNavLink(link, () => setOpen(false)))}
-            {!isApp && (
+            {!isApp && !loginBookingDisabled && (
               <Link href="/app/booking" className="nav-link nav-link--cta" onClick={() => setOpen(false)}>
                 Book care
               </Link>
             )}
-            {!isLoading && !isAuthenticated && (
+            {!isLoading && !isAuthenticated && !loginBookingDisabled && (
               <Link href="/app/login" className="nav-link nav-link--login-mobile" onClick={() => setOpen(false)}>
                 Log in
               </Link>
             )}
             {!isLoading && isAuthenticated && (
               <>
-                <Link href="/app/booking" className="nav-link" onClick={() => setOpen(false)}>
-                  Book care (dashboard)
-                </Link>
+                {!loginBookingDisabled && (
+                  <Link href="/app/booking" className="nav-link" onClick={() => setOpen(false)}>
+                    Book care (dashboard)
+                  </Link>
+                )}
                 <Link href="/app/history" className="nav-link" onClick={() => setOpen(false)}>
                   My bookings
                 </Link>

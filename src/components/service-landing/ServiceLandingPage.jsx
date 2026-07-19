@@ -4,6 +4,7 @@ import { Footer } from '@/components/Footer'
 import { ServiceFaqAccordion } from '@/components/service-landing/ServiceFaqAccordion'
 import { ServiceLeadForm } from '@/components/service-landing/ServiceLeadForm'
 import { config } from '@/data/config'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 
 import '@/components/Header.css'
 import '@/components/Footer.css'
@@ -33,6 +34,7 @@ function CalendarIcon() {
 
 export function ServiceLandingPage({ landing }) {
   const phoneDigits = config.contact.phone.replace(/\D/g, '')
+  const loginBookingDisabled = isLoginAndBookingDisabled()
   const bookUrl = `/app/book/${landing.bookingServiceTypeId}`
 
   return (
@@ -56,10 +58,12 @@ export function ServiceLandingPage({ landing }) {
                 <p className="svc-hero-subtitle">{landing.hero.subtitle}</p>
                 <p className="svc-hero-desc">{landing.hero.description}</p>
                 <div className="svc-hero-actions">
-                  <Link href={bookUrl} className="btn btn-primary svc-btn">
-                    <CalendarIcon />
-                    Book {landing.hero.eyebrow}
-                  </Link>
+                  {!loginBookingDisabled && (
+                    <Link href={bookUrl} className="btn btn-primary svc-btn">
+                      <CalendarIcon />
+                      Book {landing.hero.eyebrow}
+                    </Link>
+                  )}
                   <a href={`tel:${phoneDigits}`} className="btn btn-secondary svc-btn">
                     <PhoneIcon />
                     Call Now
@@ -102,9 +106,11 @@ export function ServiceLandingPage({ landing }) {
               ))}
             </div>
             <div className="svc-section-cta">
-              <Link href={bookUrl} className="btn btn-primary">
-                Book {landing.hero.eyebrow}
-              </Link>
+              {!loginBookingDisabled && (
+                <Link href={bookUrl} className="btn btn-primary">
+                  Book {landing.hero.eyebrow}
+                </Link>
+              )}
             </div>
           </div>
         </section>
@@ -194,9 +200,11 @@ export function ServiceLandingPage({ landing }) {
                 <PhoneIcon />
                 {config.contact.phone}
               </a>
-              <Link href={bookUrl} className="btn btn-primary">
-                Book {landing.hero.eyebrow}
-              </Link>
+              {!loginBookingDisabled && (
+                <Link href={bookUrl} className="btn btn-primary">
+                  Book {landing.hero.eyebrow}
+                </Link>
+              )}
             </div>
           </div>
         </aside>

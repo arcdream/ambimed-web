@@ -6,6 +6,7 @@ import { ArrowRight, Calendar, Heart, Tag } from 'lucide-react'
 import { Reveal } from '@/components/motion/Reveal'
 import { ServiceIcon } from '@/components/ServiceIcon'
 import { config } from '@/data/config'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import {
   homePricingPlans,
   PRICING_CAREGIVER_NOTE,
@@ -75,6 +76,7 @@ function buildTiersFromFallback(fallbackTiers, discountPct) {
 }
 
 export function ServicesPricingSection() {
+  const loginBookingDisabled = isLoginAndBookingDisabled()
   const [liveServices, setLiveServices] = useState([])
   const [discountPct, setDiscountPct] = useState(DEFAULT_DISCOUNT_PCT)
   const [liveLoaded, setLiveLoaded] = useState(false)
@@ -238,10 +240,12 @@ export function ServicesPricingSection() {
               ) : null}
 
               <div className="services-pricing-card__foot">
-                <Link href={plan.bookHref} className="services-pricing-book">
-                  Book {plan.shortTitle}
-                  <ArrowRight className="services-pricing-book__arrow" strokeWidth={2.5} aria-hidden />
-                </Link>
+                {!loginBookingDisabled && (
+                  <Link href={plan.bookHref} className="services-pricing-book">
+                    Book {plan.shortTitle}
+                    <ArrowRight className="services-pricing-book__arrow" strokeWidth={2.5} aria-hidden />
+                  </Link>
+                )}
                 <Link href={plan.serviceHref} className="services-pricing-details-link">
                   View service details
                 </Link>
@@ -290,9 +294,11 @@ export function ServicesPricingSection() {
               <a href={waHref} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
                 Get quote on WhatsApp
               </a>
-              <Link href="/app/booking" className="btn btn-secondary">
-                Book online
-              </Link>
+              {!loginBookingDisabled && (
+                <Link href="/app/booking" className="btn btn-secondary">
+                  Book online
+                </Link>
+              )}
             </div>
           </div>
         </Reveal>

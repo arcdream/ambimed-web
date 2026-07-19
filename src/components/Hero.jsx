@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Calendar } from 'lucide-react'
 import { useAuth } from '@/client-app/context/AuthContext'
 import { heroBannerSlides, heroCta, heroWelcomeCopy } from '@/data/heroBanner'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import './Hero.css'
 
 const SLIDE_INTERVAL_MS = 6000
@@ -18,6 +19,7 @@ export function Hero() {
 
   const first = user?.firstName?.trim()
   const showWelcome = isAuthenticated && !isLoading && !!user
+  const loginBookingDisabled = isLoginAndBookingDisabled()
   const slide = heroBannerSlides[activeIndex]
 
   const headline = showWelcome ? heroWelcomeCopy.headline : slide.headline
@@ -61,10 +63,12 @@ export function Hero() {
               <p className="hero-simple__lead">{description}</p>
             </div>
 
-            <Link href={heroCta.href} className="hero-simple__cta">
-              <Calendar className="hero-simple__cta-icon" strokeWidth={2} aria-hidden />
-              {heroCta.label}
-            </Link>
+            {!loginBookingDisabled && (
+              <Link href={heroCta.href} className="hero-simple__cta">
+                <Calendar className="hero-simple__cta-icon" strokeWidth={2} aria-hidden />
+                {heroCta.label}
+              </Link>
+            )}
           </div>
 
           <div

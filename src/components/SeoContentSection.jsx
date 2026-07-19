@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { MapPin, Receipt, ShieldCheck } from 'lucide-react'
 import { Reveal } from '@/components/motion/Reveal'
 import { homeSeoArticle } from '../data/homePageSeoCopy'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import './SeoContentSection.css'
 
 const STAT_ICONS = {
@@ -23,6 +24,7 @@ function renderParagraph(text) {
 }
 
 export function SeoContentSection() {
+  const loginBookingDisabled = isLoginAndBookingDisabled()
   const { eyebrow, title, lead, stats, sections } = homeSeoArticle
 
   return (
@@ -85,10 +87,18 @@ export function SeoContentSection() {
         </div>
 
         <Reveal as="p" className="seo-article-cta" delay={0.05} y={12}>
-          <Link href="/app/booking" className="seo-article-book-link">
-            Book home care online
-          </Link>{' '}
-          or scroll to <a href="#contact">contact us</a> for a tailored quote.
+          {loginBookingDisabled ? (
+            <>
+              <a href="#contact">Contact us</a> for a tailored quote.
+            </>
+          ) : (
+            <>
+              <Link href="/app/booking" className="seo-article-book-link">
+                Book home care online
+              </Link>{' '}
+              or scroll to <a href="#contact">contact us</a> for a tailored quote.
+            </>
+          )}
         </Reveal>
       </div>
     </section>

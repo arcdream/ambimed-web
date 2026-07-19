@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { BlogShell } from '@/components/blog/BlogShell'
 import { RelatedPosts } from '@/components/blog/RelatedPosts'
 import { config } from '@/data/config'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import {
   formatBlogDate,
   getAllPostSlugs,
@@ -97,6 +98,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   const related = getRelatedPosts(slug, 3)
   const jsonLd = buildBlogPostingJsonLd(post)
+  const loginBookingDisabled = isLoginAndBookingDisabled()
 
   return (
     <BlogShell>
@@ -141,10 +143,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           />
 
           <div className="blog-article-cta">
-            <p>Ready to book trusted home care?</p>
-            <Link href="/app/booking" className="btn btn-primary">
-              Book care online
-            </Link>
+            <p>{loginBookingDisabled ? 'Ready to talk about home care?' : 'Ready to book trusted home care?'}</p>
+            {loginBookingDisabled ? (
+              <Link href="/#contact" className="btn btn-primary">
+                Contact us
+              </Link>
+            ) : (
+              <Link href="/app/booking" className="btn btn-primary">
+                Book care online
+              </Link>
+            )}
           </div>
 
           <RelatedPosts posts={related} />

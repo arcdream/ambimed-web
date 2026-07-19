@@ -3,6 +3,7 @@
 import { Reveal } from '@/components/motion/Reveal'
 import Link from 'next/link'
 import { config } from '../data/config'
+import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import './Contact.css'
 
 const LOGO_IMG = '/assets/ambimed-logo.png'
@@ -12,6 +13,7 @@ const SOCIAL = config.social
 const CITIES = config.citiesOperating ?? []
 
 export function Contact() {
+  const loginBookingDisabled = isLoginAndBookingDisabled()
   const telHref = `tel:${CONTACT.phone.replace(/\s/g, '')}`
   const waHref = CONTACT.whatsapp ? `https://wa.me/${String(CONTACT.whatsapp).replace(/\D/g, '')}` : null
 
@@ -116,11 +118,13 @@ export function Contact() {
                     Terms &amp; Conditions
                   </Link>
                 </li>
-                <li>
-                  <Link href="/app/booking" className="contact-ref-company-link">
-                    Book care
-                  </Link>
-                </li>
+                {!loginBookingDisabled && (
+                  <li>
+                    <Link href="/app/booking" className="contact-ref-company-link">
+                      Book care
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
