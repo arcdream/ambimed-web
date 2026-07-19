@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { DM_Sans, Source_Serif_4 } from 'next/font/google'
+import { DM_Sans, Inter, Source_Serif_4 } from 'next/font/google'
 import '@/index.css'
 import '@/mobile.css'
 import { getSupabaseEnv } from '@/lib/supabase-env'
@@ -8,6 +8,12 @@ import { Providers } from '@/providers/Providers'
 const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-dm-sans',
+  weight: ['400', '500', '600', '700'],
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
   weight: ['400', '500', '600', '700'],
 })
 
@@ -36,7 +42,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${dmSans.variable} ${sourceSerif.variable}`}>
+      <body className={`${dmSans.variable} ${inter.variable} ${sourceSerif.variable}`}>
         <Providers supabaseConfig={supabaseConfig}>{children}</Providers>
       </body>
     </html>

@@ -6,10 +6,10 @@ export const heroBannerSlides = [
     alt: 'Trusted and verified Ambimed caregivers providing compassionate home care',
     variant: 'designed',
     imageFocus: 'caregiver',
-    badge: 'Trusted Home Healthcare',
+    badge: 'Trusted home healthcare',
     title: 'Trusted & verified',
     highlight: 'caregivers',
-    highlights: ['Background Verified', 'Professionally Trained', 'Experienced Caregivers', 'Safe & Trusted'],
+    description: 'Background-checked professionals who bring hospital-grade care to your doorstep.',
   },
   {
     id: 'transparent-pricing',
@@ -18,10 +18,10 @@ export const heroBannerSlides = [
     variant: 'designed',
     theme: 'light',
     imageFocus: 'pricing',
-    badge: 'No hidden charges',
-    title: 'Best & transparent',
+    badge: 'Transparent billing',
+    title: 'Clear, honest',
     highlight: 'pricing',
-    highlights: ['Clear Daily Rate', 'Upfront Estimates', 'No Hidden Charges'],
+    description: 'Published daily rates and upfront estimates — no hidden charges.',
   },
   {
     id: 'easy-booking',
@@ -33,7 +33,7 @@ export const heroBannerSlides = [
     badge: 'Book in minutes',
     title: 'Easy booking on',
     highlight: 'web & app',
-    highlights: ['Choose Service', 'Pick Date', 'Confirm Booking', 'Easy and Secure'],
+    description: 'Choose your service, pick a date, and confirm — securely, in a few taps.',
   },
   {
     id: 'caregiver-tracking',
@@ -42,6 +42,6 @@ export const heroBannerSlides = [
     badge: 'Live updates',
     title: 'Track your caregiver',
     highlight: 'in the app',
-    highlights: ['Assigned Caregiver', 'Caregiver Profile', 'Visit Updates', 'Manage Booking'],
+    description: 'See assigned professionals, visit updates, and manage bookings in one place.',
   },
 ]
