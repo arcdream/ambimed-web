@@ -40,17 +40,16 @@ export const heroBannerSlides = [
       'Choose your service, pick a date, and confirm securely — in just a few taps.',
   },
   {
-    id: 'caregiver-tracking',
-    image: '/assets/hero/banner-caregiver-tracking.png',
-    alt: 'Tracking caregiver visits on the Ambimed app',
-    imageFocus: 'tracking',
+    id: 'startup-india',
+    image: '/assets/hero/banner-startup-india.svg',
+    alt: 'Ambimed recognised by Startup India, Government of India',
+    imageFocus: 'startup-india',
     headline: {
-      line1: 'Track your caregiver',
-      line2: 'in the',
-      accent: 'app',
+      line1: 'Recognised by',
+      line2: null,
+      accent: 'Startup India',
     },
-    description:
-      'See assigned professionals, visit updates, and manage bookings in one place.',
+    description: 'Government of India certified startup.',
   },
 ]
 

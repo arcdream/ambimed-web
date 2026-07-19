@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 840" fill="none" role="img" aria-label="Startup India recognition">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="800" y2="840" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEF6FF"/>
+      <stop offset="1" stop-color="#D8E8FF"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="400" y1="180" x2="400" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1565D8"/>
+      <stop offset="1" stop-color="#0B3B8C"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="840" fill="url(#bg)"/>
+  <circle cx="680" cy="120" r="140" fill="#1565D8" fill-opacity="0.06"/>
+  <circle cx="120" cy="720" r="180" fill="#1565D8" fill-opacity="0.05"/>
+
+  <g transform="translate(400 340)">
+    <path d="M0-150 L110 0 L110 120 C110 190 55 230 0 250 C-55 230 -110 190 -110 120 L-110 0 Z" fill="url(#shield)"/>
+    <path d="M0-118 L82 0 L82 108 C82 162 41 194 0 210 C-41 194 -82 162 -82 108 L-82 0 Z" fill="#fff" fill-opacity="0.12"/>
+    <path d="M-28 18 L-8 48 L28 48 L-2 68 L8 104 L-28 82 L-64 104 L-54 68 L-84 48 L-48 48 Z" fill="#fff"/>
+  </g>
+
+  <rect x="160" y="560" width="480" height="4" rx="2" fill="#FF9933" fill-opacity="0.85"/>
+  <rect x="160" y="572" width="480" height="4" rx="2" fill="#fff" stroke="#E2E8F0"/>
+  <rect x="160" y="584" width="480" height="4" rx="2" fill="#138808" fill-opacity="0.75"/>
+
+  <text x="400" y="650" text-anchor="middle" font-family="system-ui, sans-serif" font-size="42" font-weight="700" fill="#0B3B8C">Startup India</text>
+  <text x="400" y="700" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" font-weight="600" fill="#475569">Recognised by Government of India</text>
+  <text x="400" y="745" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" fill="#64748B">DPIIT Certified Startup</text>
+</svg>

@@ -172,8 +172,11 @@
   object-position: 52% center;
 }
 
-.hero-simple__slide--tracking {
-  object-position: 48% center;
+.hero-simple__slide--startup-india {
+  object-fit: contain;
+  object-position: center center;
+  padding: 1.5rem;
+  background: var(--hero-accent-bg);
 }
 
 .hero-simple__wave {
@@ -406,8 +409,8 @@
     object-position: 50% 18%;
   }
 
-  .hero-simple__slide--tracking {
-    object-position: 52% 22%;
+  .hero-simple__slide--startup-india {
+    padding: 1rem;
   }
 }
 
