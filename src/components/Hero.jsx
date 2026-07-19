@@ -102,26 +102,26 @@ export function Hero() {
                 />
               </svg>
 
-              <div className="hero-simple__dots" role="tablist" aria-label="Hero slides">
-                {heroBannerSlides.map((s, i) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={i === activeIndex}
-                    aria-label={s.headline.line1}
-                    className={`hero-simple__dot${i === activeIndex ? ' is-active' : ''}`}
-                    onClick={() => goTo(i)}
-                  />
-                ))}
-              </div>
-
               <div className="hero-simple__progress" aria-hidden>
                 <span
                   key={`${activeIndex}-${paused}`}
                   className={`hero-simple__progress-bar${paused ? ' is-paused' : ''}`}
                 />
               </div>
+            </div>
+
+            <div className="hero-simple__nav" role="tablist" aria-label="Hero slides">
+              {heroBannerSlides.map((s, i) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === activeIndex}
+                  aria-label={s.headline.line1}
+                  className={`hero-simple__dot${i === activeIndex ? ' is-active' : ''}`}
+                  onClick={() => goTo(i)}
+                />
+              ))}
             </div>
           </div>
         </div>

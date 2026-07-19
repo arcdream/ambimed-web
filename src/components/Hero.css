@@ -126,6 +126,10 @@
 .hero-simple__visual {
   width: 100%;
   margin-top: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
 }
 
 .hero-simple__frame {
@@ -136,6 +140,13 @@
   overflow: hidden;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.1);
   background: var(--hero-accent-bg);
+}
+
+.hero-simple__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
 .hero-simple__slide {
@@ -176,35 +187,30 @@
   pointer-events: none;
 }
 
-.hero-simple__dots {
-  position: absolute;
-  left: 50%;
-  bottom: 1.35rem;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  transform: translateX(-50%);
-  padding: 0.3rem 0.55rem;
-  border-radius: 999px;
-  background: rgba(15, 23, 42, 0.28);
-  backdrop-filter: blur(8px);
-}
-
 .hero-simple__dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   padding: 0;
   border: none;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(21, 101, 216, 0.22);
   cursor: pointer;
   transition: width 0.25s ease, background 0.25s ease;
 }
 
 .hero-simple__dot.is-active {
-  width: 18px;
-  background: #fff;
+  width: 22px;
+  background: var(--hero-primary);
+}
+
+.hero-simple__dot:focus-visible {
+  outline: 2px solid var(--hero-primary);
+  outline-offset: 2px;
+}
+
+/* Legacy alias — removed overlay dots */
+.hero-simple__dots {
+  display: none;
 }
 
 .hero-simple__progress {
@@ -300,13 +306,157 @@
 
 @media (max-width: 899px) {
   .hero-simple {
-    padding-left: max(1rem, env(safe-area-inset-left, 0px));
-    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+    padding-top: calc(4.75rem + env(safe-area-inset-top, 0px));
+    padding-left: max(1.125rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1.125rem, env(safe-area-inset-right, 0px));
+    padding-bottom: 0.5rem;
+    background: linear-gradient(180deg, #fff 0%, #fafcff 55%, #fff 100%);
+  }
+
+  .hero-simple__grid {
+    gap: 1.35rem;
+  }
+
+  .hero-simple__copy {
+    padding-top: 0.25rem;
+    text-align: left;
+  }
+
+  .hero-simple__copy-panel {
+    min-height: 9.5rem;
+  }
+
+  .hero-simple__welcome {
+    font-size: 0.8125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-simple__headline {
+    font-size: clamp(1.875rem, 7.2vw, 2.35rem);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+  }
+
+  .hero-simple__rule {
+    width: 2.75rem;
+    height: 2.5px;
+    margin: 0.85rem 0 0.9rem;
+  }
+
+  .hero-simple__lead {
+    max-width: none;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
   }
 
   .hero-simple__cta {
     width: 100%;
-    max-width: 100%;
+    min-height: 50px;
+    border-radius: 14px;
+    font-size: 0.9375rem;
+    box-shadow: 0 8px 22px rgba(21, 101, 216, 0.22);
+  }
+
+  .hero-simple__visual {
+    margin-top: 0.15rem;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .hero-simple__frame {
+    aspect-ratio: 16 / 11;
+    border-radius: 20px;
+    box-shadow:
+      0 16px 40px rgba(15, 23, 42, 0.08),
+      0 0 0 1px rgba(21, 101, 216, 0.06);
+  }
+
+  .hero-simple__wave {
+    display: none;
+  }
+
+  .hero-simple__progress {
+    display: none;
+  }
+
+  .hero-simple__nav {
+    padding-bottom: 0.25rem;
+  }
+
+  .hero-simple__dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .hero-simple__dot.is-active {
+    width: 20px;
+  }
+
+  /* Show more of banner artwork faces on mobile */
+  .hero-simple__slide--caregiver {
+    object-position: 58% 22%;
+  }
+
+  .hero-simple__slide--pricing {
+    object-position: 50% 20%;
+  }
+
+  .hero-simple__slide--booking {
+    object-position: 50% 18%;
+  }
+
+  .hero-simple__slide--tracking {
+    object-position: 52% 22%;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-simple__headline {
+    font-size: 1.75rem;
+  }
+
+  .hero-simple__copy-panel {
+    min-height: 8.75rem;
+  }
+
+  .hero-simple__frame {
+    aspect-ratio: 16 / 12;
+    border-radius: 18px;
+  }
+}
+
+@media (min-width: 900px) {
+  .hero-simple__visual {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .hero-simple__frame {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .hero-simple__nav {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: end;
+    justify-self: center;
+    z-index: 3;
+    margin-bottom: 1.35rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.28);
+    backdrop-filter: blur(8px);
+  }
+
+  .hero-simple__nav .hero-simple__dot {
+    background: rgba(255, 255, 255, 0.45);
+  }
+
+  .hero-simple__nav .hero-simple__dot.is-active {
+    background: #fff;
   }
 }
 
