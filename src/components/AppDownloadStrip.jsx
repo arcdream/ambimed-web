@@ -18,7 +18,7 @@ export function AppDownloadStrip() {
                 Get the Ambimed app
               </h2>
               <p className="app-strip__sub">
-                Book care, track visits, and manage appointments on Android.
+                Book care and track visits from your phone.
               </p>
             </div>
           </div>
