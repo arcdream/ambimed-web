@@ -1,45 +1,54 @@
-/** Homepage “Learn more” / why families choose section — edit copy here. */
+/** Homepage “Why choose Ambimed” section — edit copy here. */
 export const learnMoreSection = {
-  eyebrow: 'Why families choose Ambimed',
-  title: 'Trusted Home Healthcare Across India',
+  eyebrow: 'Why Ambimed',
+  titleAccent: 'Why Families Across India',
+  titleMain: 'Choose Ambimed',
   lead:
-    'Ambimed brings hospital-grade nursing, elder care, and physiotherapy to your home — with verified professionals, transparent pricing, and support you can reach day or night.',
-  image: '/assets/hero/banner-verified-caregiver.png',
-  imageAlt: 'Ambimed caregiver providing compassionate elder care at home',
-  cards: [
+    'Dependable, affordable home healthcare — verified caregivers and nurses, transparent pricing, and support you can reach by phone or WhatsApp any time.',
+  image: '/assets/home-caregiver-ambimed.png',
+  imageAlt: 'Ambimed caregiver providing compassionate home care to a senior at home',
+  stats: [
     {
-      icon: 'shield',
-      title: '100% Background-verified caregivers',
-      tagline: 'Only verified professionals enter your home',
-      description:
-        'Police verification, reference checks, and skills assessment before every deployment.',
+      value: '25,000+',
+      label: 'Families served',
+      detail: 'Trust Ambimed for nursing, elder care, and more',
     },
     {
-      icon: 'rupee',
-      title: 'Transparent pricing',
-      tagline: 'Daily 12 hr and 24 hr packages',
-      description: 'Published daily rates before you book. No last-minute add-ons or surprise fees.',
+      value: '12+',
+      label: 'Cities across India',
+      detail: 'Delhi, Bengaluru, Mumbai, Kolkata & more',
     },
     {
-      icon: 'headset',
-      title: '24/7 customer support',
-      tagline: 'Real humans by phone and WhatsApp',
-      description:
-        'Our care team answers calls around the clock — for booking help, emergencies, or care plan changes.',
+      value: '100%',
+      label: 'Background-verified staff',
+      detail: 'Police checks, ID verification & skills assessment',
     },
     {
-      icon: 'users',
-      title: 'Trusted by families',
-      taglineKey: 'familiesServed',
-      description:
-        'Dependable elder care, nursing, and mother & baby support families rely on month after month.',
+      value: '24×7',
+      label: 'Customer support',
+      detail: 'Real humans by phone and WhatsApp',
     },
   ],
-  trustBar: [
-    { icon: 'shield', label: 'Background Verified Caregivers' },
-    { icon: 'tag', label: 'Transparent Pricing' },
-    { icon: 'rupee', label: 'No Hidden Charges' },
-    { icon: 'headset', label: '24×7 Support' },
-    { icon: 'whatsapp', label: 'Easy Booking by Call or WhatsApp' },
+  cards: [
+    {
+      title: 'Verified caregivers',
+      description:
+        'Every professional passes background checks, ID verification, and skills assessment before entering your home.',
+    },
+    {
+      title: 'Transparent pricing',
+      description:
+        'Published daily rates with no hidden charges — know what you pay before care begins.',
+    },
+    {
+      title: 'Qualified nurses',
+      description:
+        'Registered nurses with hospital experience in medical, surgical, and post-discharge recovery care.',
+    },
+    {
+      title: 'Flexible, responsive care',
+      description:
+        'Hourly, daily, or monthly packages with 24×7 helpline support and quick replacements when needed.',
+    },
   ],
 }
