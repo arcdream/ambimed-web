@@ -6,7 +6,6 @@ import { Clock, Copy, MessageCircle, Phone, X } from 'lucide-react'
 import QRCode from 'react-qr-code'
 import {
   getDisplayPhone,
-  getPhoneDigits,
   getTelHref,
   getTelQrValue,
   getWhatsAppHref,
@@ -107,10 +106,12 @@ function CallContactModal({ open, onClose }) {
               {phone}
             </a>
 
-            <p className="call-contact-modal__qr-hint">Scan to call from your phone</p>
+            <p className="call-contact-modal__qr-hint">
+              Scan with your phone camera — tap <strong>Call</strong> when it appears
+            </p>
 
             <div className="call-contact-modal__qr-wrap">
-              <QRCode value={telQrValue} size={168} bgColor="#ffffff" fgColor="#0f172a" level="M" />
+              <QRCode value={telQrValue} size={168} bgColor="#ffffff" fgColor="#0f172a" level="H" />
             </div>
 
             <div className="call-contact-modal__actions">

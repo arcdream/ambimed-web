@@ -9,10 +9,12 @@ export function getTelHref(phone = config.contact.phone): string {
   return `tel:${getPhoneDigits(phone)}`
 }
 
-/** tel: value for QR codes — E.164-style with + prefix */
+/**
+ * QR payload for scan-to-call — must match getTelHref() (digits only, no "+").
+ * A "+" in tel: URIs breaks many Android scanners (wrong area codes like "835:").
+ */
 export function getTelQrValue(phone = config.contact.phone): string {
-  const digits = getPhoneDigits(phone)
-  return digits.startsWith('+') ? `tel:${digits}` : `tel:+${digits}`
+  return getTelHref(phone)
 }
 
 export function getWhatsAppHref(message?: string): string {
