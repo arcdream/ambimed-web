@@ -25,11 +25,17 @@
   border: 1px solid rgba(21, 101, 216, 0.1);
   font-size: 0.875rem;
   font-weight: 600;
+  font-family: inherit;
   text-decoration: none;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+button.contact-float__pill {
+  appearance: none;
 }
 
 .contact-float__pill-icon {

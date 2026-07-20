@@ -7,16 +7,10 @@ import { Reveal } from '@/components/motion/Reveal'
 import { CallCareButton } from '@/components/CallCareButton'
 import { ServiceIcon } from '@/components/ServiceIcon'
 import { config } from '@/data/config'
+import { PRICING_CAREGIVER_NOTE, PRICING_FOOTNOTE } from '@/data/pricingCopy'
 import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
-import {
-  homePricingPlans,
-  PRICING_CAREGIVER_NOTE,
-  PRICING_FOOTNOTE,
-  DEFAULT_DISCOUNT_PCT,
-} from '@/data/homePricing'
-import { metadataService } from '@/client-app/services/metadataService'
-import { fetchDefaultDiscount } from '@/client-app/services/discountService'
-import { isSupabaseConfigured } from '@/client-app/lib/supabase'
+import { getTelHref } from '@/lib/contactLinks'
+import { useServiceCatalog } from '@/hooks/useServiceCatalog'
 import './ServicesPricingSection.css'
 import '@/components/CallCareButton.css'
 
@@ -29,125 +23,9 @@ function formatInr(n) {
   }).format(n)
 }
 
-function monthlyFromDaily(daily) {
-  return Math.round(daily * 30)
-}
-
-function applyDiscount(price, discountPct) {
-  if (!discountPct || discountPct <= 0) return price
-  return Math.round((price * (100 - discountPct)) / 100)
-}
-
-function shiftLabelFromSubtype(sub) {
-  const name = sub.shiftTypeName?.trim()
-  const hours = sub.shiftDurationHours
-  if (name && hours) return `${name} · ${hours}H`
-  if (name) return name
-  if (hours) return `${hours}H session`
-  return 'Per visit'
-}
-
-function buildTiersFromLive(subtypes, discountPct) {
-  return subtypes.map((sub) => {
-    const listPrice = sub.price
-    const dealPrice = applyDiscount(listPrice, discountPct)
-    return {
-      id: sub.id,
-      name: sub.userFriendlyName || sub.subtypeName,
-      shiftLabel: shiftLabelFromSubtype(sub),
-      listPrice,
-      dealPrice,
-      savings: listPrice - dealPrice,
-    }
-  })
-}
-
-function buildTiersFromFallback(fallbackTiers, discountPct) {
-  return fallbackTiers.map((tier, i) => {
-    const listPrice = tier.priceInr
-    const dealPrice = applyDiscount(listPrice, discountPct)
-    return {
-      id: `fallback-${i}`,
-      name: tier.name,
-      shiftLabel: tier.shiftLabel,
-      listPrice,
-      dealPrice,
-      savings: listPrice - dealPrice,
-    }
-  })
-}
-
 export function ServicesPricingSection({ embedded = false }) {
   const loginBookingDisabled = isLoginAndBookingDisabled()
-  const [liveServices, setLiveServices] = useState([])
-  const [discountPct, setDiscountPct] = useState(DEFAULT_DISCOUNT_PCT)
-  const [liveLoaded, setLiveLoaded] = useState(false)
-
-  useEffect(() => {
-    let cancelled = false
-    async function load() {
-      if (!isSupabaseConfigured()) {
-        setLiveLoaded(true)
-        return
-      }
-      try {
-        const [svc, disc] = await Promise.all([
-          metadataService.fetchServicesMetadata(),
-          fetchDefaultDiscount(),
-        ])
-        if (cancelled) return
-        setLiveServices(svc ?? [])
-        const pct = disc?.discountPct ?? DEFAULT_DISCOUNT_PCT
-        setDiscountPct(Number.isFinite(pct) ? pct : DEFAULT_DISCOUNT_PCT)
-      } catch (e) {
-        console.error(e)
-      } finally {
-        if (!cancelled) setLiveLoaded(true)
-      }
-    }
-    load()
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
-  const plans = useMemo(() => {
-    const effectiveDiscount = discountPct
-
-    return homePricingPlans.map((plan) => {
-      const live = liveServices.find(
-        (s) => String(s.id) === plan.bookingServiceTypeId || s.slug === plan.id,
-      )
-
-      const tiers =
-        live?.subtypes?.length > 0
-          ? buildTiersFromLive(live.subtypes, effectiveDiscount)
-          : buildTiersFromFallback(plan.tiers, effectiveDiscount)
-
-      const lowestDeal = tiers.reduce(
-        (min, t) => (t.dealPrice < min ? t.dealPrice : min),
-        tiers[0]?.dealPrice ?? plan.startingDailyInr,
-      )
-      const lowestList = tiers.reduce(
-        (min, t) => (t.listPrice < min ? t.listPrice : min),
-        tiers[0]?.listPrice ?? plan.startingDailyInr,
-      )
-      const maxSavings = tiers.reduce((max, t) => (t.savings > max ? t.savings : max), 0)
-
-      return {
-        ...plan,
-        tiers,
-        hasLivePrice: Boolean(live?.subtypes?.length),
-        daily: lowestList,
-        discountedDaily: lowestDeal,
-        monthly: monthlyFromDaily(lowestList),
-        discountedMonthly: monthlyFromDaily(lowestDeal),
-        maxSavings,
-        bookHref: `/app/book/${plan.bookingServiceTypeId}`,
-        serviceHref: `/services/${plan.id}`,
-      }
-    })
-  }, [liveServices, discountPct])
+  const { plans, discountPct, loading, error } = useServiceCatalog()
 
   const displayDiscount = discountPct
   const showDiscount = displayDiscount > 0
@@ -182,10 +60,29 @@ export function ServicesPricingSection({ embedded = false }) {
           </header>
         ) : null}
 
+        {loading ? (
+          <p className="services-pricing-status" aria-live="polite">
+            Loading catalogue…
+          </p>
+        ) : null}
+
+        {!loading && error ? (
+          <p className="services-pricing-status services-pricing-status--error" role="alert">
+            {error}
+          </p>
+        ) : null}
+
+        {!loading && !error && plans.length === 0 ? (
+          <p className="services-pricing-status">
+            No services are available in the catalogue right now. Please{' '}
+            <a href={getTelHref()}>call customer care</a> for assistance.
+          </p>
+        ) : null}
+
         <div className="services-pricing-grid">
           {plans.map((plan, i) => (
             <Reveal
-              key={plan.id}
+              key={plan.bookingServiceTypeId}
               as="article"
               className={`services-pricing-card services-pricing-card--${plan.accent}`}
               delay={i * 0.06}
@@ -195,9 +92,7 @@ export function ServicesPricingSection({ embedded = false }) {
                 <ServiceIcon name={plan.icon} className="services-pricing-card__icon-wrap" />
                 <h3 className="services-pricing-card__title">{plan.title}</h3>
                 <p className="services-pricing-card__desc">{plan.description}</p>
-                {plan.hasLivePrice && liveLoaded ? (
-                  <span className="services-pricing-card__live-badge">Live catalogue</span>
-                ) : null}
+                <span className="services-pricing-card__live-badge">Live catalogue</span>
               </div>
 
               <div className="services-pricing-card__monthly">
@@ -249,12 +144,12 @@ export function ServicesPricingSection({ embedded = false }) {
               ) : null}
 
               <div className="services-pricing-card__foot">
-                {!loginBookingDisabled && (
+                {!loginBookingDisabled ? (
                   <Link href={plan.bookHref} className="services-pricing-book">
                     Book {plan.shortTitle}
                     <ArrowRight className="services-pricing-book__arrow" strokeWidth={2.5} aria-hidden />
                   </Link>
-                )}
+                ) : null}
                 <Link href={plan.serviceHref} className="services-pricing-details-link">
                   View service details
                   <ArrowRight className="services-pricing-details-link__arrow" strokeWidth={2.25} aria-hidden />

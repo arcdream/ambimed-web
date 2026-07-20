@@ -11,7 +11,7 @@ export function getBookCareHref(): string {
 }
 
 export function getServicesHref(): string {
-  return '/services/home-nurse'
+  return '/#services'
 }
 
 export const heroSecondaryLinks = {

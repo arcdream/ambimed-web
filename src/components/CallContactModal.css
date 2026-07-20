@@ -1,0 +1,198 @@
+.call-contact-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(6px);
+}
+
+.call-contact-modal__dialog {
+  position: relative;
+  width: min(100%, 22rem);
+  padding: 1.75rem 1.5rem 1.5rem;
+  border-radius: 20px;
+  border: 1px solid #e5eef8;
+  background: #fff;
+  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.18);
+  text-align: center;
+}
+
+.call-contact-modal__close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: 999px;
+  background: #eef6ff;
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.call-contact-modal__close svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.call-contact-modal__close:hover {
+  background: #dbeafe;
+  color: #0f172a;
+}
+
+.call-contact-modal__close:focus-visible {
+  outline: 2px solid rgba(21, 101, 216, 0.45);
+  outline-offset: 2px;
+}
+
+.call-contact-modal__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto 0.85rem;
+  border-radius: 999px;
+  color: #1565d8;
+  background: #eef6ff;
+}
+
+.call-contact-modal__icon-wrap svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.call-contact-modal__title {
+  margin: 0 0 0.35rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0b3b8c;
+}
+
+.call-contact-modal__phone {
+  display: block;
+  margin: 0 0 1rem;
+  font-size: clamp(1.35rem, 4vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #1565d8;
+  text-decoration: none;
+}
+
+.call-contact-modal__phone:hover {
+  color: #0b3b8c;
+  text-decoration: none;
+}
+
+.call-contact-modal__qr-hint {
+  margin: 0 0 0.65rem;
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+
+.call-contact-modal__qr-wrap {
+  display: inline-flex;
+  padding: 0.75rem;
+  margin: 0 auto 1.15rem;
+  border-radius: 14px;
+  border: 1px solid #e5eef8;
+  background: #fff;
+}
+
+.call-contact-modal__actions {
+  display: grid;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.call-contact-modal__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.call-contact-modal__btn svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.call-contact-modal__btn--primary {
+  border: none;
+  color: #fff;
+  background: #1565d8;
+  box-shadow: 0 4px 16px rgba(21, 101, 216, 0.22);
+}
+
+.call-contact-modal__btn--primary:hover {
+  background: #1256c0;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(21, 101, 216, 0.28);
+}
+
+.call-contact-modal__btn--wa {
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  color: #15803d;
+  background: rgba(37, 211, 102, 0.08);
+}
+
+.call-contact-modal__btn--wa:hover {
+  background: rgba(37, 211, 102, 0.14);
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: #15803d;
+}
+
+.call-contact-modal__btn:focus-visible {
+  outline: 2px solid rgba(21, 101, 216, 0.45);
+  outline-offset: 2px;
+}
+
+.call-contact-modal__btn:active {
+  transform: scale(0.98);
+}
+
+.call-contact-modal__availability {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.call-contact-modal__availability svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: #1565d8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .call-contact-modal__btn--primary:hover,
+  .call-contact-modal__btn--wa:hover {
+    transform: none;
+  }
+
+  .call-contact-modal__btn:active {
+    transform: none;
+  }
+}

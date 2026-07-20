@@ -267,6 +267,70 @@ export const serviceLandings = [
       { q: 'Are caregivers trained in newborn safety?', a: 'Yes. Caregivers are trained in safe newborn handling, hygiene, and postnatal support protocols.' },
     ],
   },
+  {
+    slug: 'geriatric-care',
+    bookingServiceTypeId: '6',
+    image: '/assets/service-elder-care.png',
+    seo: {
+      title: 'Geriatric Care at Home | Ambimed Healthcare',
+      description:
+        'Professional geriatric care at home — daily assistance, mobility support, medication reminders, and companionship for senior citizens.',
+      keywords: 'geriatric care, elderly care at home, senior care India, Ambimed geriatric',
+    },
+    hero: {
+      eyebrow: 'Geriatric Care',
+      title: 'Geriatric Care at Home',
+      subtitle: 'Dedicated Support for Senior Citizens',
+      description:
+        'Professional care for geriatric patients at home — trained caregivers for daily assistance, mobility support, and wellbeing monitoring.',
+      trustBadges: ['Background Verified', 'Elder Care Specialists', '24/7 Support'],
+    },
+    helpWith: {
+      eyebrow: 'What we help with',
+      title: 'Comprehensive Elderly Support',
+      items: [
+        { icon: '🚶', title: 'Mobility Support', description: 'Safe movement assistance and fall prevention at home.' },
+        { icon: '🛁', title: 'Personal Hygiene', description: 'Dignified help with bathing, grooming, and daily hygiene.' },
+        { icon: '💊', title: 'Medication Reminders', description: 'Timely reminders so medications are taken as prescribed.' },
+        { icon: '💬', title: 'Companionship', description: 'Emotional support and engagement for senior wellbeing.' },
+        { icon: '🍽️', title: 'Feeding Assistance', description: 'Help with meals and nutrition as needed.' },
+        { icon: '🏠', title: 'Daily Routine Support', description: 'Structure and assistance throughout the day or overnight.' },
+      ],
+    },
+    whyChoose: {
+      eyebrow: 'Why families choose Ambimed',
+      title: 'Trusted Geriatric Care',
+      items: [
+        { icon: '✓', label: 'Experienced Geriatric Caregivers' },
+        { icon: '🔍', label: 'Verified Professionals' },
+        { icon: '📋', label: 'Personalized Care Plans' },
+        { icon: '⏱️', label: 'Day, Night & Live-in Shifts' },
+        { icon: '🔄', label: 'Quick Replacement' },
+        { icon: '👤', label: 'Dedicated Care Manager' },
+      ],
+    },
+    howItWorks: {
+      eyebrow: 'How it works',
+      title: 'Get Geriatric Care at Home',
+      steps: [
+        { title: 'Share Requirements', description: 'Tell us about your loved one\'s needs, mobility, and schedule.' },
+        { title: 'Caregiver Matching', description: 'We match you with an experienced geriatric care professional.' },
+        { title: 'Care Begins at Home', description: 'Your caregiver arrives on schedule and support starts.' },
+        { title: 'Ongoing Support', description: 'Our team stays available for feedback and continuity of care.' },
+      ],
+    },
+    testimonials: [
+      { quote: 'Reliable day-shift support for my father. The caregiver was patient and professional.', name: 'Meera K.' },
+      { quote: 'Night care gave our family peace of mind. Transparent pricing and quick setup.', name: 'Vikram S.' },
+      { quote: 'Live-in geriatric care was exactly what we needed after hospital discharge.', name: 'Lakshmi R.' },
+    ],
+    faqs: [
+      { q: 'What is geriatric care at home?', a: 'Geriatric care provides trained assistance for senior citizens — daily activities, mobility, medication reminders, and safety monitoring in the comfort of home.' },
+      { q: 'Are day and night shifts available?', a: 'Yes. Day shift, night shift, and 24-hour live-in options are available based on your city and dates.' },
+      { q: 'How is pricing calculated?', a: 'Rates depend on shift type and duration. See live catalogue prices on our pricing page or call customer care for a quote.' },
+      { q: 'Are caregivers verified?', a: 'Yes. All Ambimed caregivers undergo background verification and skills assessment.' },
+    ],
+  },
 ]
 
 /** Lookup by URL slug */

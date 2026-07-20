@@ -1,10 +1,11 @@
-import { Activity, Baby, HeartHandshake, Stethoscope } from 'lucide-react'
+import { Activity, Baby, HeartHandshake, Stethoscope, Accessibility } from 'lucide-react'
 
 const ICONS = {
   elder: HeartHandshake,
   physio: Activity,
   nurse: Stethoscope,
   baby: Baby,
+  accessibility: Accessibility,
 }
 
 export function ServiceIcon({ name, className = '', svgClassName = '' }) {
