@@ -190,11 +190,11 @@ export function ServiceLandingPage({ landing }) {
         {/* FAQ + Lead form */}
         <section className="section svc-section-alt" id="book">
           <div className="container svc-faq-form-grid">
-            <div>
-              <h2 className="section-title">Common Questions</h2>
+            <h2 className="section-title svc-faq-form-grid__title">Common Questions</h2>
+            <div className="svc-faq-form-grid__faq">
               <ServiceFaqAccordion items={landing.faqs} />
             </div>
-            <div className="svc-lead-form-wrap">
+            <div className="svc-lead-form-wrap svc-faq-form-grid__form">
               <ServiceLeadForm serviceTitle={landing.hero.eyebrow} />
             </div>
           </div>

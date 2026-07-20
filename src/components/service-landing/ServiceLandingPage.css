@@ -330,15 +330,18 @@
 
 .svc-faq-form-grid {
   display: grid;
-  gap: 2rem;
+  gap: 1rem 2rem;
   align-items: start;
+}
+
+.svc-faq-form-grid__title {
+  margin-bottom: 0;
 }
 
 .svc-faq-list {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-top: 1rem;
 }
 
 .svc-faq-item {
@@ -396,6 +399,23 @@
   font-size: 1.25rem;
 }
 
+.svc-lead-form-hint {
+  margin: -0.75rem 0 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.svc-lead-form-required {
+  color: #fca5a5;
+  font-weight: 700;
+}
+
+.svc-lead-form-optional {
+  font-weight: 500;
+  opacity: 0.75;
+}
+
 .svc-lead-form-label {
   display: block;
   margin-bottom: 0.85rem;
@@ -418,6 +438,19 @@
 .svc-lead-form-input--readonly {
   opacity: 0.85;
   background: rgba(255, 255, 255, 0.75);
+}
+
+.svc-lead-form-input--invalid {
+  border-color: #f87171;
+  box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.25);
+}
+
+.svc-lead-form-field-error {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #fecaca;
 }
 
 .svc-lead-form-textarea {
@@ -611,6 +644,22 @@
 
   .svc-faq-form-grid {
     grid-template-columns: 1.1fr 0.9fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .svc-faq-form-grid__title {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .svc-faq-form-grid__faq {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .svc-faq-form-grid__form {
+    grid-column: 2;
+    grid-row: 2;
   }
 }
 

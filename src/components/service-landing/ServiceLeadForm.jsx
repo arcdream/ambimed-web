@@ -6,6 +6,8 @@ import { submitLeadRequest } from '@/lib/submitLeadRequest'
 
 const MAX_DESCRIPTION_WORDS = 300
 
+const REQUIRED_FIELD_ORDER = ['name', 'phone', 'city']
+
 function countWords(text) {
   const trimmed = text.trim()
   if (!trimmed) return 0
@@ -18,10 +20,37 @@ function truncateToWordLimit(text, maxWords) {
   return parts.slice(0, maxWords).join('')
 }
 
+function getFieldErrors(formData) {
+  const errors = {}
+
+  if (!String(formData.get('name') ?? '').trim()) {
+    errors.name = 'Please enter your full name.'
+  }
+
+  if (!String(formData.get('phone') ?? '').trim()) {
+    errors.phone = 'Please enter your phone number.'
+  }
+
+  if (!String(formData.get('city') ?? '').trim()) {
+    errors.city = 'Please enter your city.'
+  }
+
+  return errors
+}
+
+function RequiredMark() {
+  return (
+    <span className="svc-lead-form-required" aria-hidden="true">
+      *
+    </span>
+  )
+}
+
 export function ServiceLeadForm({ serviceTitle, defaultCity = '' }) {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState({})
   const [description, setDescription] = useState('')
 
   const descriptionWordCount = countWords(description)
@@ -30,13 +59,34 @@ export function ServiceLeadForm({ serviceTitle, defaultCity = '' }) {
     setDescription(truncateToWordLimit(e.target.value, MAX_DESCRIPTION_WORDS))
   }
 
+  const clearFieldError = (field) => {
+    setFieldErrors((prev) => {
+      if (!prev[field]) return prev
+      const next = { ...prev }
+      delete next[field]
+      return next
+    })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    setSubmitting(true)
 
     const form = e.currentTarget
     const formData = new FormData(form)
+    const validationErrors = getFieldErrors(formData)
+
+    if (Object.keys(validationErrors).length > 0) {
+      setFieldErrors(validationErrors)
+      const firstInvalidField = REQUIRED_FIELD_ORDER.find((field) => validationErrors[field])
+      if (firstInvalidField) {
+        form.querySelector(`[name="${firstInvalidField}"]`)?.focus()
+      }
+      return
+    }
+
+    setFieldErrors({})
+    setSubmitting(true)
     const trimmedDescription = description.trim()
 
     try {
@@ -77,33 +127,50 @@ export function ServiceLeadForm({ serviceTitle, defaultCity = '' }) {
   return (
     <form className="svc-lead-form" onSubmit={handleSubmit} noValidate>
       <h3 className="svc-lead-form-title">Book {serviceTitle} Now</h3>
+      <p className="svc-lead-form-hint">Fields marked with * are required.</p>
       <label className="svc-lead-form-label">
-        Full Name
+        Full Name <RequiredMark />
         <input
           type="text"
           name="name"
           required
           disabled={submitting}
           placeholder="Your full name"
-          className="svc-lead-form-input"
+          className={`svc-lead-form-input${fieldErrors.name ? ' svc-lead-form-input--invalid' : ''}`}
           autoComplete="name"
+          aria-invalid={Boolean(fieldErrors.name)}
+          aria-describedby={fieldErrors.name ? 'svc-lead-form-error-name' : undefined}
+          onChange={() => clearFieldError('name')}
         />
+        {fieldErrors.name ? (
+          <span className="svc-lead-form-field-error" id="svc-lead-form-error-name" role="alert">
+            {fieldErrors.name}
+          </span>
+        ) : null}
       </label>
       <label className="svc-lead-form-label">
-        Phone Number
+        Phone Number <RequiredMark />
         <input
           type="tel"
           name="phone"
           required
           disabled={submitting}
           placeholder="10-digit mobile"
-          className="svc-lead-form-input"
+          className={`svc-lead-form-input${fieldErrors.phone ? ' svc-lead-form-input--invalid' : ''}`}
           autoComplete="tel"
           inputMode="tel"
+          aria-invalid={Boolean(fieldErrors.phone)}
+          aria-describedby={fieldErrors.phone ? 'svc-lead-form-error-phone' : undefined}
+          onChange={() => clearFieldError('phone')}
         />
+        {fieldErrors.phone ? (
+          <span className="svc-lead-form-field-error" id="svc-lead-form-error-phone" role="alert">
+            {fieldErrors.phone}
+          </span>
+        ) : null}
       </label>
       <label className="svc-lead-form-label">
-        City
+        City <RequiredMark />
         <input
           type="text"
           name="city"
@@ -111,9 +178,17 @@ export function ServiceLeadForm({ serviceTitle, defaultCity = '' }) {
           required
           disabled={submitting}
           placeholder="Your city"
-          className="svc-lead-form-input"
+          className={`svc-lead-form-input${fieldErrors.city ? ' svc-lead-form-input--invalid' : ''}`}
           autoComplete="address-level2"
+          aria-invalid={Boolean(fieldErrors.city)}
+          aria-describedby={fieldErrors.city ? 'svc-lead-form-error-city' : undefined}
+          onChange={() => clearFieldError('city')}
         />
+        {fieldErrors.city ? (
+          <span className="svc-lead-form-field-error" id="svc-lead-form-error-city" role="alert">
+            {fieldErrors.city}
+          </span>
+        ) : null}
       </label>
       <label className="svc-lead-form-label">
         Service Required
@@ -126,13 +201,13 @@ export function ServiceLeadForm({ serviceTitle, defaultCity = '' }) {
         />
       </label>
       <label className="svc-lead-form-label">
-        Description
+        Description <span className="svc-lead-form-optional">(optional)</span>
         <textarea
           name="description"
           value={description}
           onChange={handleDescriptionChange}
           disabled={submitting}
-          placeholder="Tell us about your care needs (optional)"
+          placeholder="Tell us about your care needs"
           className="svc-lead-form-input svc-lead-form-textarea"
           rows={4}
         />
