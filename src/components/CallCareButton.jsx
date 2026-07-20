@@ -2,6 +2,8 @@
 
 import { Phone } from 'lucide-react'
 import { CUSTOMER_CARE_LABEL, getDisplayPhone, getTelHref } from '@/lib/contactLinks'
+import { useCallContact } from '@/components/CallContactProvider'
+import { shouldUsePhoneDialer } from '@/lib/isMobileCallDevice'
 import './CallCareButton.css'
 
 export function CallCareButton({
@@ -10,12 +12,20 @@ export function CallCareButton({
   className = '',
   label = CUSTOMER_CARE_LABEL,
 }) {
+  const { openCallContact } = useCallContact()
   const telHref = getTelHref()
   const phone = getDisplayPhone()
+
+  const handleClick = (e) => {
+    if (shouldUsePhoneDialer()) return
+    e.preventDefault()
+    openCallContact()
+  }
 
   return (
     <a
       href={telHref}
+      onClick={handleClick}
       className={`call-care-btn call-care-btn--${variant}${className ? ` ${className}` : ''}`}
       aria-label={`${label}${showPhone ? ` at ${phone}` : ''}`}
     >

@@ -2,11 +2,13 @@
 
 import { MessageCircle, Phone } from 'lucide-react'
 import { getTelHref, getWhatsAppHref } from '@/lib/contactLinks'
+import { useCallContact } from '@/components/CallContactProvider'
 import './ContactFloat.css'
 
 const WHATSAPP_MESSAGE = 'Hi Ambimed, I would like to enquire about home healthcare services.'
 
 export function ContactFloat() {
+  const { openCallContact } = useCallContact()
   const telHref = getTelHref()
   const waHref = getWhatsAppHref(WHATSAPP_MESSAGE)
 
@@ -14,10 +16,15 @@ export function ContactFloat() {
     <div className="contact-float" aria-label="Quick contact">
       {/* Desktop — compact stacked pills */}
       <div className="contact-float__desktop">
-        <a href={telHref} className="contact-float__pill contact-float__pill--call" aria-label="Call now">
+        <button
+          type="button"
+          className="contact-float__pill contact-float__pill--call"
+          aria-label="Call now"
+          onClick={openCallContact}
+        >
           <Phone className="contact-float__pill-icon" strokeWidth={2} aria-hidden />
           <span>Call Now</span>
-        </a>
+        </button>
         <a
           href={waHref}
           className="contact-float__pill contact-float__pill--wa"
@@ -30,7 +37,7 @@ export function ContactFloat() {
         </a>
       </div>
 
-      {/* Mobile — dual FABs */}
+      {/* Mobile — dual FABs (native dialer) */}
       <div className="contact-float__mobile">
         <a
           href={waHref}

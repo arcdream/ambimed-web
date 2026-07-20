@@ -9,6 +9,12 @@ export function getTelHref(phone = config.contact.phone): string {
   return `tel:${getPhoneDigits(phone)}`
 }
 
+/** tel: value for QR codes — E.164-style with + prefix */
+export function getTelQrValue(phone = config.contact.phone): string {
+  const digits = getPhoneDigits(phone)
+  return digits.startsWith('+') ? `tel:${digits}` : `tel:+${digits}`
+}
+
 export function getWhatsAppHref(message?: string): string {
   const digits = config.contact.whatsapp || getPhoneDigits()
   const base = `https://wa.me/${digits}`
