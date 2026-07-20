@@ -10,6 +10,7 @@ import { CallCareButton } from '@/components/CallCareButton'
 import '@/components/CallCareButton.css'
 import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import { isNavDropdown, marketingNav, type NavDropdown, type NavItem } from '@/data/siteNav'
+import { useServiceCatalog } from '@/hooks/useServiceCatalog'
 
 const LOGO_IMG = '/assets/ambimed-logo.png'
 
@@ -156,6 +157,7 @@ function MobileNavGroup({
 export function Header() {
   const pathname = usePathname()
   const isApp = pathname.startsWith('/app')
+  const { navLinks } = useServiceCatalog()
   const { user, isAuthenticated, referralHubAccess, isLoading, logout } = useAuth()
   const loginBookingDisabled = isLoginAndBookingDisabled()
   const [open, setOpen] = useState(false)
@@ -192,6 +194,22 @@ export function Header() {
     String(user?.mobileNumber || '').replace(/\D/g, '').slice(-1) ||
     'U'
   ).toUpperCase()
+
+  const marketingNavResolved = useMemo(() => {
+    if (isApp) return marketingNav
+    return marketingNav.map((item) => {
+      if (isNavDropdown(item) && item.label === 'Services' && navLinks.length > 0) {
+        return {
+          ...item,
+          children: navLinks.map((link) => ({
+            label: link.name,
+            href: link.href,
+          })),
+        }
+      }
+      return item
+    })
+  }, [isApp, navLinks])
 
   const closeMobile = () => setOpen(false)
 
@@ -287,7 +305,7 @@ export function Header() {
                   {item.label}
                 </Link>
               ))
-            : marketingNav.map((item) => renderDesktopNavItem(item, pathname))}
+            : marketingNavResolved.map((item) => renderDesktopNavItem(item, pathname))}
           {!isApp ? <CallCareButton variant="nav" label="Call us" /> : null}
           {authDesktop}
         </nav>
@@ -334,7 +352,7 @@ export function Header() {
                     {item.label}
                   </Link>
                 ))
-              : marketingNav.map((item) =>
+              : marketingNavResolved.map((item) =>
                   isNavDropdown(item) ? (
                     <MobileNavGroup
                       key={item.label}

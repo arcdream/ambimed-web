@@ -5,20 +5,18 @@ import { usePathname } from 'next/navigation'
 import { Reveal } from '@/components/motion/Reveal'
 import { config } from '../data/config'
 import { marketingNav, isNavDropdown } from '@/data/siteNav'
-import { services } from '../data/services'
-
-const SERVICE_LABELS = {
-  'home-nurse': 'Home Nursing',
-  'caregiver-assistant': 'Caregiver',
-  physiotherapy: 'Physiotherapy',
-  'mother-baby': 'Mother & Baby Care',
-}
+import { useServiceCatalog } from '@/hooks/useServiceCatalog'
 
 export function Footer() {
   const pathname = usePathname()
+  const { navLinks } = useServiceCatalog()
   const aboutLinks = marketingNav.find((item) => isNavDropdown(item) && item.label === 'About Us')
-  const serviceLinks = marketingNav.find((item) => isNavDropdown(item) && item.label === 'Services')
   const topLinks = marketingNav.filter((item) => !isNavDropdown(item))
+
+  const serviceFooterLinks =
+    navLinks.length > 0
+      ? navLinks.map((link) => ({ href: link.href, label: link.name }))
+      : [{ href: '/pricing', label: 'View pricing' }]
 
   return (
     <Reveal as="footer" className="footer" y={0}>
@@ -55,10 +53,7 @@ export function Footer() {
             Services
           </p>
           <ul aria-labelledby="footer-services-heading">
-            {(serviceLinks && isNavDropdown(serviceLinks) ? serviceLinks.children : services.map((s) => ({
-              href: `/services/${s.id}`,
-              label: SERVICE_LABELS[s.id] ?? s.title,
-            }))).map((link) => (
+            {serviceFooterLinks.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="footer-link footer-link--anchor">
                   {link.label}

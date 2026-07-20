@@ -19,6 +19,17 @@
   max-width: 1280px;
 }
 
+.services-pricing-status {
+  margin: 0 0 1.5rem;
+  text-align: center;
+  font-size: 0.9375rem;
+  color: #64748b;
+}
+
+.services-pricing-status--error {
+  color: #b91c1c;
+}
+
 /* Header */
 .services-pricing-header {
   text-align: center;

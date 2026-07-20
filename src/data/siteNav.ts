@@ -26,12 +26,8 @@ export const marketingNav: NavItem[] = [
   },
   {
     label: 'Services',
-    children: [
-      { label: 'Home Nursing', href: '/services/home-nurse' },
-      { label: 'Caregiver', href: '/services/caregiver-assistant' },
-      { label: 'Physiotherapy', href: '/services/physiotherapy' },
-      { label: 'Mother & Baby Care', href: '/services/mother-baby' },
-    ],
+    /** Populated at runtime from Supabase in Header / Footer */
+    children: [],
   },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Blog', href: '/blog' },
