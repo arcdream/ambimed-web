@@ -42,8 +42,8 @@ export const homeSeoArticle = {
       id: 'quality-and-trust',
       heading: 'Quality people and transparent expectations',
       layout: 'text-left',
-      image: '/assets/service-home-nurses.png',
-      imageAlt: 'Skilled home nurse providing professional care',
+      image: '/assets/home-nurse-ambimed.png',
+      imageAlt: 'Ambimed home nurse providing professional nursing care at home',
       paragraphs: [
         'Trust is earned at the front door. We invest in **training, grooming, and background checks** because families deserve professionals who are respectful, punctual, and consistent.',
         'We also believe pricing should be easy to understand. Ambimed is committed to **fair, transparent billing** — scope and frequency explained in plain language before you commit to longer or specialised plans.',

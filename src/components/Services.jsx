@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Reveal } from '@/components/motion/Reveal'
 import { ServiceIcon } from '@/components/ServiceIcon'
-import { getServiceSlug, mapDbIconToUi } from '@/lib/serviceCatalog'
+import { getServicePreviewImage, getServiceSlug, mapDbIconToUi } from '@/lib/serviceCatalog'
 import { useServiceCatalog } from '@/hooks/useServiceCatalog'
 import './Services.css'
 
@@ -33,6 +33,7 @@ export function Services() {
         <div className="services-grid">
           {services.map((item, i) => {
             const slug = getServiceSlug(item)
+            const previewImage = getServicePreviewImage(item.id)
             return (
               <Link
                 key={item.id}
@@ -47,7 +48,13 @@ export function Services() {
                   y={25}
                   whileHover={{ y: -6 }}
                 >
-                  <ServiceIcon name={mapDbIconToUi(item.icon)} />
+                  {previewImage ? (
+                    <div className="service-card-image-wrap">
+                      <img src={previewImage} alt={item.name} loading="lazy" />
+                    </div>
+                  ) : (
+                    <ServiceIcon name={mapDbIconToUi(item.icon)} />
+                  )}
                   <h3 className="service-title">{item.name}</h3>
                   <p className="service-desc">{item.description}</p>
                   <span className="service-card-cta">Learn more →</span>

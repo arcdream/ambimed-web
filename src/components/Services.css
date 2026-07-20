@@ -71,6 +71,10 @@
   transform: scale(1.03);
 }
 
+.service-card-image-wrap + .service-title {
+  padding-top: 1rem;
+}
+
 .service-card .service-title,
 .service-card .service-desc {
   padding: 0 1.25rem;

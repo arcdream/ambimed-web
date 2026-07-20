@@ -5,8 +5,8 @@ export const homepageCategories = [
     slug: 'home-nurse-services',
     title: 'Home Nursing Services',
     description: 'Skilled nurses for post-surgery care, injections, wound dressing, and daily nursing at home.',
-    image: '/assets/service-home-nurses.png',
-    imageAlt: 'Home nurse providing skilled nursing care at home in Bangalore',
+    image: '/assets/home-nurse-ambimed.png',
+    imageAlt: 'Ambimed home nurse providing skilled nursing care to a patient at home',
   },
   {
     slug: 'patient-care-at-home',
@@ -26,8 +26,8 @@ export const homepageCategories = [
     slug: 'mother-and-baby-care',
     title: 'Mother & Baby Care',
     description: 'Postnatal care, newborn support, breastfeeding help, and mother wellness at home.',
-    image: '/assets/service-mother-baby.png',
-    imageAlt: 'Mother and baby care nurse supporting new mother',
+    image: '/assets/mother-baby-care-ambimed.png',
+    imageAlt: 'Ambimed caregiver supporting a new mother and newborn at home',
   },
   {
     slug: 'home-physiotherapy-services',

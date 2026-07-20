@@ -9,7 +9,7 @@ export const caregiverShowcase = [
     role: 'Senior Home Nurse',
     experience: '6 yrs experience',
     specialty: 'Post-surgery recovery & vitals monitoring',
-    photo: '/assets/service-home-nurses.png',
+    photo: '/assets/home-nurse-ambimed.png',
   },
   {
     id: 'rajesh',
@@ -25,7 +25,7 @@ export const caregiverShowcase = [
     role: 'Caregiver Assistant',
     experience: '4 yrs experience',
     specialty: 'Elder care & daily living support',
-    photo: '/assets/service-elder-care.png',
+    photo: '/assets/home-caregiver-ambimed.png',
   },
   {
     id: 'priya',
@@ -33,7 +33,7 @@ export const caregiverShowcase = [
     role: 'Mother & Baby Care Specialist',
     experience: '7 yrs experience',
     specialty: 'Postnatal support & newborn handling',
-    photo: '/assets/service-mother-baby.png',
+    photo: '/assets/mother-baby-care-ambimed.png',
   },
 ]
 
