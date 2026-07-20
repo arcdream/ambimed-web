@@ -26,7 +26,7 @@ export function CallCareButton({
     <a
       href={telHref}
       onClick={handleClick}
-      className={`call-care-btn call-care-btn--${variant}${className ? ` ${className}` : ''}`}
+      className={`call-care-btn call-care-btn--${variant}${showPhone ? ' call-care-btn--with-phone' : ''}${className ? ` ${className}` : ''}`}
       aria-label={`${label}${showPhone ? ` at ${phone}` : ''}`}
     >
       <Phone className="call-care-btn__icon" strokeWidth={2.25} aria-hidden />

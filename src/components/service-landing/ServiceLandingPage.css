@@ -208,6 +208,10 @@
   margin-top: 2rem;
 }
 
+.svc-section-cta .call-care-btn--primary {
+  width: min(100%, 22rem);
+}
+
 .svc-why-grid {
   display: grid;
   gap: 1.25rem;
@@ -430,9 +434,25 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.svc-lead-form-submit:hover {
+.svc-lead-form-submit:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: var(--shadow);
+}
+
+.svc-lead-form-submit:disabled {
+  opacity: 0.75;
+  cursor: wait;
+}
+
+.svc-lead-form-error {
+  margin: 0.25rem 0 0;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.35);
+  border: 1px solid rgba(254, 202, 202, 0.35);
 }
 
 .svc-lead-form--success {
@@ -500,9 +520,14 @@
   }
 
   .svc-hero-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+
+  .svc-hero-actions .call-care-btn {
+    width: 100%;
   }
 
   .svc-hero-actions .btn {

@@ -2,13 +2,39 @@
 
 import { useState } from 'react'
 import { config } from '@/data/config'
+import { submitLeadRequest } from '@/lib/submitLeadRequest'
 
 export function ServiceLeadForm({ serviceTitle, defaultCity = '' }) {
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmitted(true)
+    setError('')
+    setSubmitting(true)
+
+    const form = e.currentTarget
+    const formData = new FormData(form)
+
+    try {
+      await submitLeadRequest({
+        full_name: String(formData.get('name') ?? '').trim(),
+        phone_number: String(formData.get('phone') ?? '').trim(),
+        city: String(formData.get('city') ?? '').trim(),
+        service_required: String(formData.get('service') ?? serviceTitle).trim(),
+      })
+      setSubmitted(true)
+    } catch (err) {
+      console.error('Lead form submission failed:', err)
+      setError(
+        err instanceof Error && err.message
+          ? err.message
+          : 'Could not send your request. Please try again or call customer care.',
+      )
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const phoneDigits = config.contact.phone.replace(/\D/g, '')
@@ -26,26 +52,63 @@ export function ServiceLeadForm({ serviceTitle, defaultCity = '' }) {
   }
 
   return (
-    <form className="svc-lead-form" onSubmit={handleSubmit}>
+    <form className="svc-lead-form" onSubmit={handleSubmit} noValidate>
       <h3 className="svc-lead-form-title">Book {serviceTitle} Now</h3>
       <label className="svc-lead-form-label">
         Full Name
-        <input type="text" name="name" required placeholder="Your full name" className="svc-lead-form-input" />
+        <input
+          type="text"
+          name="name"
+          required
+          disabled={submitting}
+          placeholder="Your full name"
+          className="svc-lead-form-input"
+          autoComplete="name"
+        />
       </label>
       <label className="svc-lead-form-label">
         Phone Number
-        <input type="tel" name="phone" required placeholder="10-digit mobile" className="svc-lead-form-input" />
+        <input
+          type="tel"
+          name="phone"
+          required
+          disabled={submitting}
+          placeholder="10-digit mobile"
+          className="svc-lead-form-input"
+          autoComplete="tel"
+          inputMode="tel"
+        />
       </label>
       <label className="svc-lead-form-label">
         City
-        <input type="text" name="city" defaultValue={defaultCity} required placeholder="Your city" className="svc-lead-form-input" />
+        <input
+          type="text"
+          name="city"
+          defaultValue={defaultCity}
+          required
+          disabled={submitting}
+          placeholder="Your city"
+          className="svc-lead-form-input"
+          autoComplete="address-level2"
+        />
       </label>
       <label className="svc-lead-form-label">
         Service Required
-        <input type="text" name="service" readOnly value={serviceTitle} className="svc-lead-form-input svc-lead-form-input--readonly" />
+        <input
+          type="text"
+          name="service"
+          readOnly
+          value={serviceTitle}
+          className="svc-lead-form-input svc-lead-form-input--readonly"
+        />
       </label>
-      <button type="submit" className="svc-lead-form-submit">
-        Submit Request
+      {error ? (
+        <p className="svc-lead-form-error" role="alert">
+          {error}
+        </p>
+      ) : null}
+      <button type="submit" className="svc-lead-form-submit" disabled={submitting}>
+        {submitting ? 'Sending…' : 'Submit Request'}
       </button>
     </form>
   )

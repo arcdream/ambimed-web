@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" fill="none" role="img" aria-label="Ambimed">
+  <rect width="180" height="180" rx="40" fill="#1565D8"/>
+  <path
+    d="M90 42 132 138H114l-7.6-17.7H63.6L56 138H38L90 42Zm0 30.1-13.2 30.8h26.4L90 72.1Z"
+    fill="#FFFFFF"
+  />
+  <path d="M90 42 112.5 138H90V42Z" fill="#EEF6FF" fill-opacity="0.35"/>
+</svg>
