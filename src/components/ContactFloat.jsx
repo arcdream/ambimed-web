@@ -29,15 +29,11 @@ export function ContactFloat() {
         <button
           type="button"
           className="contact-float__action contact-float__action--call"
-          aria-label="Request a call back"
+          aria-label="Call us"
           onClick={openCallContact}
         >
           <PhoneOutgoing className="contact-float__call-icon" strokeWidth={1.85} aria-hidden />
-          <span className="contact-float__label">
-            Request a
-            <br />
-            Call Back
-          </span>
+          <span className="contact-float__label">Call US</span>
         </button>
 
         <a
