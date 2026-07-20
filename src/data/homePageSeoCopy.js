@@ -5,8 +5,8 @@
  * Paragraph strings support **bold** markers for inline emphasis.
  */
 export const homeSeoArticle = {
-  eyebrow: 'Learn more',
-  title: 'Home healthcare with Ambimed',
+  eyebrow: 'Guide',
+  title: 'Understanding home healthcare at home',
   lead:
     'Families across India choose **professional home healthcare** so loved ones can recover, age, and stay healthy at home — with trained caregivers and clinicians for elder care, physiotherapy, nursing, and mother & baby support.',
   stats: [

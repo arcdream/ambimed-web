@@ -19,15 +19,24 @@ function renderParagraph(text) {
 
 export function SeoContentSection() {
   const loginBookingDisabled = isLoginAndBookingDisabled()
-  const { sections } = homeSeoArticle
+  const { eyebrow, title, sections } = homeSeoArticle
 
   return (
     <section
       id="home-healthcare-guide"
       className="section section-seo-article"
-      aria-label="Home healthcare guide"
+      aria-labelledby="seo-article-heading"
     >
       <div className="container">
+        <header className="seo-article-header">
+          <Reveal as="p" className="section-subtitle">
+            {eyebrow}
+          </Reveal>
+          <Reveal as="h2" id="seo-article-heading" className="section-title" delay={0.05}>
+            {title}
+          </Reveal>
+        </header>
+
         <div className="seo-article-sections">
           {sections.map((block, i) => (
             <Reveal
