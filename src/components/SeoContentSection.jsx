@@ -1,18 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { MapPin, Receipt, ShieldCheck } from 'lucide-react'
 import { Reveal } from '@/components/motion/Reveal'
 import { homeSeoArticle } from '../data/homePageSeoCopy'
 import { isLoginAndBookingDisabled } from '@/lib/featureFlags'
 import { getTelHref } from '@/lib/contactLinks'
 import './SeoContentSection.css'
-
-const STAT_ICONS = {
-  map: MapPin,
-  shield: ShieldCheck,
-  receipt: Receipt,
-}
 
 function renderParagraph(text) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g)
@@ -26,7 +19,7 @@ function renderParagraph(text) {
 
 export function SeoContentSection() {
   const loginBookingDisabled = isLoginAndBookingDisabled()
-  const { eyebrow, title, lead, stats, sections } = homeSeoArticle
+  const { eyebrow, title, sections } = homeSeoArticle
 
   return (
     <section
@@ -35,30 +28,14 @@ export function SeoContentSection() {
       aria-labelledby="seo-article-heading"
     >
       <div className="container">
-        <Reveal as="p" className="section-subtitle">
-          {eyebrow}
-        </Reveal>
-        <Reveal as="h2" id="seo-article-heading" className="section-title" delay={0.05}>
-          {title}
-        </Reveal>
-        <Reveal as="p" className="seo-article-lead" delay={0.08}>
-          {renderParagraph(lead)}
-        </Reveal>
-
-        <Reveal className="seo-stats-strip" delay={0.1} y={16}>
-          {stats.map((stat) => {
-            const Icon = STAT_ICONS[stat.icon] ?? ShieldCheck
-            return (
-              <div key={stat.label} className="seo-stat-card">
-                <span className="seo-stat-card__icon-wrap" aria-hidden>
-                  <Icon className="seo-stat-card__icon" strokeWidth={1.75} />
-                </span>
-                <p className="seo-stat-card__value">{stat.value}</p>
-                <p className="seo-stat-card__label">{stat.label}</p>
-              </div>
-            )
-          })}
-        </Reveal>
+        <header className="seo-article-header">
+          <Reveal as="p" className="section-subtitle">
+            {eyebrow}
+          </Reveal>
+          <Reveal as="h2" id="seo-article-heading" className="section-title" delay={0.05}>
+            {title}
+          </Reveal>
+        </header>
 
         <div className="seo-article-sections">
           {sections.map((block, i) => (

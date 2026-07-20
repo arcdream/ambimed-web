@@ -21,6 +21,11 @@ export const metadata: Metadata = {
   title: 'Ambimed Healthcare | Home Care You Can Trust',
   description:
     'Ambimed: trusted home healthcare across India. Elder care, nurses, physio, mother & baby. Book online, transparent billing.',
+  icons: {
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+    shortcut: ['/favicon.svg'],
+    apple: [{ url: '/apple-icon.svg', type: 'image/svg+xml' }],
+  },
 }
 
 export const viewport: Viewport = {

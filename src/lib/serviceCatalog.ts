@@ -1,4 +1,5 @@
 import type { Service, ServiceSubtype } from '@/client-app/types/models'
+import { serviceLandings } from '@/data/serviceLandings'
 
 /** Card accent classes — visual only, not business data */
 const PRICING_ACCENTS = ['teal', 'blue', 'rose', 'violet', 'teal', 'blue'] as const
@@ -11,6 +12,10 @@ const LEGACY_SLUG_BY_SERVICE_ID: Record<string, string> = {
   '5': 'caregiver-assistant',
   '6': 'geriatric-care',
 }
+
+const PREVIEW_IMAGE_BY_SERVICE_ID = Object.fromEntries(
+  serviceLandings.map((landing) => [landing.bookingServiceTypeId, landing.image]),
+) as Record<string, string>
 
 export type PricingAccent = (typeof PRICING_ACCENTS)[number]
 
@@ -57,6 +62,10 @@ function slugify(name: string): string {
 
 export function getServiceSlug(service: Pick<Service, 'id' | 'name'>): string {
   return LEGACY_SLUG_BY_SERVICE_ID[service.id] ?? slugify(service.name)
+}
+
+export function getServicePreviewImage(serviceId: string): string | null {
+  return PREVIEW_IMAGE_BY_SERVICE_ID[serviceId] ?? null
 }
 
 /** Map Supabase `service_types.icon` to ServiceIcon keys */

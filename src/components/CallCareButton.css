@@ -5,7 +5,7 @@
   justify-content: center;
   gap: 0.5rem;
   text-decoration: none;
-  font-family: inherit;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
   font-weight: 600;
   line-height: 1.2;
   border-radius: 16px;
@@ -30,12 +30,24 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.1rem;
+  min-width: 0;
+}
+
+.call-care-btn--with-phone .call-care-btn__copy {
+  align-items: center;
+  text-align: center;
+}
+
+.call-care-btn__label {
+  line-height: 1.25;
 }
 
 .call-care-btn__phone {
   font-size: 0.8125rem;
   font-weight: 500;
   opacity: 0.92;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
 .call-care-btn--primary {
@@ -59,12 +71,51 @@
   background: #1256c0;
 }
 
+.call-care-btn--primary.call-care-btn--with-phone {
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.5rem;
+}
+
 @media (max-width: 899px) {
   .call-care-btn--primary {
     width: 100%;
     min-height: 50px;
     border-radius: 14px;
     font-size: 0.9375rem;
+  }
+
+  .call-care-btn--primary.call-care-btn--with-phone {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    padding: 0.75rem 1.15rem;
+    border-radius: 999px;
+    gap: 0.7rem;
+  }
+
+  .call-care-btn--primary.call-care-btn--with-phone .call-care-btn__icon {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .call-care-btn--primary.call-care-btn--with-phone .call-care-btn__copy {
+    align-items: flex-start;
+    text-align: left;
+    flex: 0 1 auto;
+  }
+
+  .call-care-btn--primary.call-care-btn--with-phone .call-care-btn__label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .call-care-btn--primary.call-care-btn--with-phone .call-care-btn__phone {
+    font-size: 0.875rem;
+    font-weight: 500;
+    opacity: 0.95;
   }
 }
 

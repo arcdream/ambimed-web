@@ -6,7 +6,7 @@ export const serviceLandings = [
   {
     slug: 'caregiver-assistant',
     bookingServiceTypeId: '5',
-    image: '/assets/service-elder-care.png',
+    image: '/assets/home-caregiver-ambimed.png',
     seo: {
       title: 'Professional Caregiver Services at Home | Ambimed Healthcare',
       description:
@@ -138,7 +138,7 @@ export const serviceLandings = [
   {
     slug: 'home-nurse',
     bookingServiceTypeId: '1',
-    image: '/assets/service-home-nurses.png',
+    image: '/assets/home-nurse-ambimed.png',
     seo: {
       title: 'Home Nursing Services | Skilled Nurses at Home | Ambimed',
       description:
@@ -204,7 +204,7 @@ export const serviceLandings = [
   {
     slug: 'mother-baby',
     bookingServiceTypeId: '3',
-    image: '/assets/service-mother-baby.png',
+    image: '/assets/mother-baby-care-ambimed.png',
     seo: {
       title: 'Mother & Baby Care at Home | Ambimed Healthcare',
       description:
@@ -270,7 +270,7 @@ export const serviceLandings = [
   {
     slug: 'geriatric-care',
     bookingServiceTypeId: '6',
-    image: '/assets/service-elder-care.png',
+    image: '/assets/geriatric-care-ambimed.png',
     seo: {
       title: 'Geriatric Care at Home | Ambimed Healthcare',
       description:
