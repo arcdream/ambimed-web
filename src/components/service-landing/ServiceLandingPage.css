@@ -420,6 +420,25 @@
   background: rgba(255, 255, 255, 0.75);
 }
 
+.svc-lead-form-textarea {
+  min-height: 6rem;
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.svc-lead-form-word-count {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.svc-lead-form-word-count--limit {
+  opacity: 1;
+  color: #fde68a;
+}
+
 .svc-lead-form-submit {
   width: 100%;
   margin-top: 0.5rem;

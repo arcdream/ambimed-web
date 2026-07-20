@@ -6,6 +6,7 @@ export type LeadRequestPayload = {
   phone_number: string
   city: string
   service_required: string
+  description: string
 }
 
 const EDGE_FUNCTION = 'query_notify_email_request'
