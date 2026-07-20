@@ -1,0 +1,128 @@
+.section-recognition {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+  background: linear-gradient(180deg, #ffffff 0%, #eef6ff 100%);
+  border-top: 1px solid #e5eef8;
+}
+
+@media (min-width: 900px) {
+  .section-recognition {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+}
+
+.recognition-panel {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  margin-top: 1.75rem;
+  padding: 1.5rem;
+  border-radius: 20px;
+  border: 1px solid #e5eef8;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.06);
+}
+
+@media (min-width: 768px) {
+  .recognition-panel {
+    grid-template-columns: minmax(160px, 220px) 1fr;
+    gap: 2.5rem;
+    padding: 2rem 2.25rem;
+  }
+}
+
+.recognition-panel__badge-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.recognition-panel__badge {
+  width: min(200px, 72vw);
+  height: auto;
+  object-fit: contain;
+}
+
+.recognition-panel__eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0b3b8c;
+}
+
+.recognition-panel__dept {
+  margin: 0 0 0.85rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+.recognition-panel__lead {
+  margin: 0 0 1.15rem;
+  max-width: 36rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #0f172a;
+}
+
+.recognition-panel__list {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.recognition-panel__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: #334155;
+}
+
+.recognition-panel__check {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  color: #1565d8;
+}
+
+.recognition-panel__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1565d8;
+  text-decoration: none;
+}
+
+.recognition-panel__link:hover {
+  color: #0b3b8c;
+  text-decoration: underline;
+}
+
+.recognition-panel__link:focus-visible {
+  outline: 2px solid rgba(21, 101, 216, 0.4);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (max-width: 767px) {
+  .recognition-panel__copy {
+    text-align: center;
+  }
+
+  .recognition-panel__lead {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .recognition-panel__list li {
+    justify-content: center;
+    text-align: left;
+  }
+}

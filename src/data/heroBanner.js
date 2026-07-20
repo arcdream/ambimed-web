@@ -7,7 +7,7 @@ export const heroBannerSlides = [
     imageFocus: 'caregiver',
     headline: {
       line1: 'Trusted & verified',
-      line2: 'home',
+      line2: null,
       accent: 'caregivers',
     },
     description:
@@ -19,7 +19,7 @@ export const heroBannerSlides = [
     alt: 'Transparent Ambimed service pricing with clear daily rates',
     imageFocus: 'pricing',
     headline: {
-      line1: 'Clear, honest',
+      line1: 'Affordable & Transparent',
       line2: null,
       accent: 'pricing',
     },
@@ -32,9 +32,9 @@ export const heroBannerSlides = [
     alt: 'Booking Ambimed home healthcare on mobile',
     imageFocus: 'booking',
     headline: {
-      line1: 'Easy booking on',
+      line1: 'Quick booking',
       line2: null,
-      accent: 'web & app',
+      accent: 'Call or App',
     },
     description:
       'Choose your service, pick a date, and confirm securely — in just a few taps.',
