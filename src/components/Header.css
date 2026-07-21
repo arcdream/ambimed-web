@@ -5,6 +5,9 @@
   right: 0;
   z-index: 1000;
   isolation: isolate;
+  --header-logo-font: 1.35rem;
+  --header-nav-font: 1.26rem; /* 0.9rem + 40% */
+  --header-nav-font-sub: 1.225rem; /* 0.875rem + 40% */
   background: linear-gradient(180deg, #f2f8fd 0%, #e8f4fc 100%);
   border-bottom: 1px solid rgba(0, 120, 212, 0.1);
   box-shadow: 0 2px 16px rgba(29, 61, 114, 0.08);
@@ -184,7 +187,7 @@
   gap: 0.5rem;
   text-decoration: none;
   font-weight: 700;
-  font-size: 1.35rem;
+  font-size: var(--header-logo-font);
 }
 
 .logo:hover {
@@ -216,7 +219,7 @@
   padding: 0.4rem 0.75rem;
   cursor: pointer;
   border-radius: var(--radius);
-  font-size: 0.9rem;
+  font-size: var(--header-nav-font);
   font-weight: 500;
 }
 
@@ -272,7 +275,7 @@
   display: block;
   padding: 0.55rem 0.75rem;
   border-radius: 8px;
-  font-size: 0.875rem;
+  font-size: var(--header-nav-font-sub);
   font-weight: 500;
   color: var(--color-deep);
   text-decoration: none;
@@ -322,7 +325,7 @@
 .nav-mobile-group__link {
   display: block;
   padding: 0.5rem 0.5rem 0.5rem 0.75rem;
-  font-size: 0.9rem;
+  font-size: var(--header-nav-font);
   color: var(--color-deep);
   text-decoration: none;
   border-left: 2px solid rgba(0, 120, 212, 0.15);
@@ -397,7 +400,7 @@
   font: inherit;
   color: var(--color-deep);
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: var(--header-nav-font);
   border-bottom: 1px solid var(--color-deep-08);
 }
 
@@ -427,6 +430,13 @@
 }
 
 @media (max-width: 899px) {
+  .header {
+    --header-logo-font: 1.15rem;
+    /* Capped below logo; full +40% would exceed logo text on narrow screens */
+    --header-nav-font: 1.08rem;
+    --header-nav-font-sub: 1.05rem;
+  }
+
   .nav.desktop {
     display: none !important;
   }
@@ -456,7 +466,7 @@
     min-width: 0;
     flex: 1 1 auto;
     max-width: min(100%, calc(100vw - 6.5rem));
-    font-size: 1.15rem;
+    font-size: var(--header-logo-font);
     gap: 0.4rem;
   }
 
