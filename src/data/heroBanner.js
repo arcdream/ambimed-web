@@ -6,9 +6,9 @@ export const heroBannerSlides = [
     alt: 'Trusted Ambimed caregivers providing compassionate home care',
     imageFocus: 'caregiver',
     headline: {
-      line1: 'Trusted & verified',
-      line2: null,
-      accent: 'caregivers',
+      line1: 'Trusted &',
+      line2: 'Verified',
+      accent: 'Caregivers',
     },
     description:
       'Background-checked professionals who bring compassionate, hospital-grade care to your doorstep.',
@@ -19,12 +19,12 @@ export const heroBannerSlides = [
     alt: 'Transparent Ambimed service pricing with clear daily rates',
     imageFocus: 'pricing',
     headline: {
-      line1: 'Affordable & Transparent',
-      line2: null,
-      accent: 'pricing',
+      line1: 'Affordable &',
+      line2: 'Transparent',
+      accent: 'Pricing',
     },
     description:
-      'Published daily rates and upfront estimates — know what you pay before care begins.',
+      'Transparent daily rates with upfront estimates. Know exactly what you\'ll pay before care begins—no hidden charges.',
   },
   {
     id: 'easy-booking',
@@ -32,9 +32,9 @@ export const heroBannerSlides = [
     alt: 'Booking Ambimed home healthcare on mobile',
     imageFocus: 'booking',
     headline: {
-      line1: 'Quick booking',
-      line2: null,
-      accent: 'Call or App',
+      line1: 'Quick Booking',
+      line2: 'via Call or',
+      accent: 'App',
     },
     description:
       'Choose your service, pick a date, and confirm securely — in just a few taps.',
