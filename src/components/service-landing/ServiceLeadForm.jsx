@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { config } from '@/data/config'
 import { submitLeadRequest } from '@/lib/submitLeadRequest'
+import './ServiceLeadForm.css'
 
 const MAX_DESCRIPTION_WORDS = 300
 
@@ -46,12 +47,22 @@ function RequiredMark() {
   )
 }
 
-export function ServiceLeadForm({ serviceTitle, defaultCity = '' }) {
+export function ServiceLeadForm({
+  serviceTitle,
+  defaultCity = '',
+  serviceOptions = null,
+  defaultService = '',
+}) {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [fieldErrors, setFieldErrors] = useState({})
   const [description, setDescription] = useState('')
+  const [selectedService, setSelectedService] = useState(
+    defaultService || serviceTitle || serviceOptions?.[0] || '',
+  )
+
+  const activeService = serviceOptions ? selectedService : serviceTitle
 
   const descriptionWordCount = countWords(description)
 
@@ -94,7 +105,7 @@ export function ServiceLeadForm({ serviceTitle, defaultCity = '' }) {
         full_name: String(formData.get('name') ?? '').trim(),
         phone_number: String(formData.get('phone') ?? '').trim(),
         city: String(formData.get('city') ?? '').trim(),
-        service_required: String(formData.get('service') ?? serviceTitle).trim(),
+        service_required: String(formData.get('service') ?? activeService).trim(),
         description: trimmedDescription,
       })
       setSubmitted(true)
@@ -126,7 +137,7 @@ export function ServiceLeadForm({ serviceTitle, defaultCity = '' }) {
 
   return (
     <form className="svc-lead-form" onSubmit={handleSubmit} noValidate>
-      <h3 className="svc-lead-form-title">Book {serviceTitle} Now</h3>
+      <h3 className="svc-lead-form-title">Book {activeService} Now</h3>
       <p className="svc-lead-form-hint">Fields marked with * are required.</p>
       <label className="svc-lead-form-label">
         Full Name <RequiredMark />
@@ -192,13 +203,29 @@ export function ServiceLeadForm({ serviceTitle, defaultCity = '' }) {
       </label>
       <label className="svc-lead-form-label">
         Service Required
-        <input
-          type="text"
-          name="service"
-          readOnly
-          value={serviceTitle}
-          className="svc-lead-form-input svc-lead-form-input--readonly"
-        />
+        {serviceOptions ? (
+          <select
+            name="service"
+            value={selectedService}
+            disabled={submitting}
+            className="svc-lead-form-input"
+            onChange={(e) => setSelectedService(e.target.value)}
+          >
+            {serviceOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <input
+            type="text"
+            name="service"
+            readOnly
+            value={serviceTitle}
+            className="svc-lead-form-input svc-lead-form-input--readonly"
+          />
+        )}
       </label>
       <label className="svc-lead-form-label">
         Description <span className="svc-lead-form-optional">(optional)</span>

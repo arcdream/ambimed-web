@@ -20,7 +20,7 @@ function renderParagraph(text) {
 
 export function SeoContentSection() {
   const loginBookingDisabled = isLoginAndBookingDisabled()
-  const { eyebrow, title, paragraphs, image, imageAlt, trustHighlights } = homeSeoArticle
+  const { eyebrow, title, paragraphs, image, imageAlt, trustHighlights, sections } = homeSeoArticle
 
   return (
     <section
@@ -70,6 +70,35 @@ export function SeoContentSection() {
             </Reveal>
           </div>
         </div>
+
+        {sections?.length ? (
+          <div className="seo-article-sections">
+            {sections.map((block, i) => (
+              <Reveal
+                key={block.id}
+                className={`seo-article-row seo-article-row--${block.layout}`}
+                delay={0.08 + i * 0.05}
+                y={24}
+              >
+                <div className="seo-article-row__copy">
+                  <h3 id={`seo-h3-${block.id}`} className="seo-article-h3">
+                    {block.heading}
+                  </h3>
+                  {block.paragraphs.map((paragraph, j) => (
+                    <p key={j} className="seo-article-p">
+                      {renderParagraph(paragraph)}
+                    </p>
+                  ))}
+                </div>
+                <div className="seo-article-row__visual">
+                  <div className="seo-article-image-wrap">
+                    <img src={block.image} alt={block.imageAlt} loading="lazy" />
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        ) : null}
 
         <Reveal as="p" className="seo-article-cta" delay={0.12} y={12}>
           {loginBookingDisabled ? (
