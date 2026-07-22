@@ -19,11 +19,6 @@ export const learnMoreSection = {
       detail: 'Delhi, Bengaluru, Mumbai, Kolkata & more',
     },
     {
-      value: '100%',
-      label: 'Background-verified staff',
-      detail: 'Police checks, ID verification & skills assessment',
-    },
-    {
       value: '24×7',
       label: 'Customer support',
       detail: 'Real humans by phone and WhatsApp',
@@ -44,11 +39,6 @@ export const learnMoreSection = {
       title: 'Qualified nurses',
       description:
         'Registered nurses with hospital experience in medical, surgical, and post-discharge recovery care.',
-    },
-    {
-      title: 'Flexible, responsive care',
-      description:
-        'Hourly, daily, or monthly packages with 24×7 helpline support and quick replacements when needed.',
     },
   ],
 }

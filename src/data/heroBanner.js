@@ -45,8 +45,8 @@ export const heroBannerSlides = [
     alt: 'Ambimed recognised by Startup India, Government of India',
     imageFocus: 'startup-india',
     headline: {
-      line1: 'Recognised by',
-      line2: null,
+      line1: 'Recognised',
+      line2: 'by',
       accent: 'Startup India',
     },
     description: 'Government of India certified startup.',
