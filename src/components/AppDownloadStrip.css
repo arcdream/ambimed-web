@@ -7,7 +7,6 @@
 
   padding: 0 1rem 1.5rem;
   background: linear-gradient(180deg, #fafcff 0%, #ffffff 100%);
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
 }
 
 .app-strip__container {
@@ -61,8 +60,6 @@
 
 .app-strip__title {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
   line-height: 1.35;
   color: var(--app-strip-secondary);
 }
@@ -70,8 +67,6 @@
 .app-strip__sub {
   display: none;
   margin: 0.25rem 0 0;
-  font-size: 0.875rem;
-  line-height: 1.5;
   color: var(--app-strip-muted);
 }
 
@@ -154,14 +149,6 @@
     justify-content: space-between;
     gap: 1.25rem;
     padding: 0.9rem 1.25rem;
-  }
-
-  .app-strip__title {
-    font-size: 0.9875rem;
-  }
-
-  .app-strip__sub {
-    font-size: 0.8125rem;
   }
 
   .app-strip__badge {

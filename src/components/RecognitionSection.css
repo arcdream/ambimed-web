@@ -45,23 +45,16 @@
 
 .recognition-panel__eyebrow {
   margin: 0 0 0.35rem;
-  font-size: 1.125rem;
-  font-weight: 700;
   color: #0b3b8c;
 }
 
 .recognition-panel__dept {
   margin: 0 0 0.85rem;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: #64748b;
 }
 
 .recognition-panel__lead {
   margin: 0 0 1.15rem;
   max-width: 36rem;
-  font-size: 1rem;
-  line-height: 1.65;
   color: #0f172a;
 }
 
@@ -77,8 +70,6 @@
   display: flex;
   align-items: flex-start;
   gap: 0.55rem;
-  font-size: 0.9375rem;
-  line-height: 1.45;
   color: #334155;
 }
 
@@ -94,7 +85,6 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  font-size: 0.9375rem;
   font-weight: 600;
   color: #1565d8;
   text-decoration: none;

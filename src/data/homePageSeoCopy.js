@@ -6,26 +6,21 @@
  */
 export const homeSeoArticle = {
   eyebrow: 'Guide',
-  title: 'Understanding home healthcare at home',
-  lead:
-    'Families across India choose **professional home healthcare** so loved ones can recover, age, and stay healthy at home — with trained caregivers and clinicians for elder care, physiotherapy, nursing, and mother & baby support.',
-  stats: [
-    { value: '12+', label: 'Cities served', icon: 'map' },
-    { value: '100%', label: 'Background-verified caregivers', icon: 'shield' },
-    { value: 'Zero', label: 'Hidden fees policy', icon: 'receipt' },
+  title: 'Understanding Home Healthcare',
+  paragraphs: [
+    'Home healthcare brings **professional nursing** and care services directly to your doorstep.',
+    'Whether an elderly parent needs daily assistance, someone is **recovering after surgery**, or a new mother requires support, professional care is delivered safely in the comfort of home.',
+    'At Ambimed, we focus on **qualified caregivers**, clear communication, hygiene, and **personalized care plans** that help families feel confident and supported.',
+  ],
+  image: '/assets/home-nurse-ambimed.png',
+  imageAlt: 'Ambimed home nurse providing compassionate nursing care to a patient at home',
+  trustHighlights: [
+    'Verified Caregivers',
+    'Transparent Pricing',
+    'Flexible Home Visits',
+    '12+ cities across India',
   ],
   sections: [
-    {
-      id: 'what-home-care-means',
-      heading: 'What home healthcare means today',
-      layout: 'text-left',
-      image: '/assets/about-care-at-home.png',
-      imageAlt: 'Caregiver supporting a patient comfortably at home',
-      paragraphs: [
-        'Home healthcare brings **clinical discipline and compassion** to your doorstep. Instead of fitting your life around clinic hours, you schedule visits at home — ideal when an older parent needs steady supervision, someone is recovering after surgery, or a new mother needs skilled support.',
-        'At Ambimed, the home is the centre of care: **clear communication**, attention to safety and hygiene, and plans that respect your routines. The goal is comfort, predictability, and peace of mind for everyone in the household.',
-      ],
-    },
     {
       id: 'services-for-real-life',
       heading: 'Services designed for real life',
@@ -42,8 +37,8 @@ export const homeSeoArticle = {
       id: 'quality-and-trust',
       heading: 'Quality people and transparent expectations',
       layout: 'text-left',
-      image: '/assets/home-nurse-ambimed.png',
-      imageAlt: 'Ambimed home nurse providing professional nursing care at home',
+      image: '/assets/service-home-nurses.png',
+      imageAlt: 'Skilled home nurse providing professional care',
       paragraphs: [
         'Trust is earned at the front door. We invest in **training, grooming, and background checks** because families deserve professionals who are respectful, punctual, and consistent.',
         'We also believe pricing should be easy to understand. Ambimed is committed to **fair, transparent billing** — scope and frequency explained in plain language before you commit to longer or specialised plans.',
