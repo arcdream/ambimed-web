@@ -11,7 +11,6 @@ export const homeLeadForm = {
   ],
   serviceOptions: [
     'Home Nurse',
-    'Physiotherapy',
     'Caregiver Assistant',
     'Mother & Baby Care',
     'Geriatric Care',

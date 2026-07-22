@@ -80,7 +80,6 @@ export const bookingServiceOptions = [
   { value: 'patient-care-at-home', label: 'Patient Care at Home' },
   { value: 'elder-care-services', label: 'Elder Care Services' },
   { value: 'mother-and-baby-care', label: 'Mother & Baby Care' },
-  { value: 'home-physiotherapy-services', label: 'Physiotherapy at Home' },
   { value: 'icu-care-at-home', label: 'ICU Care at Home' },
   { value: 'caregiver-services', label: 'Caregiver Services' },
 ]
