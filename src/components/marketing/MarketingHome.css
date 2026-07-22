@@ -159,7 +159,9 @@
 .marketing-home .hero-simple__secondary-cta,
 .marketing-home .hero-simple__call-btn,
 .marketing-home .service-card-cta,
-.marketing-home .svc-lead-form {
+.marketing-home .svc-lead-form,
+.marketing-home .svc-lead-form-submit,
+.marketing-home .bk-form-submit {
   font-family: var(--home-font);
 }
 

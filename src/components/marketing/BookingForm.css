@@ -69,20 +69,29 @@
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.2s;
+  background: var(--form-cta-bg);
+  color: var(--form-cta-color);
+  box-shadow: var(--form-cta-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.bk-form--dark .bk-form-submit {
-  background: #fff;
-  color: var(--color-deep);
+.bk-form-submit:hover:not(:disabled) {
+  background: var(--form-cta-bg-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--form-cta-shadow-hover);
 }
 
-.bk-form--light .bk-form-submit {
-  background: var(--color-bright);
-  color: #fff;
+.bk-form-submit:focus-visible {
+  outline: 2px solid #7ec8ff;
+  outline-offset: 2px;
 }
 
-.bk-form-submit:hover { opacity: 0.9; }
+.bk-form-submit:disabled {
+  opacity: 0.72;
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
+}
 
 .bk-form--success { text-align: center; }
 

@@ -90,22 +90,31 @@
   padding: 0.85rem;
   border: none;
   border-radius: var(--radius);
-  background: var(--color-white);
-  color: var(--color-deep);
+  background: var(--form-cta-bg);
+  color: var(--form-cta-color);
   font: inherit;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--form-cta-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .svc-lead-form-submit:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow);
+  background: var(--form-cta-bg-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--form-cta-shadow-hover);
+}
+
+.svc-lead-form-submit:focus-visible {
+  outline: 2px solid #7ec8ff;
+  outline-offset: 2px;
 }
 
 .svc-lead-form-submit:disabled {
-  opacity: 0.75;
+  opacity: 0.72;
   cursor: wait;
+  transform: none;
+  box-shadow: none;
 }
 
 .svc-lead-form-error {

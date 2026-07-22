@@ -18,12 +18,12 @@ import '@/components/Apps.css'
 export default function MarketingBelowFold() {
   return (
     <>
-      <RecognitionSection />
       <LearnMoreSection />
       <Services />
       <SeoContentSection />
       <Testimonials />
       <HomeBookCareSection />
+      <RecognitionSection />
       <Apps />
     </>
   )
