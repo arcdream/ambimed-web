@@ -1,6 +1,5 @@
 'use client'
 
-import { Inter } from 'next/font/google'
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -10,12 +9,6 @@ import { getServicesHref } from '@/lib/ctaLinks'
 import { useAuth } from '@/client-app/context/AuthContext'
 import './Hero.css'
 import '@/components/CallCareButton.css'
-
-const heroFont = Inter({
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-  display: 'swap',
-})
 
 const SLIDE_INTERVAL_MS = 6000
 const SLIDE_COUNT = heroBannerSlides.length
@@ -46,7 +39,7 @@ export function Hero() {
   }, [next, paused])
 
   return (
-    <section id="hero" className={`hero-simple ${heroFont.className}`} aria-labelledby="hero-heading">
+    <section id="hero" className="hero-simple" aria-labelledby="hero-heading">
       <div className="container hero-simple__container">
         <div className="hero-simple__grid">
           <div className="hero-simple__copy">

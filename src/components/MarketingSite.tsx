@@ -8,12 +8,13 @@ import '@/components/Header.css'
 import '@/components/Hero.css'
 import '@/components/AppDownloadStrip.css'
 import '@/components/Footer.css'
+import '@/components/marketing/MarketingHome.css'
 
 export function MarketingSite() {
   return (
     <>
       <Header />
-      <main>
+      <main className="marketing-home">
         <Hero />
         <AppDownloadStrip />
         <MarketingBelowFold />

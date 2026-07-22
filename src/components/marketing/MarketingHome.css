@@ -1,0 +1,147 @@
+/**
+ * Shared typography for the marketing homepage — Inter scale aligned with Hero.
+ */
+.marketing-home {
+  --home-font: var(--font-inter), var(--font-dm-sans), system-ui, -apple-system, sans-serif;
+  --home-text: #334155;
+  --home-text-muted: #64748b;
+  --home-body: 1.125rem;
+  --home-body-sm: 1rem;
+  --home-body-line: 1.7;
+  --home-body-sm-line: 1.6;
+  --home-heading-line: 1.15;
+  --home-heading-track: -0.02em;
+  --home-section-title: clamp(1.75rem, 3.5vw, 2.5rem);
+  --home-card-title: 1.125rem;
+  --home-meta: 0.875rem;
+
+  font-family: var(--home-font);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* —— Section headings —— */
+.marketing-home .section-title,
+.marketing-home .why-choose-title,
+.marketing-home .seo-guide-title,
+.marketing-home .apps-section-title {
+  font-family: var(--home-font);
+  font-size: var(--home-section-title);
+  font-weight: 700;
+  line-height: var(--home-heading-line);
+  letter-spacing: var(--home-heading-track);
+}
+
+.marketing-home .hero-simple__headline {
+  font-family: var(--home-font);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.0625rem;
+}
+
+/* —— Eyebrows / labels —— */
+.marketing-home .section-subtitle,
+.marketing-home .why-choose-eyebrow,
+.marketing-home .app-strip__eyebrow,
+.marketing-home .hero-simple__welcome {
+  font-family: var(--home-font);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* —— Body copy —— */
+.marketing-home .services-intro,
+.marketing-home .why-choose-lead,
+.marketing-home .seo-guide-paragraph,
+.marketing-home .seo-article-cta,
+.marketing-home .recognition-panel__lead,
+.marketing-home .apps-card__lead,
+.marketing-home .hero-simple__lead,
+.marketing-home .testimonial-text {
+  font-family: var(--home-font);
+  font-size: var(--home-body);
+  font-weight: 400;
+  line-height: var(--home-body-line);
+}
+
+.marketing-home .services-intro,
+.marketing-home .why-choose-lead,
+.marketing-home .apps-card__lead,
+.marketing-home .recognition-panel__dept {
+  color: var(--home-text-muted);
+}
+
+.marketing-home .seo-guide-paragraph,
+.marketing-home .recognition-panel__lead,
+.marketing-home .testimonial-text {
+  color: var(--home-text);
+}
+
+/* —— Card & item titles —— */
+.marketing-home .service-title,
+.marketing-home .why-choose-card__title,
+.marketing-home .apps-card__name,
+.marketing-home .recognition-panel__eyebrow,
+.marketing-home .app-strip__title,
+.marketing-home .why-choose-stat__label {
+  font-family: var(--home-font);
+  font-weight: 700;
+  font-size: var(--home-card-title);
+  line-height: 1.35;
+}
+
+/* —— Secondary / card body —— */
+.marketing-home .service-desc,
+.marketing-home .why-choose-card__desc,
+.marketing-home .why-choose-stat__detail,
+.marketing-home .recognition-panel__list li,
+.marketing-home .apps-card__features li,
+.marketing-home .app-strip__sub,
+.marketing-home .services-status {
+  font-family: var(--home-font);
+  font-size: var(--home-body-sm);
+  line-height: var(--home-body-sm-line);
+}
+
+.marketing-home .service-desc,
+.marketing-home .why-choose-card__desc,
+.marketing-home .why-choose-stat__detail,
+.marketing-home .apps-card__features li {
+  color: var(--home-text-muted);
+}
+
+.marketing-home .recognition-panel__list li {
+  color: var(--home-text);
+}
+
+/* —— Meta & captions —— */
+.marketing-home .testimonial-name {
+  font-family: var(--home-font);
+  font-size: var(--home-body-sm);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.marketing-home .testimonial-role,
+.marketing-home .recognition-panel__link,
+.marketing-home .service-card-cta {
+  font-family: var(--home-font);
+  font-size: var(--home-meta);
+}
+
+.marketing-home .seo-guide-trust__item {
+  font-family: var(--home-font);
+  font-size: var(--home-body-sm);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* —— CTAs & buttons —— */
+.marketing-home .call-care-btn,
+.marketing-home .hero-simple__secondary-cta,
+.marketing-home .hero-simple__call-btn,
+.marketing-home .service-card-cta {
+  font-family: var(--home-font);
+}
+

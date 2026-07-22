@@ -43,8 +43,6 @@
 
 .hero-simple__welcome {
   margin: 0 0 0.65rem;
-  font-size: 0.875rem;
-  font-weight: 600;
   color: var(--hero-primary);
 }
 
@@ -78,9 +76,6 @@
 .hero-simple__lead {
   margin: 0;
   max-width: 32.5rem;
-  font-size: 1.125rem;
-  font-weight: 400;
-  line-height: 1.7;
   color: var(--hero-text-muted);
   text-wrap: pretty;
 }
