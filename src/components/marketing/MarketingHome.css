@@ -183,7 +183,6 @@
 }
 
 .marketing-home.svc-landing .svc-hero-desc,
-.marketing-home.svc-landing .svc-testimonial-quote,
 .marketing-home.svc-landing .svc-faq-answer {
   font-family: var(--home-font);
   font-size: var(--home-body);
@@ -227,7 +226,6 @@
   line-height: var(--home-body-sm-line);
 }
 
-.marketing-home.svc-landing .svc-testimonial-card footer,
 .marketing-home.svc-landing .svc-sticky-cta-inner p {
   font-family: var(--home-font);
   font-size: var(--home-body-sm);
@@ -238,10 +236,6 @@
 .marketing-home.svc-landing .svc-help-card p,
 .marketing-home.svc-landing .svc-steps p {
   color: var(--home-text-muted);
-}
-
-.marketing-home.svc-landing .svc-testimonial-quote {
-  font-style: italic;
 }
 
 .marketing-home.svc-landing .svc-lead-form-title {

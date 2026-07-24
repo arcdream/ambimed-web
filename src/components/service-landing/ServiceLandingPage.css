@@ -271,38 +271,6 @@
   opacity: 0.85;
 }
 
-.svc-testimonials-grid {
-  display: grid;
-  gap: 1.25rem;
-  grid-template-columns: 1fr;
-  margin-top: 1.5rem;
-}
-
-.svc-testimonial-card {
-  margin: 0;
-  background: var(--color-white);
-  border: 1px solid var(--color-deep-08);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
-}
-
-.svc-stars {
-  color: #f5a623;
-  font-size: 1rem;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.75rem;
-}
-
-.svc-testimonial-quote {
-  margin: 0 0 0.75rem;
-  color: var(--color-deep);
-}
-
-.svc-testimonial-card footer {
-  color: var(--color-bright);
-}
-
 .svc-faq-form-grid {
   display: grid;
   gap: 1rem 2rem;
@@ -446,10 +414,6 @@
 @media (min-width: 640px) {
   .svc-help-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .svc-testimonials-grid {
-    grid-template-columns: repeat(3, 1fr);
   }
 }
 

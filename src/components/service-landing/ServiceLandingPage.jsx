@@ -3,6 +3,7 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { ServiceFaqAccordion } from '@/components/service-landing/ServiceFaqAccordion'
 import { ServiceLeadForm } from '@/components/service-landing/ServiceLeadForm'
+import { TestimonialsCarousel } from '@/components/TestimonialsCarousel'
 import { CallCareButton } from '@/components/CallCareButton'
 import { PhoneTextLink } from '@/components/PhoneTextLink'
 import { config } from '@/data/config'
@@ -174,17 +175,7 @@ export function ServiceLandingPage({ landing }) {
           <div className="container">
             <p className="section-subtitle">What families say</p>
             <h2 className="section-title">Trusted by Hundreds of Families</h2>
-            <div className="svc-testimonials-grid">
-              {landing.testimonials.map((t) => (
-                <blockquote key={t.name} className="svc-testimonial-card">
-                  <div className="svc-stars" aria-label="5 out of 5 stars">
-                    ★★★★★
-                  </div>
-                  <p className="svc-testimonial-quote">&ldquo;{t.quote}&rdquo;</p>
-                  <footer>— {t.name}</footer>
-                </blockquote>
-              ))}
-            </div>
+            <TestimonialsCarousel items={landing.testimonials} />
           </div>
         </section>
 
