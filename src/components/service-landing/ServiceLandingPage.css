@@ -49,11 +49,6 @@
   background: var(--color-deep-08);
 }
 
-.svc-eyebrow,
-.svc-breadcrumbs {
-  font-size: 0.85rem;
-}
-
 .svc-breadcrumbs {
   display: flex;
   flex-wrap: wrap;
@@ -80,26 +75,20 @@
 }
 
 .svc-hero-title {
-  font-size: clamp(1.85rem, 4.5vw, 2.65rem);
   color: var(--color-deep);
   margin: 0 0 0.35rem;
-  line-height: 1.15;
 }
 
 .svc-hero-subtitle {
-  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
-  font-weight: 600;
   color: var(--color-bright);
   margin: 0 0 1rem;
 }
 
 .svc-hero-desc {
-  font-size: 1.05rem;
   color: var(--color-deep);
   opacity: 0.9;
   margin: 0 0 1.5rem;
   max-width: 540px;
-  line-height: 1.65;
 }
 
 .svc-hero-actions {
@@ -112,7 +101,6 @@
 
 .svc-hero-call-hint {
   margin: 0;
-  font-size: 0.875rem;
 }
 
 .svc-btn {
@@ -128,8 +116,6 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: 0.9rem;
-  font-weight: 600;
   color: var(--color-deep);
 }
 
@@ -191,16 +177,13 @@
 
 .svc-help-card h3 {
   margin: 0 0 0.5rem;
-  font-size: 1.1rem;
   color: var(--color-deep);
 }
 
 .svc-help-card p {
   margin: 0;
-  font-size: 0.95rem;
   color: var(--color-deep);
   opacity: 0.88;
-  line-height: 1.55;
 }
 
 .svc-section-cta {
@@ -226,8 +209,6 @@
   text-align: center;
   gap: 0.65rem;
   padding: 1rem;
-  font-size: 0.88rem;
-  font-weight: 600;
   color: var(--color-deep);
 }
 
@@ -286,46 +267,8 @@
 
 .svc-steps p {
   margin: 0;
-  font-size: 0.92rem;
   color: var(--color-deep);
   opacity: 0.85;
-  line-height: 1.5;
-}
-
-.svc-testimonials-grid {
-  display: grid;
-  gap: 1.25rem;
-  grid-template-columns: 1fr;
-  margin-top: 1.5rem;
-}
-
-.svc-testimonial-card {
-  margin: 0;
-  background: var(--color-white);
-  border: 1px solid var(--color-deep-08);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
-}
-
-.svc-stars {
-  color: #f5a623;
-  font-size: 1rem;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.75rem;
-}
-
-.svc-testimonial-quote {
-  font-style: italic;
-  margin: 0 0 0.75rem;
-  line-height: 1.6;
-  color: var(--color-deep);
-}
-
-.svc-testimonial-card footer {
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--color-bright);
 }
 
 .svc-faq-form-grid {
@@ -361,7 +304,6 @@
   border: none;
   background: transparent;
   font: inherit;
-  font-weight: 600;
   text-align: left;
   color: var(--color-deep);
   cursor: pointer;
@@ -375,8 +317,6 @@
 
 .svc-faq-answer {
   padding: 0 1.15rem 1rem;
-  font-size: 0.95rem;
-  line-height: 1.6;
   color: var(--color-deep);
   opacity: 0.9;
 }
@@ -402,7 +342,6 @@
 
 .svc-sticky-cta-inner p {
   margin: 0;
-  font-weight: 600;
   color: var(--color-deep);
   max-width: 480px;
 }
@@ -425,12 +364,7 @@
   }
 
   .svc-hero-title {
-    font-size: clamp(1.45rem, 5.5vw, 1.85rem);
     text-wrap: balance;
-  }
-
-  .svc-hero-desc {
-    font-size: 1rem;
   }
 
   .svc-hero-actions {
@@ -480,10 +414,6 @@
 @media (min-width: 640px) {
   .svc-help-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .svc-testimonials-grid {
-    grid-template-columns: repeat(3, 1fr);
   }
 }
 

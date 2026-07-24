@@ -1,0 +1,114 @@
+.testimonials-carousel {
+  --carousel-gap: 1.5rem;
+}
+
+.testimonials-carousel__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.testimonials-carousel__track {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: calc(var(--total-count) * 100% / var(--visible-count, 1));
+  transform: translateX(calc(-100% / var(--total-count) * var(--active-index, 0)));
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.testimonials-carousel__slide {
+  flex: 0 0 calc(100% / var(--total-count));
+  min-width: 0;
+  padding: 0 calc(var(--carousel-gap) / 2);
+}
+
+.testimonial-card {
+  height: 100%;
+  background: var(--color-white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  border: 1px solid var(--color-deep-08);
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.25s, border-color 0.25s;
+}
+
+.testimonial-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-bright);
+}
+
+.stars {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+}
+
+.star {
+  color: #ddd;
+}
+
+.star.filled {
+  color: #f0b429;
+}
+
+.testimonial-text {
+  color: var(--color-deep);
+  margin: 0 0 1rem;
+  font-style: italic;
+}
+
+.testimonial-author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.testimonial-name {
+  margin: 0;
+  color: var(--color-deep);
+}
+
+.testimonial-role {
+  margin: 0;
+  color: var(--color-deep);
+  opacity: 0.8;
+}
+
+.testimonials-carousel__dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 1.35rem;
+}
+
+.testimonials-carousel__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(29, 61, 114, 0.22);
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.testimonials-carousel__dot--active {
+  width: 1.35rem;
+  background: var(--color-bright);
+}
+
+.testimonials-carousel__dot:hover {
+  background: rgba(0, 120, 212, 0.55);
+}
+
+.testimonials-carousel__dot:focus-visible {
+  outline: 2px solid var(--color-bright);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-carousel__track {
+    transition: none;
+  }
+}

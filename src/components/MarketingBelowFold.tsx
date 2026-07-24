@@ -11,6 +11,7 @@ import '@/components/LearnMoreSection.css'
 import '@/components/Services.css'
 import '@/components/SeoContentSection.css'
 import '@/components/Testimonials.css'
+import '@/components/TestimonialsCarousel.css'
 import '@/components/HomeBookCareSection.css'
 import '@/components/Apps.css'
 
