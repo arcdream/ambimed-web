@@ -14,6 +14,7 @@ import '@/components/Footer.css'
 import '@/components/CallCareButton.css'
 import '@/components/PhoneTextLink.css'
 import '@/components/service-landing/ServiceLandingPage.css'
+import '@/components/marketing/MarketingHome.css'
 
 function PhoneIcon() {
   return (
@@ -44,7 +45,7 @@ export function ServiceLandingPage({ landing }) {
   return (
     <>
       <Header />
-      <main className="svc-landing">
+      <main className="svc-landing marketing-home">
         {/* Hero */}
         <section className="svc-hero section">
           <div className="container">

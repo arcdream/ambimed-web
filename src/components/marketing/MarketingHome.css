@@ -161,7 +161,92 @@
 .marketing-home .service-card-cta,
 .marketing-home .svc-lead-form,
 .marketing-home .svc-lead-form-submit,
-.marketing-home .bk-form-submit {
+.marketing-home .bk-form-submit,
+.marketing-home .btn {
   font-family: var(--home-font);
+}
+
+/* —— Service landing pages (e.g. /services/home-nurse) —— */
+.marketing-home.svc-landing .svc-hero-title {
+  font-family: var(--home-font);
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.0625rem;
+}
+
+.marketing-home.svc-landing .svc-hero-subtitle {
+  font-family: var(--home-font);
+  font-size: var(--home-card-title);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.marketing-home.svc-landing .svc-hero-desc,
+.marketing-home.svc-landing .svc-testimonial-quote,
+.marketing-home.svc-landing .svc-faq-answer {
+  font-family: var(--home-font);
+  font-size: var(--home-body);
+  font-weight: 400;
+  line-height: var(--home-body-line);
+  color: var(--home-text);
+}
+
+.marketing-home.svc-landing .svc-eyebrow,
+.marketing-home.svc-landing .svc-breadcrumbs {
+  font-family: var(--home-font);
+  font-size: var(--home-meta);
+}
+
+.marketing-home.svc-landing .svc-hero-call-hint,
+.marketing-home.svc-landing .svc-trust-row {
+  font-family: var(--home-font);
+  font-size: var(--home-body-sm);
+  line-height: var(--home-body-sm-line);
+}
+
+.marketing-home.svc-landing .svc-trust-row,
+.marketing-home.svc-landing .svc-why-item {
+  font-weight: 600;
+}
+
+.marketing-home.svc-landing .svc-help-card h3,
+.marketing-home.svc-landing .svc-steps strong,
+.marketing-home.svc-landing .svc-faq-question {
+  font-family: var(--home-font);
+  font-weight: 700;
+  font-size: var(--home-card-title);
+  line-height: 1.35;
+}
+
+.marketing-home.svc-landing .svc-help-card p,
+.marketing-home.svc-landing .svc-steps p,
+.marketing-home.svc-landing .svc-why-item {
+  font-family: var(--home-font);
+  font-size: var(--home-body-sm);
+  line-height: var(--home-body-sm-line);
+}
+
+.marketing-home.svc-landing .svc-testimonial-card footer,
+.marketing-home.svc-landing .svc-sticky-cta-inner p {
+  font-family: var(--home-font);
+  font-size: var(--home-body-sm);
+  line-height: var(--home-body-sm-line);
+  font-weight: 600;
+}
+
+.marketing-home.svc-landing .svc-help-card p,
+.marketing-home.svc-landing .svc-steps p {
+  color: var(--home-text-muted);
+}
+
+.marketing-home.svc-landing .svc-testimonial-quote {
+  font-style: italic;
+}
+
+.marketing-home.svc-landing .svc-lead-form-title {
+  font-family: var(--home-font);
+  font-size: var(--home-card-title);
+  font-weight: 700;
 }
 
